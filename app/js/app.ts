@@ -1,2 +1,5 @@
-const greeting: string = 'Hello World 3!';
-alert(greeting);
+function greet(): void {
+    alert('Hello world!');
+}
+
+greet();
