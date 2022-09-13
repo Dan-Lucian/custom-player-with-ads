@@ -1,5 +1,5 @@
 function greet(): void {
-    alert('Hello world!');
+    // alert('Hello world!');
 }
 
 greet();

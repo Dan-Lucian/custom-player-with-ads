@@ -6,7 +6,9 @@
     "scripts": {
         "test": "echo \"Error: no test specified\" && exit 1",
         "serve": "webpack serve",
-        "build": "webpack --config webpack.config.js"
+        "build": "webpack --config webpack.config.js",
+        "lint": "npx eslint ./app/",
+        "lint:watch": "npx esw --ext .js,.ts ./app --watch"
     },
     "repository": {
         "type": "git",
@@ -20,8 +22,16 @@
     "homepage": "https://github.com/Dan-Lucian/player-onboarding#readme",
     "devDependencies": {
         "@babel/core": "^7.19.0",
+        "@typescript-eslint/eslint-plugin": "^5.37.0",
+        "@typescript-eslint/parser": "^5.37.0",
         "babel-loader": "^8.2.5",
         "babel-preset-env": "^1.7.0",
+        "eslint": "^8.23.1",
+        "eslint-config-airbnb-base": "^15.0.0",
+        "eslint-config-prettier": "^8.5.0",
+        "eslint-plugin-import": "^2.26.0",
+        "eslint-plugin-prettier": "^4.2.1",
+        "eslint-watch": "^8.0.0",
         "html-webpack-plugin": "^5.5.0",
         "prettier": "2.7.1",
         "ts-loader": "^9.3.1",

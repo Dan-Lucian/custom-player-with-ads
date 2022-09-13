@@ -1,0 +1,69 @@
+{
+    "root": true,
+    "parser": "@typescript-eslint/parser",
+    "plugins": ["@typescript-eslint", "prettier"],
+    "extends": [
+        "eslint:recommended",
+        "plugin:@typescript-eslint/recommended",
+        "airbnb-base",
+        "plugin:import/errors",
+        "plugin:import/warnings",
+        "prettier"
+    ],
+    "parserOptions": {
+        "ecmaVersion": 7,
+        "sourceType": "module"
+    },
+    "settings": {
+        "import/resolver": {
+            "node": {
+                "extensions": [".ts"]
+            }
+        }
+    },
+    "env": {
+        "browser": true,
+        "es6": true,
+        "node": true,
+        "jest": true
+    },
+    "ignorePatterns": ["**/*.test.ts", "public/", "webpack.config.js"],
+    "rules": {
+        "camelcase": "off",
+        "import/extensions": "off",
+        "max-len": ["error", { "code": 120 }],
+        "no-restricted-syntax": "off",
+        "no-console": 2,
+        "no-alert": 2,
+        "comma-dangle": ["error", "never"],
+        "no-use-before-define": [
+            "error",
+            { "functions": false, "classes": true, "variables": true }
+        ],
+        "no-cond-assign": ["error", "except-parens"],
+        "quote-props": [2, "consistent-as-needed"],
+        "no-underscore-dangle": ["error", { "allowAfterThis": true }],
+        "import/no-unresolved": [2],
+        "no-param-reassign": [
+            2,
+            {
+                "props": false
+            }
+        ],
+        "@typescript-eslint/explicit-function-return-type": ["error"],
+        "prettier/prettier": [
+            "error",
+            {
+                "endOfLine": "auto"
+            }
+        ]
+    },
+    "overrides": [
+        {
+            "files": ["*.js"],
+            "rules": {
+                "@typescript-eslint/explicit-function-return-type": 0
+            }
+        }
+    ]
+}
