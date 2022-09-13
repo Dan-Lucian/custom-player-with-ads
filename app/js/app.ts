@@ -1,7 +1,10 @@
 import '../css/main.scss';
+import './components/player-onboarding';
 
-function greet(): void {
-    // alert('Hello world!');
-}
+const root = document.getElementById('root');
+const Player = document.createElement('player-onboarding');
+Player.setAttribute('href', 'https://something.com');
 
-greet();
+setTimeout(() => Player.setAttribute('href', 'https://juked.com'), 1000);
+
+root?.append(Player);
