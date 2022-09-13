@@ -1,6 +1,6 @@
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+// const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
 module.exports = {
     mode: 'development',
@@ -28,5 +28,8 @@ module.exports = {
             template: path.resolve(__dirname, 'app/index.html'),
             inject: 'body'
         })
-    ]
+    ],
+    resolve: {
+      extensions: ['.js', '.jsx', '.ts', '.tsx'],
+    },
 };
