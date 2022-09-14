@@ -1,15 +1,24 @@
 import EnumEvents from '../../enums/EnumEvents';
-import './ButtonPlay';
-import './ButtonStop';
+import './ControlsPlayer';
 
 export default class PlayerOnboarding extends HTMLElement {
     public src = '-';
 
-    private shadow: ShadowRoot | null = null;
+    public width = 400;
+
+    public height = 300;
+
+    private shadow: ShadowRoot;
 
     private rendered = false;
 
-    private isPlaying = false;
+    get videoElement(): HTMLMediaElement | null {
+        if (this.shadow) {
+            return this.shadow.getElementById('player-onboarding') as HTMLMediaElement;
+        }
+
+        return null;
+    }
 
     constructor() {
         super();
@@ -17,15 +26,20 @@ export default class PlayerOnboarding extends HTMLElement {
 
         this.addEventListener(EnumEvents.PlayPlayerOnboarding, this.play);
         this.addEventListener(EnumEvents.StopPlayerOnboarding, this.stop);
+        this.addEventListener(EnumEvents.MutePlayerOnboarding, this.mute);
+        this.addEventListener(EnumEvents.UnmutePlayerOnboarding, this.unmute);
     }
 
     private render(): void {
-        console.log('this.isPlaying: ', this.isPlaying);
-
         if (this.shadow) {
             this.shadow.innerHTML = `
-              <video src=${this.src}>I'm a player with the src ${this.src}</video>
-              ${this.isPlaying ? '<button-stop></button-stop>' : '<button-play></button-play>'}
+              <video 
+                src=${this.src}
+                width=${this.width}
+                height=${this.height}
+                id="player-onboarding"
+              >I'm a player with the src ${this.src}</video>
+              <controls-player></controls-player>
             `;
         }
     }
@@ -52,14 +66,26 @@ export default class PlayerOnboarding extends HTMLElement {
 
     private play(): void {
         console.log('EVENT HEARD: ', EnumEvents.PlayPlayerOnboarding);
-        this.isPlaying = true;
-        this.render();
+        this.videoElement?.play();
     }
 
     private stop(): void {
         console.log('EVENT HEARD: ', EnumEvents.StopPlayerOnboarding);
-        this.isPlaying = false;
-        this.render();
+        this.videoElement?.pause();
+    }
+
+    private mute(): void {
+        console.log('EVENT HEARD: ', EnumEvents.MutePlayerOnboarding);
+        if (this.videoElement) {
+            this.videoElement.muted = true;
+        }
+    }
+
+    private unmute(): void {
+        console.log('EVENT HEARD: ', EnumEvents.UnmutePlayerOnboarding);
+        if (this.videoElement) {
+            this.videoElement.muted = false;
+        }
     }
 }
 

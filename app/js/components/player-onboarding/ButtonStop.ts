@@ -1,15 +1,8 @@
-import EnumEvents from '../../enums/EnumEvents';
-
 export default class ButtonStop extends HTMLElement {
     private rendered = false;
 
-    constructor() {
-        super();
-        this.addEventListener('click', this.stop);
-    }
-
     private render(): void {
-        this.innerHTML = `<div>I'm a stop button</div>`;
+        this.innerHTML = `<button type="button">Stop</button>`;
     }
 
     connectedCallback(): void {
@@ -17,16 +10,6 @@ export default class ButtonStop extends HTMLElement {
             this.render();
             this.rendered = true;
         }
-    }
-
-    private stop(): void {
-        console.log('EVENT DISPATCHED: ', EnumEvents.StopPlayerOnboarding);
-        this.dispatchEvent(
-            new CustomEvent(EnumEvents.StopPlayerOnboarding, {
-                bubbles: true,
-                composed: true
-            })
-        );
     }
 }
 

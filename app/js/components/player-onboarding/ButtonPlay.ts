@@ -1,15 +1,8 @@
-import EnumEvents from '../../enums/EnumEvents';
-
 export default class ButtonPlay extends HTMLElement {
     private rendered = false;
 
-    constructor() {
-        super();
-        this.addEventListener('click', this.play);
-    }
-
     private render(): void {
-        this.innerHTML = `<div>I'm a play button</div>`;
+        this.innerHTML = `<button type="button">Play</button>`;
     }
 
     connectedCallback(): void {
@@ -17,16 +10,6 @@ export default class ButtonPlay extends HTMLElement {
             this.render();
             this.rendered = true;
         }
-    }
-
-    private play(): void {
-        console.log('EVENT DISPATCHED: ', EnumEvents.PlayPlayerOnboarding);
-        this.dispatchEvent(
-            new CustomEvent(EnumEvents.PlayPlayerOnboarding, {
-                bubbles: true,
-                composed: true
-            })
-        );
     }
 }
 
