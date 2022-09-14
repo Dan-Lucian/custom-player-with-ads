@@ -20,6 +20,10 @@ export default class PlayerOnboarding extends HTMLElement {
         return null;
     }
 
+    static get observedAttributes(): string[] {
+        return ['src'];
+    }
+
     constructor() {
         super();
         this.shadow = this.attachShadow({ mode: 'open' });
@@ -51,11 +55,7 @@ export default class PlayerOnboarding extends HTMLElement {
         }
     }
 
-    static get observedAttributes(): string[] {
-        return ['src'];
-    }
-
-    attributeChangedCallback(property: string, oldValue: string, newValue: string): void {
+    public attributeChangedCallback(property: string, oldValue: string, newValue: string): void {
         if (oldValue === newValue) return;
 
         if (property === 'src') {
