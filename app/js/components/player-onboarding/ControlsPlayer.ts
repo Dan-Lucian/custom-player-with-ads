@@ -1,4 +1,3 @@
-import CustomElement from '../../types/CustomElement';
 import EnumEvents from '../../enums/EnumEvents';
 import './ButtonPlay';
 import './ButtonStop';
