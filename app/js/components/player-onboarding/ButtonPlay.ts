@@ -5,7 +5,7 @@ export default class ButtonPlay extends HTMLButtonElement {
         this.textContent = 'Play';
     }
 
-    connectedCallback(): void {
+    public connectedCallback(): void {
         if (!this.rendered) {
             this.render();
             this.rendered = true;

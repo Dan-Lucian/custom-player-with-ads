@@ -5,7 +5,7 @@ export default class ButtonStop extends HTMLButtonElement {
         this.textContent = 'Stop';
     }
 
-    connectedCallback(): void {
+    public connectedCallback(): void {
         if (!this.rendered) {
             this.render();
             this.rendered = true;

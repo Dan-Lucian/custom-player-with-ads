@@ -5,7 +5,7 @@ export default class ButtonMute extends HTMLButtonElement {
         this.textContent = 'Mute';
     }
 
-    connectedCallback(): void {
+    public connectedCallback(): void {
         if (!this.rendered) {
             this.render();
             this.rendered = true;

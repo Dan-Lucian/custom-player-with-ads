@@ -5,7 +5,7 @@ export default class ButtonUnmute extends HTMLButtonElement {
         this.textContent = 'Ummute';
     }
 
-    connectedCallback(): void {
+    public connectedCallback(): void {
         if (!this.rendered) {
             this.render();
             this.rendered = true;

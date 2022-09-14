@@ -32,7 +32,7 @@ export default class ControlsPlayer extends HTMLElement {
         `;
     }
 
-    connectedCallback(): void {
+    public connectedCallback(): void {
         if (!this.rendered) {
             this.render();
             this.rendered = true;
