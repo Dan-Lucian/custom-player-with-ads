@@ -1,8 +1,12 @@
+import styles from './ButtonPlay.module';
+
+// console.log('styles: ', styles);
+
 export default class ButtonPlay extends HTMLButtonElement {
     private rendered = false;
 
     private render(): void {
-        this.textContent = 'Play';
+        this.innerHTML = '<span class="button">Play</span>';
     }
 
     public connectedCallback(): void {

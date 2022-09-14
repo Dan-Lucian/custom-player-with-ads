@@ -1,5 +1,5 @@
 import EnumEvents from '../../enums/EnumEvents';
-import './ButtonPlay';
+import './components/ButtonPlay';
 import './ButtonStop';
 import './ButtonMute';
 import './ButtonUnmute';
