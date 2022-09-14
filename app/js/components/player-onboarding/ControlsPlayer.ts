@@ -1,3 +1,4 @@
+import CustomElement from '../../types/CustomElement';
 import EnumEvents from '../../enums/EnumEvents';
 import './ButtonPlay';
 import './ButtonStop';
@@ -18,8 +19,16 @@ export default class ControlsPlayer extends HTMLElement {
 
     private render(): void {
         this.innerHTML = `
-          ${this.isPlaying ? '<button-stop></button-stop>' : '<button-play></button-play>'}
-          ${this.isMuted ? '<button-unmute></button-unmute>' : '<button-mute></button-mute>'}
+          ${
+              this.isPlaying
+                  ? '<button is="button-stop"></button>'
+                  : '<button is="button-play"></button>'
+          }
+          ${
+              this.isMuted
+                  ? '<button is="button-unmute"></button>'
+                  : '<button is="button-mute"></button>'
+          }
         `;
     }
 
@@ -31,54 +40,55 @@ export default class ControlsPlayer extends HTMLElement {
     }
 
     private handleClick(event: Event): void {
-        if (event.target instanceof Element) {
-            if (event.target.closest('button-stop')) {
-                console.log('EVENT DISPATCHED: ', EnumEvents.StopPlayerOnboarding);
-                this.dispatchEvent(
-                    new CustomEvent(EnumEvents.StopPlayerOnboarding, {
-                        bubbles: true,
-                        composed: true
-                    })
-                );
-                this.isPlaying = false;
-                this.render();
-            }
+        const target = event.target as HTMLElement;
+        const is = target.getAttribute('is');
 
-            if (event.target.closest('button-play')) {
-                console.log('EVENT DISPATCHED: ', EnumEvents.PlayPlayerOnboarding);
-                this.dispatchEvent(
-                    new CustomEvent(EnumEvents.PlayPlayerOnboarding, {
-                        bubbles: true,
-                        composed: true
-                    })
-                );
-                this.isPlaying = true;
-                this.render();
-            }
+        if (is === 'button-play') {
+            console.log('EVENT DISPATCHED: ', EnumEvents.PlayPlayerOnboarding);
+            this.dispatchEvent(
+                new CustomEvent(EnumEvents.PlayPlayerOnboarding, {
+                    bubbles: true,
+                    composed: true
+                })
+            );
+            this.isPlaying = true;
+            this.render();
+        }
 
-            if (event.target.closest('button-mute')) {
-                console.log('EVENT DISPATCHED: ', EnumEvents.MutePlayerOnboarding);
-                this.dispatchEvent(
-                    new CustomEvent(EnumEvents.MutePlayerOnboarding, {
-                        bubbles: true,
-                        composed: true
-                    })
-                );
-                this.isMuted = true;
-                this.render();
-            }
+        if (is === 'button-stop') {
+            console.log('EVENT DISPATCHED: ', EnumEvents.StopPlayerOnboarding);
+            this.dispatchEvent(
+                new CustomEvent(EnumEvents.StopPlayerOnboarding, {
+                    bubbles: true,
+                    composed: true
+                })
+            );
+            this.isPlaying = false;
+            this.render();
+        }
 
-            if (event.target.closest('button-unmute')) {
-                console.log('EVENT DISPATCHED: ', EnumEvents.UnmutePlayerOnboarding);
-                this.dispatchEvent(
-                    new CustomEvent(EnumEvents.UnmutePlayerOnboarding, {
-                        bubbles: true,
-                        composed: true
-                    })
-                );
-                this.isMuted = false;
-                this.render();
-            }
+        if (is === 'button-mute') {
+            console.log('EVENT DISPATCHED: ', EnumEvents.MutePlayerOnboarding);
+            this.dispatchEvent(
+                new CustomEvent(EnumEvents.MutePlayerOnboarding, {
+                    bubbles: true,
+                    composed: true
+                })
+            );
+            this.isMuted = true;
+            this.render();
+        }
+
+        if (is === 'button-unmute') {
+            console.log('EVENT DISPATCHED: ', EnumEvents.UnmutePlayerOnboarding);
+            this.dispatchEvent(
+                new CustomEvent(EnumEvents.UnmutePlayerOnboarding, {
+                    bubbles: true,
+                    composed: true
+                })
+            );
+            this.isMuted = false;
+            this.render();
         }
     }
 }

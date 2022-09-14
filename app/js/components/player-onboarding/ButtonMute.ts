@@ -1,8 +1,8 @@
-export default class ButtonMute extends HTMLElement {
+export default class ButtonMute extends HTMLButtonElement {
     private rendered = false;
 
     private render(): void {
-        this.innerHTML = `<button type="button">Mute</button>`;
+        this.textContent = 'Mute';
     }
 
     connectedCallback(): void {
@@ -13,4 +13,4 @@ export default class ButtonMute extends HTMLElement {
     }
 }
 
-customElements.define('button-mute', ButtonMute);
+customElements.define('button-mute', ButtonMute, { extends: 'button' });

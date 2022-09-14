@@ -4,9 +4,9 @@ import './ControlsPlayer';
 export default class PlayerOnboarding extends HTMLElement {
     public src = '-';
 
-    public width = 400;
+    public width = 300;
 
-    public height = 300;
+    public height?: number;
 
     private shadow: ShadowRoot;
 
@@ -38,7 +38,7 @@ export default class PlayerOnboarding extends HTMLElement {
                 width=${this.width}
                 height=${this.height}
                 id="player-onboarding"
-              >I'm a player with the src ${this.src}</video>
+              >Player not supported</video>
               <controls-player></controls-player>
             `;
         }

@@ -1,8 +1,8 @@
-export default class ButtonPlay extends HTMLElement {
+export default class ButtonPlay extends HTMLButtonElement {
     private rendered = false;
 
     private render(): void {
-        this.innerHTML = `<button type="button">Play</button>`;
+        this.textContent = 'Play';
     }
 
     connectedCallback(): void {
@@ -13,4 +13,4 @@ export default class ButtonPlay extends HTMLElement {
     }
 }
 
-customElements.define('button-play', ButtonPlay);
+customElements.define('button-play', ButtonPlay, { extends: 'button' });

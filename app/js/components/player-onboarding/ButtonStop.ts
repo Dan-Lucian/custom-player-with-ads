@@ -1,8 +1,8 @@
-export default class ButtonStop extends HTMLElement {
+export default class ButtonStop extends HTMLButtonElement {
     private rendered = false;
 
     private render(): void {
-        this.innerHTML = `<button type="button">Stop</button>`;
+        this.textContent = 'Stop';
     }
 
     connectedCallback(): void {
@@ -13,4 +13,4 @@ export default class ButtonStop extends HTMLElement {
     }
 }
 
-customElements.define('button-stop', ButtonStop);
+customElements.define('button-stop', ButtonStop, { extends: 'button' });
