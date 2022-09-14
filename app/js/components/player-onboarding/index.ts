@@ -1,2 +1,2 @@
 /* eslint-disable import/prefer-default-export */
-export { default as PlayerOnboarding } from './player-onboarding';
+export { default as PlayerOnboarding } from './PlayerOnboarding';
