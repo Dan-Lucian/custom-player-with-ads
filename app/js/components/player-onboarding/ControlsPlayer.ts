@@ -1,5 +1,5 @@
 import EnumEvents from '../../enums/EnumEvents';
-import './components/ButtonPlay';
+import './ButtonPlay';
 import './ButtonStop';
 import './ButtonMute';
 import './ButtonUnmute';
@@ -28,6 +28,7 @@ export default class ControlsPlayer extends HTMLElement {
                   ? '<button is="button-unmute"></button>'
                   : '<button is="button-mute"></button>'
           }
+          <div class="spacer"></div>
         `;
     }
 
@@ -40,7 +41,7 @@ export default class ControlsPlayer extends HTMLElement {
 
     private handleClick(event: Event): void {
         const target = event.target as HTMLElement;
-        const is = target.getAttribute('is');
+        const is = target.closest('[is|="button"]')?.getAttribute('is');
 
         if (is === 'button-play') {
             console.log('EVENT DISPATCHED: ', EnumEvents.PlayPlayerOnboarding);
@@ -52,6 +53,8 @@ export default class ControlsPlayer extends HTMLElement {
             );
             this.isPlaying = true;
             this.render();
+
+            return;
         }
 
         if (is === 'button-stop') {
@@ -64,6 +67,8 @@ export default class ControlsPlayer extends HTMLElement {
             );
             this.isPlaying = false;
             this.render();
+
+            return;
         }
 
         if (is === 'button-mute') {
@@ -76,6 +81,8 @@ export default class ControlsPlayer extends HTMLElement {
             );
             this.isMuted = true;
             this.render();
+
+            return;
         }
 
         if (is === 'button-unmute') {

@@ -1,10 +1,11 @@
 import EnumEvents from '../../enums/EnumEvents';
 import './ControlsPlayer';
+import styles from './PlayerOnboarding.styles';
 
 export default class PlayerOnboarding extends HTMLElement {
     public src = '-';
 
-    public width = 300;
+    public width = 500;
 
     public height?: number;
 
@@ -37,6 +38,10 @@ export default class PlayerOnboarding extends HTMLElement {
     private render(): void {
         if (this.shadow) {
             this.shadow.innerHTML = `
+              <style>
+                ${styles}
+              </style>
+
               <video 
                 src=${this.src}
                 width=${this.width}
