@@ -8,7 +8,8 @@ module.exports = {
     entry: ['./js/App.ts'],
     output: {
         path: path.join(__dirname, 'dist'),
-        filename: 'bundle.js'
+        filename: 'bundle.js',
+        assetModuleFilename: 'assets/[hash][ext][query]'
     },
     module: {
         rules: [
