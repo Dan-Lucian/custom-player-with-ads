@@ -10,7 +10,11 @@ export default class ControlsPlayer extends HTMLElement {
 
     private isPlaying = false;
 
-    private isMuted = false;
+    private muted = false;
+
+    static get observedAttributes(): string[] {
+        return ['muted', 'autoplay'];
+    }
 
     constructor() {
         super();
@@ -22,7 +26,7 @@ export default class ControlsPlayer extends HTMLElement {
             ${this.isPlaying
                 ? '<button is="button-stop"></button>'
                 : '<button is="button-play"></button>'}
-            ${this.isMuted
+            ${this.muted
                 ? '<button is="button-unmute"></button>'
                 : '<button is="button-mute"></button>'}
             <div class="spacer"></div>
@@ -36,12 +40,25 @@ export default class ControlsPlayer extends HTMLElement {
         }
     }
 
+    public attributeChangedCallback(property: string, oldValue: string, newValue: string): void {
+        if (oldValue === newValue) return;
+
+        if (property === 'autoplay') {
+            this.isPlaying = !this.isPlaying;
+            this.render();
+        }
+
+        if (property === 'muted') {
+            this.muted = !this.muted;
+            this.render();
+        }
+    }
+
     private handleClick(event: Event): void {
         const target = event.target as HTMLElement;
         const is = target.closest('[is|="button"]')?.getAttribute('is');
 
         if (is === 'button-play') {
-            console.log('EVENT DISPATCHED: ', EnumEvents.PlayPlayerOnboarding);
             this.dispatchEvent(
                 new CustomEvent(EnumEvents.PlayPlayerOnboarding, {
                     bubbles: true,
@@ -55,7 +72,6 @@ export default class ControlsPlayer extends HTMLElement {
         }
 
         if (is === 'button-stop') {
-            console.log('EVENT DISPATCHED: ', EnumEvents.StopPlayerOnboarding);
             this.dispatchEvent(
                 new CustomEvent(EnumEvents.StopPlayerOnboarding, {
                     bubbles: true,
@@ -69,28 +85,26 @@ export default class ControlsPlayer extends HTMLElement {
         }
 
         if (is === 'button-mute') {
-            console.log('EVENT DISPATCHED: ', EnumEvents.MutePlayerOnboarding);
             this.dispatchEvent(
                 new CustomEvent(EnumEvents.MutePlayerOnboarding, {
                     bubbles: true,
                     composed: true
                 })
             );
-            this.isMuted = true;
+            this.muted = true;
             this.render();
 
             return;
         }
 
         if (is === 'button-unmute') {
-            console.log('EVENT DISPATCHED: ', EnumEvents.UnmutePlayerOnboarding);
             this.dispatchEvent(
                 new CustomEvent(EnumEvents.UnmutePlayerOnboarding, {
                     bubbles: true,
                     composed: true
                 })
             );
-            this.isMuted = false;
+            this.muted = false;
             this.render();
         }
     }

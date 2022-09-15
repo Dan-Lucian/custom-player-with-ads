@@ -1,3 +1,5 @@
-body {
-    background: white;
+#root {
+    display: inline-flex;
+    flex-direction: column;
+    gap: 20px;
 }

@@ -4,11 +4,13 @@ import './ControlsPlayer';
 import styles from './PlayerOnboarding.styles';
 
 export default class PlayerOnboarding extends HTMLElement {
-    public src = '-';
+    public src = '';
 
-    public width = 500;
+    public muted = false;
 
-    public height?: number;
+    public autoplay = false;
+
+    public width = '500';
 
     private shadow: ShadowRoot;
 
@@ -23,7 +25,7 @@ export default class PlayerOnboarding extends HTMLElement {
     }
 
     static get observedAttributes(): string[] {
-        return ['src'];
+        return ['src', 'width', 'muted', 'autoplay'];
     }
 
     constructor() {
@@ -37,7 +39,9 @@ export default class PlayerOnboarding extends HTMLElement {
     }
 
     private render(): void {
-        // console.log('styles: ', styles);
+        const autoplay = this.autoplay ? 'autoplay' : '';
+        const muted = this.muted ? 'muted' : '';
+
         if (this.shadow) {
             this.shadow.innerHTML = html`
                 <style>
@@ -45,14 +49,15 @@ export default class PlayerOnboarding extends HTMLElement {
                 </style>
 
                 <video
+                    ${autoplay}
+                    ${muted}
                     src=${this.src}
                     width=${this.width}
-                    height=${this.height}
                     id="player-onboarding"
                 >
                     Player not supported
                 </video>
-                <controls-player></controls-player>
+                <controls-player ${autoplay} ${muted}></controls-player>
             `;
         }
     }
@@ -68,30 +73,41 @@ export default class PlayerOnboarding extends HTMLElement {
         if (oldValue === newValue) return;
 
         if (property === 'src') {
-            this[property] = newValue;
+            this.src = newValue;
+            this.render();
+        }
+
+        if (property === 'width') {
+            this.width = newValue;
+            this.render();
+        }
+
+        if (property === 'autoplay') {
+            this.autoplay = !this.autoplay;
+            this.render();
+        }
+
+        if (property === 'muted') {
+            this.muted = !this.muted;
             this.render();
         }
     }
 
     private play(): void {
-        console.log('EVENT HEARD: ', EnumEvents.PlayPlayerOnboarding);
         this.videoElement?.play();
     }
 
     private stop(): void {
-        console.log('EVENT HEARD: ', EnumEvents.StopPlayerOnboarding);
         this.videoElement?.pause();
     }
 
     private mute(): void {
-        console.log('EVENT HEARD: ', EnumEvents.MutePlayerOnboarding);
         if (this.videoElement) {
             this.videoElement.muted = true;
         }
     }
 
     private unmute(): void {
-        console.log('EVENT HEARD: ', EnumEvents.UnmutePlayerOnboarding);
         if (this.videoElement) {
             this.videoElement.muted = false;
         }

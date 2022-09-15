@@ -10,18 +10,28 @@ export default class FormPlayer extends HTMLFormElement {
 
     constructor() {
         super();
-        this.addEventListener('submit', this.handleSubmit);
+        this.addEventListener('submit', FormPlayer.handleSubmit);
     }
 
     private render(): void {
         this.innerHTML = html`
-          <style>
-            ${styles}
-          </style>
+            <style>
+              ${styles}
+            </style>
 
-          <label for="input-src">Video link:</label>
-          <input type="text" id="input-src"></input>
-          <button type="submit">Load</button>
+            <label for="input-src">Video link:</label>
+            <input type="text" id="input-src" name="src"></input>
+            
+            <label for="input-width">Width:</label>
+            <input type="number" id="input-width" name="width"></input>
+
+            <label for="input-autoplay">Autoplay</label>
+            <input type="checkbox" id="input-autoplay" name="autoplay"></input>
+            
+            <label for="input-muted">Muted:</label>
+            <input type="checkbox" id="input-muted" name="muted"></input>
+
+            <button type="submit">Load</button>
         `;
     }
 
@@ -32,10 +42,35 @@ export default class FormPlayer extends HTMLFormElement {
         }
     }
 
-    private handleSubmit(event: Event): void {
+    static handleSubmit(event: Event): void {
         event.preventDefault();
-        console.log('event: submit');
-        console.log('videoElement: ', FormPlayer.videoElement);
+
+        const dataFromForm = new FormData(event.target as HTMLFormElement);
+
+        const src = String(dataFromForm.get('src'));
+        const width = String(dataFromForm.get('width'));
+        const autoplay = Boolean(dataFromForm.get('autoplay'));
+        const muted = Boolean(dataFromForm.get('muted'));
+
+        if (src) {
+            FormPlayer.videoElement?.setAttribute('src', src);
+        }
+
+        if (width) {
+            FormPlayer.videoElement?.setAttribute('width', width);
+        }
+
+        if (autoplay) {
+            FormPlayer.videoElement?.setAttribute('autoplay', '');
+        } else {
+            FormPlayer.videoElement?.removeAttribute('autoplay');
+        }
+
+        if (muted) {
+            FormPlayer.videoElement?.setAttribute('muted', '');
+        } else {
+            FormPlayer.videoElement?.removeAttribute('muted');
+        }
     }
 }
 
