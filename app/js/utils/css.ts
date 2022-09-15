@@ -1,3 +1,3 @@
-export default function css(string: TemplateStringsArray): TemplateStringsArray {
-    return string;
+export default function css(strings: TemplateStringsArray): string {
+    return String(strings);
 }

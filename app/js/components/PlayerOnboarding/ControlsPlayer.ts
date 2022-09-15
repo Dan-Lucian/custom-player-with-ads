@@ -3,6 +3,7 @@ import './ButtonPlay';
 import './ButtonStop';
 import './ButtonMute';
 import './ButtonUnmute';
+import html from '../../utils/html';
 
 export default class ControlsPlayer extends HTMLElement {
     private rendered = false;
@@ -17,18 +18,14 @@ export default class ControlsPlayer extends HTMLElement {
     }
 
     private render(): void {
-        this.innerHTML = `
-          ${
-              this.isPlaying
-                  ? '<button is="button-stop"></button>'
-                  : '<button is="button-play"></button>'
-          }
-          ${
-              this.isMuted
-                  ? '<button is="button-unmute"></button>'
-                  : '<button is="button-mute"></button>'
-          }
-          <div class="spacer"></div>
+        this.innerHTML = html`
+            ${this.isPlaying
+                ? '<button is="button-stop"></button>'
+                : '<button is="button-play"></button>'}
+            ${this.isMuted
+                ? '<button is="button-unmute"></button>'
+                : '<button is="button-mute"></button>'}
+            <div class="spacer"></div>
         `;
     }
 

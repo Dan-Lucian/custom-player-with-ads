@@ -1,3 +1,4 @@
+import html from '../../utils/html';
 import EnumEvents from '../../enums/EnumEvents';
 import './ControlsPlayer';
 import styles from './PlayerOnboarding.styles';
@@ -36,19 +37,22 @@ export default class PlayerOnboarding extends HTMLElement {
     }
 
     private render(): void {
+        // console.log('styles: ', styles);
         if (this.shadow) {
-            this.shadow.innerHTML = `
-              <style>
-                ${styles}
-              </style>
+            this.shadow.innerHTML = html`
+                <style>
+                    ${styles}
+                </style>
 
-              <video 
-                src=${this.src}
-                width=${this.width}
-                height=${this.height}
-                id="player-onboarding"
-              >Player not supported</video>
-              <controls-player></controls-player>
+                <video
+                    src=${this.src}
+                    width=${this.width}
+                    height=${this.height}
+                    id="player-onboarding"
+                >
+                    Player not supported
+                </video>
+                <controls-player></controls-player>
             `;
         }
     }

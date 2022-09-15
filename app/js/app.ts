@@ -1,8 +1,13 @@
 import '../css/main.scss';
-import './components/player-onboarding';
+import './components/PlayerOnboarding';
+import './components/FormPlayer';
+import html from './utils/html';
 
 const root = document.getElementById('root');
-const Player = document.createElement('player-onboarding');
-Player.setAttribute('src', '/assets/video.mp4');
 
-root?.append(Player);
+if (root) {
+    root.innerHTML = `
+        <player-onboarding src="/assets/video.mp4"></player-onboarding>
+        <form is="form-player"></form>
+    `;
+}
