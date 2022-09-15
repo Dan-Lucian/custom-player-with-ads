@@ -7,7 +7,7 @@ module.exports = {
     context: path.join(__dirname, 'App'),
     entry: ['./js/App.ts'],
     output: {
-        path: path.join(__dirname, 'public'),
+        path: path.join(__dirname, 'dist'),
         filename: 'bundle.js'
     },
     module: {
@@ -20,7 +20,11 @@ module.exports = {
             {
                 test: /\.(scss|css)$/,
                 use: ['style-loader', 'css-loader', 'sass-loader']
-            }
+            },
+            {
+              test: /\.(png|svg|jpg|jpeg|gif|mp4)$/i,
+              type: 'asset/resource',
+            },
         ]
     },
     plugins: [
@@ -30,6 +34,6 @@ module.exports = {
         })
     ],
     resolve: {
-      extensions: ['.js', '.jsx', '.ts', '.tsx'],
-    },
+        extensions: ['.js', '.jsx', '.ts', '.tsx']
+    }
 };
