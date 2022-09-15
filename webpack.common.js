@@ -1,10 +1,8 @@
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-// const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
 module.exports = {
-    mode: 'development',
-    context: path.join(__dirname, 'App'),
+    context: path.join(__dirname, 'app'),
     entry: ['./js/App.ts'],
     output: {
         path: path.join(__dirname, 'dist'),
@@ -23,13 +21,14 @@ module.exports = {
                 use: ['style-loader', 'css-loader', 'sass-loader']
             },
             {
-              test: /\.(png|svg|jpg|jpeg|gif|mp4)$/i,
-              type: 'asset/resource',
-            },
+                test: /\.(png|svg|jpg|jpeg|gif|mp4)$/i,
+                type: 'asset/resource'
+            }
         ]
     },
     plugins: [
         new HtmlWebpackPlugin({
+            title: 'Production',
             template: path.resolve(__dirname, 'app/index.html'),
             inject: 'body'
         })

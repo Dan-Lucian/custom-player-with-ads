@@ -27,7 +27,7 @@
         "node": true,
         "jest": true
     },
-    "ignorePatterns": ["**/*.test.ts", "public/", "webpack.config.js"],
+    "ignorePatterns": ["**/*.test.ts", "public/", "webpack.*"],
     "rules": {
         "camelcase": "off",
         "import/extensions": "off",
