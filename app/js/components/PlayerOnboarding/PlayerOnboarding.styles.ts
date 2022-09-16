@@ -29,10 +29,7 @@ const styles = css`
         background: rgba(1, 1, 1, 0.5);
     }
 
-    [is='button-play'],
-    [is='button-stop'],
-    [is='button-mute'],
-    [is='button-unmute'] {
+    .control-hoverable {
         width: 40px;
         height: 40px;
         padding: 0;
@@ -43,10 +40,7 @@ const styles = css`
         z-index: 10;
     }
 
-    [is='button-play']::after,
-    [is='button-stop']::after,
-    [is='button-mute']::after,
-    [is='button-unmute']::after {
+    .control-hoverable::after {
         content: '';
         transform: scale(0);
         transition: all 0.15s ease-in-out;
@@ -64,10 +58,7 @@ const styles = css`
         top: 50%;
     }
 
-    [is='button-play']:hover::after,
-    [is='button-stop']:hover::after,
-    [is='button-mute']:hover::after,
-    [is='button-unmute']:hover::after {
+    .control-hoverable:hover::after {
         content: '';
         transform: scale(1);
         transition: all 0.15s ease-in-out;

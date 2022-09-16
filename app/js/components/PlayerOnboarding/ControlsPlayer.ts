@@ -24,11 +24,11 @@ export default class ControlsPlayer extends HTMLElement {
     private render(): void {
         this.innerHTML = html`
             ${this.isPlaying
-                ? '<button is="button-stop"></button>'
-                : '<button is="button-play"></button>'}
+                ? '<button class="control-hoverable" is="button-stop"></button>'
+                : '<button class="control-hoverable" is="button-play"></button>'}
             ${this.muted
-                ? '<button is="button-unmute"></button>'
-                : '<button is="button-mute"></button>'}
+                ? '<button class="control-hoverable" is="button-unmute"></button>'
+                : '<button class="control-hoverable" is="button-mute"></button>'}
             <div class="spacer"></div>
         `;
     }
