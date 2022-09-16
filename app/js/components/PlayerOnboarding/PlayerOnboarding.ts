@@ -2,6 +2,7 @@ import html from '../../utils/html';
 import EnumEvents from '../../enums/EnumEvents';
 import './ControlsPlayer';
 import styles from './PlayerOnboarding.styles';
+import poster from '../../../assets/poster.bmp';
 
 export default class PlayerOnboarding extends HTMLElement {
     public src = '';
@@ -54,6 +55,8 @@ export default class PlayerOnboarding extends HTMLElement {
                     src=${this.src}
                     width=${this.width}
                     id="player-onboarding"
+                    poster=${poster}
+                    preload="metadata"
                 >
                     Player not supported
                 </video>
@@ -72,25 +75,28 @@ export default class PlayerOnboarding extends HTMLElement {
     public attributeChangedCallback(property: string, oldValue: string, newValue: string): void {
         if (oldValue === newValue) return;
 
-        if (property === 'src') {
-            this.src = newValue;
-            this.render();
+        switch (property) {
+            case 'src':
+                this.src = newValue;
+                break;
+
+            case 'width':
+                this.width = newValue;
+                break;
+
+            case 'autoplay':
+                this.autoplay = !this.autoplay;
+                break;
+
+            case 'muted':
+                this.muted = !this.muted;
+                break;
+
+            default:
+                break;
         }
 
-        if (property === 'width') {
-            this.width = newValue;
-            this.render();
-        }
-
-        if (property === 'autoplay') {
-            this.autoplay = !this.autoplay;
-            this.render();
-        }
-
-        if (property === 'muted') {
-            this.muted = !this.muted;
-            this.render();
-        }
+        this.render();
     }
 
     private play(): void {

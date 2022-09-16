@@ -43,15 +43,20 @@ export default class ControlsPlayer extends HTMLElement {
     public attributeChangedCallback(property: string, oldValue: string, newValue: string): void {
         if (oldValue === newValue) return;
 
-        if (property === 'autoplay') {
-            this.isPlaying = !this.isPlaying;
-            this.render();
+        switch (property) {
+            case 'autoplay':
+                this.isPlaying = !this.isPlaying;
+                break;
+
+            case 'muted':
+                this.muted = !this.muted;
+                break;
+
+            default:
+                break;
         }
 
-        if (property === 'muted') {
-            this.muted = !this.muted;
-            this.render();
-        }
+        this.render();
     }
 
     private handleClick(event: Event): void {
