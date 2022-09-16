@@ -4,6 +4,9 @@ import './ControlsPlayer';
 import styles from './PlayerOnboarding.styles';
 import poster from '../../../assets/poster.bmp';
 
+// TODO: "timeupdate" event + video.duration to obtain the video duration
+// cause if it's fired it means the metadata has already been loaded
+// TODO: "timeupdate" event + video.currentTime to update the progress bar
 export default class PlayerOnboarding extends HTMLElement {
     public src = '';
 
@@ -17,9 +20,9 @@ export default class PlayerOnboarding extends HTMLElement {
 
     private rendered = false;
 
-    get videoElement(): HTMLMediaElement | null {
+    get videoElement(): HTMLVideoElement | null {
         if (this.shadow) {
-            return this.shadow.getElementById('player-onboarding') as HTMLMediaElement;
+            return this.shadow.getElementById('player-onboarding') as HTMLVideoElement;
         }
 
         return null;
@@ -101,7 +104,11 @@ export default class PlayerOnboarding extends HTMLElement {
 
     private play(): void {
         this.videoElement?.play();
-    }
+
+    //     if (this.videoElement) {
+    //         console.log('volume: ', this.videoElement.requestPictureInPicture());
+    //     }
+    // }
 
     private stop(): void {
         this.videoElement?.pause();
