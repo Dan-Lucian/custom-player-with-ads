@@ -3,6 +3,9 @@ import EnumEvents from '../../enums/EnumEvents';
 import './ControlsPlayer';
 import styles from './PlayerOnboarding.styles';
 import poster from '../../../assets/poster.bmp';
+import vast from '../../../assets/vast-gin.xml';
+
+console.log('vast: ', vast);
 
 // TODO: "timeupdate" event + video.duration to obtain the video duration
 // cause if it's fired it means the metadata has already been loaded
@@ -104,11 +107,7 @@ export default class PlayerOnboarding extends HTMLElement {
 
     private play(): void {
         this.videoElement?.play();
-
-    //     if (this.videoElement) {
-    //         console.log('volume: ', this.videoElement.requestPictureInPicture());
-    //     }
-    // }
+    }
 
     private stop(): void {
         this.videoElement?.pause();

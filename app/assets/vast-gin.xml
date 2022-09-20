@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<VAST version="2.0">
+    <Ad id="1ip316">
+        <InLine>
+            <AdSystem>Innovid Ads</AdSystem>
+            <AdTitle><![CDATA[Certification Testing (GIN WIGMORE) VPAID - Click on Main]]></AdTitle>
+            <Impression><![CDATA[about:blank]]></Impression>
+            <Creatives>
+                <Creative>
+                    <Linear>
+                        <Duration>00:00:15</Duration>
+                        <MediaFiles>
+                            <MediaFile delivery="progressive" width="16" height="9" type="application/javascript" apiFramework="VPAID"><![CDATA[http://static.innovid.com/mobileapps/js/vpaid/1ip316?cb=0ce416bc-a40e-f97e-8122-8c51d31a562f&deviceid=&ivc=ivfvuk%3D1]]></MediaFile>
+                        </MediaFiles>
+                    </Linear>
+                </Creative>
+                
+            </Creatives>
+        </InLine>
+    </Ad>
+</VAST>
