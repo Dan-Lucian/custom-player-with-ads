@@ -25,6 +25,7 @@ const styles = css`
         left: 0;
         right: 0;
         bottom: 0;
+        z-index: 100;
 
         background: rgba(1, 1, 1, 0.5);
     }

@@ -1,11 +1,9 @@
 import html from '../../utils/html';
 import EnumEvents from '../../enums/EnumEvents';
 import './ControlsPlayer';
+import '../PlayerAd';
 import styles from './PlayerOnboarding.styles';
 import poster from '../../../assets/poster.bmp';
-import vast from '../../../assets/vast-gin.xml';
-
-console.log('vast: ', vast);
 
 // TODO: "timeupdate" event + video.duration to obtain the video duration
 // cause if it's fired it means the metadata has already been loaded
@@ -26,6 +24,14 @@ export default class PlayerOnboarding extends HTMLElement {
     get videoElement(): HTMLVideoElement | null {
         if (this.shadow) {
             return this.shadow.getElementById('player-onboarding') as HTMLVideoElement;
+        }
+
+        return null;
+    }
+
+    get playerAd(): HTMLElement | null {
+        if (this.shadow) {
+            return this.shadow.getElementById('player-ad');
         }
 
         return null;
@@ -67,6 +73,7 @@ export default class PlayerOnboarding extends HTMLElement {
                     Player not supported
                 </video>
                 <controls-player ${autoplay} ${muted}></controls-player>
+                <player-ad hidden id="player-ad"></player-ad>
             `;
         }
     }
@@ -105,8 +112,9 @@ export default class PlayerOnboarding extends HTMLElement {
         this.render();
     }
 
-    private play(): void {
-        this.videoElement?.play();
+    private async play(): Promise<void> {
+        // this.videoElement?.play();
+        this.renderAd();
     }
 
     private stop(): void {
@@ -123,6 +131,10 @@ export default class PlayerOnboarding extends HTMLElement {
         if (this.videoElement) {
             this.videoElement.muted = false;
         }
+    }
+
+    private renderAd(): void {
+        this.playerAd?.removeAttribute('hidden');
     }
 }
 
