@@ -1,4 +1,4 @@
-import EnumEvents from '../../enums/EnumEventPlayer';
+import EnumEventPlayer from '../../enums/EnumEventPlayer';
 import './ButtonPlay';
 import './ButtonLoadAd';
 import './ButtonPause';
@@ -67,7 +67,7 @@ export default class ControlsPlayer extends HTMLElement {
 
         if (is === 'button-play') {
             this.dispatchEvent(
-                new CustomEvent(EnumEvents.PlayPlayerOnboarding, {
+                new CustomEvent(EnumEventPlayer.PlayPlayerOnboarding, {
                     bubbles: true,
                     composed: true
                 })
@@ -80,7 +80,7 @@ export default class ControlsPlayer extends HTMLElement {
 
         if (is === 'button-pause') {
             this.dispatchEvent(
-                new CustomEvent(EnumEvents.PausePlayerOnboarding, {
+                new CustomEvent(EnumEventPlayer.PausePlayerOnboarding, {
                     bubbles: true,
                     composed: true
                 })
@@ -93,7 +93,7 @@ export default class ControlsPlayer extends HTMLElement {
 
         if (is === 'button-mute') {
             this.dispatchEvent(
-                new CustomEvent(EnumEvents.MutePlayerOnboarding, {
+                new CustomEvent(EnumEventPlayer.MutePlayerOnboarding, {
                     bubbles: true,
                     composed: true
                 })
@@ -106,7 +106,7 @@ export default class ControlsPlayer extends HTMLElement {
 
         if (is === 'button-unmute') {
             this.dispatchEvent(
-                new CustomEvent(EnumEvents.UnmutePlayerOnboarding, {
+                new CustomEvent(EnumEventPlayer.UnmutePlayerOnboarding, {
                     bubbles: true,
                     composed: true
                 })
@@ -117,7 +117,7 @@ export default class ControlsPlayer extends HTMLElement {
 
         if (is === 'button-load-ad') {
             this.dispatchEvent(
-                new CustomEvent(EnumEvents.PlayAdPlayerOnboarding, {
+                new CustomEvent(EnumEventPlayer.PlayAdPlayerOnboarding, {
                     bubbles: true,
                     composed: true
                 })
