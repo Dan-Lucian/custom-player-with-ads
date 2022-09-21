@@ -80,7 +80,7 @@ export default class ControlsPlayer extends HTMLElement {
 
         if (is === 'button-pause') {
             this.dispatchEvent(
-                new CustomEvent(EnumEvents.StopPlayerOnboarding, {
+                new CustomEvent(EnumEvents.PausePlayerOnboarding, {
                     bubbles: true,
                     composed: true
                 })

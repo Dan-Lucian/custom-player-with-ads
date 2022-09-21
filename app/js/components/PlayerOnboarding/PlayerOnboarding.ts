@@ -47,7 +47,7 @@ export default class PlayerOnboarding extends HTMLElement {
 
         this.addEventListener(EnumEventPlayer.PlayPlayerOnboarding, this.play);
         this.addEventListener(EnumEventPlayer.PlayAdPlayerOnboarding, this.renderAd);
-        this.addEventListener(EnumEventPlayer.StopPlayerOnboarding, this.stop);
+        this.addEventListener(EnumEventPlayer.PausePlayerOnboarding, this.pause);
         this.addEventListener(EnumEventPlayer.MutePlayerOnboarding, this.mute);
         this.addEventListener(EnumEventPlayer.UnmutePlayerOnboarding, this.unmute);
         this.addEventListener(EnumEventPlayer.SkipAd, this.hideAd);
@@ -119,7 +119,7 @@ export default class PlayerOnboarding extends HTMLElement {
         this.videoElement?.play();
     }
 
-    private stop(): void {
+    private pause(): void {
         this.videoElement?.pause();
     }
 
@@ -136,7 +136,7 @@ export default class PlayerOnboarding extends HTMLElement {
     }
 
     private renderAd(): void {
-        this.stop();
+        this.pause();
         this.playerAd?.removeAttribute('hidden');
     }
 
