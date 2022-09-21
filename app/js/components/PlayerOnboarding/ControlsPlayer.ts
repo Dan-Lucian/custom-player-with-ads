@@ -1,7 +1,7 @@
 import EnumEvents from '../../enums/EnumEventPlayer';
 import './ButtonPlay';
 import './ButtonLoadAd';
-import './ButtonStop';
+import './ButtonPause';
 import './ButtonMute';
 import './ButtonUnmute';
 import html from '../../utils/html';
@@ -25,7 +25,7 @@ export default class ControlsPlayer extends HTMLElement {
     private render(): void {
         this.innerHTML = html`
             ${this.isPlaying
-                ? '<button class="control-hoverable" is="button-stop"></button>'
+                ? '<button class="control-hoverable" is="button-pause"></button>'
                 : '<button class="control-hoverable" is="button-play"></button>'}
             ${this.muted
                 ? '<button class="control-hoverable" is="button-unmute"></button>'
@@ -78,7 +78,7 @@ export default class ControlsPlayer extends HTMLElement {
             return;
         }
 
-        if (is === 'button-stop') {
+        if (is === 'button-pause') {
             this.dispatchEvent(
                 new CustomEvent(EnumEvents.StopPlayerOnboarding, {
                     bubbles: true,

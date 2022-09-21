@@ -1,6 +1,6 @@
 import html from '../../utils/html';
 
-export default class ButtonStop extends HTMLButtonElement {
+export default class ButtonPause extends HTMLButtonElement {
     private rendered = false;
 
     private render(): void {
@@ -19,4 +19,4 @@ export default class ButtonStop extends HTMLButtonElement {
     }
 }
 
-customElements.define('button-stop', ButtonStop, { extends: 'button' });
+customElements.define('button-pause', ButtonPause, { extends: 'button' });
