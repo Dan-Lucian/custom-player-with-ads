@@ -46,10 +46,12 @@ export default class PlayerOnboarding extends HTMLElement {
         this.shadow = this.attachShadow({ mode: 'open' });
 
         this.addEventListener(EnumEvents.PlayPlayerOnboarding, this.play);
+        this.addEventListener(EnumEvents.PlayAdPlayerOnboarding, this.renderAd);
         this.addEventListener(EnumEvents.StopPlayerOnboarding, this.stop);
         this.addEventListener(EnumEvents.MutePlayerOnboarding, this.mute);
         this.addEventListener(EnumEvents.UnmutePlayerOnboarding, this.unmute);
         this.addEventListener(EnumEvents.SkipAd, this.hideAd);
+        this.addEventListener(EnumEvents.EndAd, this.hideAd);
     }
 
     private render(): void {
@@ -115,7 +117,6 @@ export default class PlayerOnboarding extends HTMLElement {
 
     private async play(): Promise<void> {
         this.videoElement?.play();
-        setTimeout(() => this.renderAd(), 2000);
     }
 
     private stop(): void {

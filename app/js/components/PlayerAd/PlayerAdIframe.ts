@@ -1,6 +1,8 @@
 import styles from './PlayerAdIframe.styles';
 import './ButtonSkip';
 import IWindowIframe from '../../interfaces/IWindowIframe';
+import EnumEventsVPAID from '../../enums/EnumEventsVPAID';
+import EnumEvents from '../../enums/EnumEvents';
 
 export default class PlayerAdIframe extends HTMLElement {
     private rendered = false;
@@ -11,19 +13,8 @@ export default class PlayerAdIframe extends HTMLElement {
         return ['data-src'];
     }
 
-    get slotAd(): Element | null {
-        return this.closest('player-ad') || null;
-    }
-
-    constructor() {
-        super();
-        this.addEventListener('AdLoaded', () => {
-            console.log('EVENT: AdLoaded');
-        });
-
-        this.addEventListener('AdStarted', () => {
-            console.log('EVENT: AdStarted');
-        });
+    get controllerElement(): HTMLElement {
+        return this.closest('player-ad') as HTMLElement;
     }
 
     private render(): void {
@@ -33,19 +24,33 @@ export default class PlayerAdIframe extends HTMLElement {
         const slotAd = document.createElement('div');
         slotAd.id = 'slot-ad';
 
-        const slotVideo = document.createElement('video');
-        slotVideo.id = 'slot-video';
-
-        slotAd.appendChild(slotVideo);
-
         const iframe = document.createElement('iframe');
-        // iframe.setAttribute('sandbox', '');
         iframe.onload = (): void => {
             if (iframe.contentDocument) {
                 const scriptVPAID = document.createElement('script');
                 scriptVPAID.src = this.dataSrc;
                 scriptVPAID.onload = (): void => {
                     const VPAIDCreative = (iframe.contentWindow as IWindowIframe).getVPAIDAd();
+                    console.log('VPAIDCreative: ', VPAIDCreative);
+
+                    const handleAdLoaded = (): void => {
+                        VPAIDCreative.startAd();
+                    };
+
+                    const handleAdStarted = (): void => {
+                        console.log('EVENT CAUGHT: AdStarted');
+                    };
+
+                    const handleAdVideoComplete = (): void => {
+                        console.log('EVENT DISPTACHED: end-ad');
+                        this.dispatchEvent(
+                            new CustomEvent(EnumEvents.EndAd, { bubbles: true, composed: true })
+                        );
+                    };
+
+                    VPAIDCreative.subscribe(handleAdLoaded, EnumEventsVPAID.AdLoaded);
+                    VPAIDCreative.subscribe(handleAdStarted, EnumEventsVPAID.AdStarted);
+                    VPAIDCreative.subscribe(handleAdVideoComplete, EnumEventsVPAID.AdVideoComplete);
 
                     const versionVPAID = VPAIDCreative.handshakeVersion();
                     console.log('handshake: versionVPAID: ', versionVPAID);
@@ -57,14 +62,10 @@ export default class PlayerAdIframe extends HTMLElement {
                         5000,
                         null,
                         {
-                            videoSlot: slotVideo,
                             slot: slotAd,
                             videoSlotCanAutoPlay: true
                         }
                     );
-
-                    setTimeout(() => VPAIDCreative.startAd());
-                    console.log('VPAIDCreative: ', VPAIDCreative);
                 };
 
                 iframe.contentDocument.head.replaceChildren(scriptVPAID);

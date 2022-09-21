@@ -13,6 +13,7 @@ interface VPAIDCreative {
         } | null
     ) => void;
     startAd: () => void;
+    subscribe: (handler: () => void, event: string) => void;
 }
 
 export default VPAIDCreative;

@@ -67,9 +67,8 @@ export default class PlayerAd extends HTMLElement {
         this.vastObj = extractInfoFromVastDOM(vastDOM);
     }
 
-    // eslint-disable-next-line class-methods-use-this
     private cleanupPlayerAd(): void {
-        console.log('Cleaning up the ad player: ');
+        this.vastObj = undefined;
     }
 }
 

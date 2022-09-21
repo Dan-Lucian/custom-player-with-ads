@@ -1,5 +1,6 @@
 import EnumEvents from '../../enums/EnumEvents';
 import './ButtonPlay';
+import './ButtonPlayAd';
 import './ButtonStop';
 import './ButtonMute';
 import './ButtonUnmute';
@@ -30,6 +31,7 @@ export default class ControlsPlayer extends HTMLElement {
                 ? '<button class="control-hoverable" is="button-unmute"></button>'
                 : '<button class="control-hoverable" is="button-mute"></button>'}
             <div class="spacer"></div>
+            <button class="control-hoverable" is="button-play-ad"></button>
         `;
     }
 
@@ -111,6 +113,15 @@ export default class ControlsPlayer extends HTMLElement {
             );
             this.muted = false;
             this.render();
+        }
+
+        if (is === 'button-play-ad') {
+            this.dispatchEvent(
+                new CustomEvent(EnumEvents.PlayAdPlayerOnboarding, {
+                    bubbles: true,
+                    composed: true
+                })
+            );
         }
     }
 }
