@@ -1,4 +1,4 @@
-import EnumEvents from '../../enums/EnumEvents';
+import EnumEventPlayer from '../../enums/EnumEventPlayer';
 import html from '../../utils/html';
 
 export default class ButtonSkip extends HTMLButtonElement {
@@ -22,7 +22,7 @@ export default class ButtonSkip extends HTMLButtonElement {
 
     private handleClick(): void {
         this.dispatchEvent(
-            new CustomEvent(EnumEvents.SkipAd, {
+            new CustomEvent(EnumEventPlayer.SkipAd, {
                 bubbles: true,
                 composed: true
             })

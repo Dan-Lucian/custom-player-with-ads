@@ -1,8 +1,8 @@
 import styles from './PlayerAdIframe.styles';
 import './ButtonSkip';
 import IWindowIframe from '../../interfaces/IWindowIframe';
-import EnumEventsVPAID from '../../enums/EnumEventsVPAID';
-import EnumEvents from '../../enums/EnumEvents';
+import EnumEventVPAID from '../../enums/EnumEventVPAID';
+import EnumEventPlayer from '../../enums/EnumEventPlayer';
 
 export default class PlayerAdIframe extends HTMLElement {
     private rendered = false;
@@ -44,13 +44,16 @@ export default class PlayerAdIframe extends HTMLElement {
                     const handleAdVideoComplete = (): void => {
                         console.log('EVENT DISPTACHED: end-ad');
                         this.dispatchEvent(
-                            new CustomEvent(EnumEvents.EndAd, { bubbles: true, composed: true })
+                            new CustomEvent(EnumEventPlayer.EndAd, {
+                                bubbles: true,
+                                composed: true
+                            })
                         );
                     };
 
-                    VPAIDCreative.subscribe(handleAdLoaded, EnumEventsVPAID.AdLoaded);
-                    VPAIDCreative.subscribe(handleAdStarted, EnumEventsVPAID.AdStarted);
-                    VPAIDCreative.subscribe(handleAdVideoComplete, EnumEventsVPAID.AdVideoComplete);
+                    VPAIDCreative.subscribe(handleAdLoaded, EnumEventVPAID.AdLoaded);
+                    VPAIDCreative.subscribe(handleAdStarted, EnumEventVPAID.AdStarted);
+                    VPAIDCreative.subscribe(handleAdVideoComplete, EnumEventVPAID.AdVideoComplete);
 
                     const versionVPAID = VPAIDCreative.handshakeVersion();
                     console.log('handshake: versionVPAID: ', versionVPAID);

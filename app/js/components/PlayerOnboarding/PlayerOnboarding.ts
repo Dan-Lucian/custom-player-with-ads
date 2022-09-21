@@ -1,5 +1,5 @@
 import html from '../../utils/html';
-import EnumEvents from '../../enums/EnumEvents';
+import EnumEventPlayer from '../../enums/EnumEventPlayer';
 import './ControlsPlayer';
 import '../PlayerAd';
 import styles from './PlayerOnboarding.styles';
@@ -45,13 +45,13 @@ export default class PlayerOnboarding extends HTMLElement {
         super();
         this.shadow = this.attachShadow({ mode: 'open' });
 
-        this.addEventListener(EnumEvents.PlayPlayerOnboarding, this.play);
-        this.addEventListener(EnumEvents.PlayAdPlayerOnboarding, this.renderAd);
-        this.addEventListener(EnumEvents.StopPlayerOnboarding, this.stop);
-        this.addEventListener(EnumEvents.MutePlayerOnboarding, this.mute);
-        this.addEventListener(EnumEvents.UnmutePlayerOnboarding, this.unmute);
-        this.addEventListener(EnumEvents.SkipAd, this.hideAd);
-        this.addEventListener(EnumEvents.EndAd, this.hideAd);
+        this.addEventListener(EnumEventPlayer.PlayPlayerOnboarding, this.play);
+        this.addEventListener(EnumEventPlayer.PlayAdPlayerOnboarding, this.renderAd);
+        this.addEventListener(EnumEventPlayer.StopPlayerOnboarding, this.stop);
+        this.addEventListener(EnumEventPlayer.MutePlayerOnboarding, this.mute);
+        this.addEventListener(EnumEventPlayer.UnmutePlayerOnboarding, this.unmute);
+        this.addEventListener(EnumEventPlayer.SkipAd, this.hideAd);
+        this.addEventListener(EnumEventPlayer.EndAd, this.hideAd);
     }
 
     private render(): void {

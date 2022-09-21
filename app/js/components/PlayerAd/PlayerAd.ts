@@ -9,7 +9,7 @@ import './PlayerAdVideo';
 export default class PlayerAd extends HTMLElement {
     private rendered = false;
 
-    private vastObj?: IInfoVast;
+    private vastObj: IInfoVast | null = null;
 
     static get observedAttributes(): string[] {
         return ['hidden'];
@@ -20,6 +20,7 @@ export default class PlayerAd extends HTMLElement {
             <style>
                 ${styles}
             </style>
+
             ${this.vastObj && this.vastObj.isVPAID
                 ? html`<player-ad-iframe data-src="${this.vastObj.linkMedia}"></player-ad-iframe>`
                 : html`<player-ad-video></player-ad-video>`}
@@ -68,7 +69,7 @@ export default class PlayerAd extends HTMLElement {
     }
 
     private cleanupPlayerAd(): void {
-        this.vastObj = undefined;
+        this.vastObj = null;
     }
 }
 
