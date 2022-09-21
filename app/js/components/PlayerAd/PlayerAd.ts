@@ -1,19 +1,18 @@
 import { serviceAd } from '../../services';
 import html from '../../utils/html';
+import extractInfoFromVastDOM from '../../utils/extractInfoFromVastDOM';
+import IInfoVast from '../../interfaces/IInfoVast';
 import styles from './PlayerAd.styles';
-import './ButtonSkip';
+import './PlayerAdIframe';
+import './PlayerAdVideo';
 
 export default class PlayerAd extends HTMLElement {
     private rendered = false;
 
-    private vast?: Document;
-
-    static get videoElement(): Element | null {
-        return document.getElementsByTagName('player-ad')[0] || null;
-    }
+    private vastObj?: IInfoVast;
 
     static get observedAttributes(): string[] {
-        return ['src', 'width', 'muted', 'autoplay'];
+        return ['hidden'];
     }
 
     private render(): void {
@@ -21,9 +20,9 @@ export default class PlayerAd extends HTMLElement {
             <style>
                 ${styles}
             </style>
-
-            <video id="player-ad" preload="metadata">Player not supported</video>
-            <button is="button-skip"></button>
+            ${this.vastObj && this.vastObj.isVPAID
+                ? html`<player-ad-iframe data-src="${this.vastObj.linkMedia}"></player-ad-iframe>`
+                : html`<player-ad-video></player-ad-video>`}
         `;
     }
 
@@ -31,22 +30,46 @@ export default class PlayerAd extends HTMLElement {
         if (!this.rendered) {
             this.render();
             this.rendered = true;
-
-            this.vast = await PlayerAd.requestAd();
         }
     }
 
-    public attributeChangedCallback(property: string, oldValue: string, newValue: string): void {
+    public async attributeChangedCallback(
+        property: string,
+        oldValue: unknown,
+        newValue: unknown
+    ): Promise<void> {
         if (oldValue === newValue) return;
+
+        switch (property) {
+            case 'hidden':
+                // if no "hidden" attribute on the component
+                if (newValue === null) {
+                    await this.requestAd();
+                    break;
+                }
+
+                this.cleanupPlayerAd();
+                break;
+
+            default:
+                break;
+        }
 
         this.render();
     }
 
-    static async requestAd(): Promise<Document> {
+    private async requestAd(): Promise<void> {
         const vast = await serviceAd.requestAd();
 
         const parser = new DOMParser();
-        return parser.parseFromString(vast, 'text/xml');
+        const vastDOM = parser.parseFromString(vast, 'text/xml');
+
+        this.vastObj = extractInfoFromVastDOM(vastDOM);
+    }
+
+    // eslint-disable-next-line class-methods-use-this
+    private cleanupPlayerAd(): void {
+        console.log('Cleaning up the ad player: ');
     }
 }
 

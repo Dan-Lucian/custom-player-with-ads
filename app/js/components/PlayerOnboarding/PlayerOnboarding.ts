@@ -49,6 +49,7 @@ export default class PlayerOnboarding extends HTMLElement {
         this.addEventListener(EnumEvents.StopPlayerOnboarding, this.stop);
         this.addEventListener(EnumEvents.MutePlayerOnboarding, this.mute);
         this.addEventListener(EnumEvents.UnmutePlayerOnboarding, this.unmute);
+        this.addEventListener(EnumEvents.SkipAd, this.hideAd);
     }
 
     private render(): void {
@@ -85,16 +86,16 @@ export default class PlayerOnboarding extends HTMLElement {
         }
     }
 
-    public attributeChangedCallback(property: string, oldValue: string, newValue: string): void {
+    public attributeChangedCallback(property: string, oldValue: unknown, newValue: unknown): void {
         if (oldValue === newValue) return;
 
         switch (property) {
             case 'src':
-                this.src = newValue;
+                this.src = String(newValue);
                 break;
 
             case 'width':
-                this.width = newValue;
+                this.width = String(newValue);
                 break;
 
             case 'autoplay':
@@ -113,8 +114,8 @@ export default class PlayerOnboarding extends HTMLElement {
     }
 
     private async play(): Promise<void> {
-        // this.videoElement?.play();
-        this.renderAd();
+        this.videoElement?.play();
+        setTimeout(() => this.renderAd(), 2000);
     }
 
     private stop(): void {
@@ -134,7 +135,13 @@ export default class PlayerOnboarding extends HTMLElement {
     }
 
     private renderAd(): void {
+        this.stop();
         this.playerAd?.removeAttribute('hidden');
+    }
+
+    private hideAd(): void {
+        this.playerAd?.setAttribute('hidden', '');
+        this.play();
     }
 }
 

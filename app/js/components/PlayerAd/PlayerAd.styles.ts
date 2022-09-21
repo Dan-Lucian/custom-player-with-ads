@@ -8,7 +8,6 @@ const styles = css`
         right: 0;
         left: 0;
         z-index: 1000;
-        background-color: red;
 
         display: flex;
         justify-content: center;
@@ -16,22 +15,6 @@ const styles = css`
 
     player-ad[hidden] {
         display: none !important;
-    }
-
-    player-ad video {
-        width: 100%;
-    }
-
-    [is='button-skip'] {
-        background: rgba(0, 0, 0, 0.7);
-        padding: 10px 20px;
-        font-size: 20px;
-        border: none;
-        cursor: pointer;
-        color: #fff;
-        position: absolute;
-        right: 0;
-        bottom: 15%;
     }
 `;
 
