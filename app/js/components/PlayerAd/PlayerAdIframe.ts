@@ -22,7 +22,9 @@ export default class PlayerAdIframe extends HTMLElement {
         super();
 
         this.addEventListener(EnumEventPlayerAd.PlayPlayerAd, this.play);
-        this.addEventListener(EnumEventPlayerAd.StopPlayerAd, this.pause);
+        this.addEventListener(EnumEventPlayerAd.PausePlayerAd, this.pause);
+        this.addEventListener(EnumEventPlayerAd.MutePlayerAd, this.mute);
+        this.addEventListener(EnumEventPlayerAd.UnmutePlayerAd, this.unmute);
         this.addEventListener(EnumEventPlayerAd.SkipAdPlayerAd, this.skipAd);
     }
 
@@ -123,6 +125,21 @@ export default class PlayerAdIframe extends HTMLElement {
 
     private pause(): void {
         this.VPAIDCreative?.pauseAd();
+    }
+
+    private mute(): void {
+        if (this.VPAIDCreative) {
+            // seems like changing volume is not supported since the first getter value is undefined
+            console.log('setting volume to 0 from current: ', this.VPAIDCreative.adVolume);
+            this.VPAIDCreative.adVolume = 0;
+        }
+    }
+
+    private unmute(): void {
+        if (this.VPAIDCreative) {
+            console.log('setting volume to 1 from curent:', this.VPAIDCreative.adVolume);
+            this.VPAIDCreative.adVolume = 1;
+        }
     }
 
     private skipAd(): void {
