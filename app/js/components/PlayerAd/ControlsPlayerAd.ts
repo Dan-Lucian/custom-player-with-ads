@@ -1,6 +1,8 @@
-import EnumEvents from '../../enums/EnumEventPlayer';
+import EnumEventPlayerAd from '../../enums/EnumEventPlayerAd';
 import html from '../../utils/html';
 import './ButtonPlayAd';
+import './ButtonPauseAd';
+import './ButtonSkipAd';
 
 export default class ControlsPlayerAd extends HTMLElement {
     private rendered = false;
@@ -21,13 +23,10 @@ export default class ControlsPlayerAd extends HTMLElement {
     private render(): void {
         this.innerHTML = html`
             ${this.isPlaying
-                ? '<button class="control-hoverable" is="button-stop"></button>'
+                ? '<button class="control-hoverable" is="button-pause-ad"></button>'
                 : '<button class="control-hoverable" is="button-play-ad"></button>'}
-            ${this.muted
-                ? '<button class="control-hoverable" is="button-unmute"></button>'
-                : '<button class="control-hoverable" is="button-mute"></button>'}
             <div class="spacer"></div>
-            <button class="control-hoverable" is="button-play-ad"></button>
+            <button is="button-skip-ad"></button>
         `;
     }
 
@@ -61,11 +60,10 @@ export default class ControlsPlayerAd extends HTMLElement {
         const target = event.target as HTMLElement;
         const is = target.closest('[is|="button"]')?.getAttribute('is');
 
-        if (is === 'button-play') {
+        if (is === 'button-play-ad') {
             this.dispatchEvent(
-                new CustomEvent(EnumEvents.PlayPlayerOnboarding, {
-                    bubbles: true,
-                    composed: true
+                new CustomEvent(EnumEventPlayerAd.PlayPlayerAd, {
+                    bubbles: true
                 })
             );
             this.isPlaying = true;
@@ -74,50 +72,14 @@ export default class ControlsPlayerAd extends HTMLElement {
             return;
         }
 
-        if (is === 'button-stop') {
+        if (is === 'button-pause-ad') {
             this.dispatchEvent(
-                new CustomEvent(EnumEvents.StopPlayerOnboarding, {
-                    bubbles: true,
-                    composed: true
+                new CustomEvent(EnumEventPlayerAd.StopPlayerAd, {
+                    bubbles: true
                 })
             );
             this.isPlaying = false;
             this.render();
-
-            return;
-        }
-
-        if (is === 'button-mute') {
-            this.dispatchEvent(
-                new CustomEvent(EnumEvents.MutePlayerOnboarding, {
-                    bubbles: true,
-                    composed: true
-                })
-            );
-            this.muted = true;
-            this.render();
-
-            return;
-        }
-
-        if (is === 'button-unmute') {
-            this.dispatchEvent(
-                new CustomEvent(EnumEvents.UnmutePlayerOnboarding, {
-                    bubbles: true,
-                    composed: true
-                })
-            );
-            this.muted = false;
-            this.render();
-        }
-
-        if (is === 'button-play-ad') {
-            this.dispatchEvent(
-                new CustomEvent(EnumEvents.PlayAdPlayerOnboarding, {
-                    bubbles: true,
-                    composed: true
-                })
-            );
         }
     }
 }

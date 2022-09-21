@@ -18,7 +18,7 @@ const styles = css`
         width: 100%;
     }
 
-    [is='button-skip'] {
+    [is='button-skip-ad'] {
         background: rgba(0, 0, 0, 0.7);
         padding: 10px 20px;
         font-size: 20px;

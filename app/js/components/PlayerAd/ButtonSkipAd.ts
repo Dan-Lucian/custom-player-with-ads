@@ -1,7 +1,7 @@
-import EnumEventPlayer from '../../enums/EnumEventPlayer';
+import EnumEventPlayerAd from '../../enums/EnumEventPlayerAd';
 import html from '../../utils/html';
 
-export default class ButtonSkip extends HTMLButtonElement {
+export default class ButtonSkipAd extends HTMLButtonElement {
     private rendered = false;
 
     constructor() {
@@ -22,7 +22,7 @@ export default class ButtonSkip extends HTMLButtonElement {
 
     private handleClick(): void {
         this.dispatchEvent(
-            new CustomEvent(EnumEventPlayer.SkipAd, {
+            new CustomEvent(EnumEventPlayerAd.SkipAdPlayerAd, {
                 bubbles: true,
                 composed: true
             })
@@ -30,4 +30,4 @@ export default class ButtonSkip extends HTMLButtonElement {
     }
 }
 
-customElements.define('button-skip', ButtonSkip, { extends: 'button' });
+customElements.define('button-skip-ad', ButtonSkipAd, { extends: 'button' });

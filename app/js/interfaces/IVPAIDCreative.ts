@@ -14,6 +14,9 @@ interface VPAIDCreative {
     ) => void;
     startAd: () => void;
     subscribe: (handler: () => void, event: string) => void;
+    resumeAd: () => void;
+    pauseAd: () => void;
+    skipAd: () => void;
 }
 
 export default VPAIDCreative;

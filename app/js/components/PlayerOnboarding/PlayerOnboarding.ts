@@ -50,7 +50,7 @@ export default class PlayerOnboarding extends HTMLElement {
         this.addEventListener(EnumEventPlayer.PausePlayerOnboarding, this.pause);
         this.addEventListener(EnumEventPlayer.MutePlayerOnboarding, this.mute);
         this.addEventListener(EnumEventPlayer.UnmutePlayerOnboarding, this.unmute);
-        this.addEventListener(EnumEventPlayer.SkipAd, this.hideAd);
+        this.addEventListener(EnumEventPlayer.SkipAdPlayerOnboarding, this.hideAd);
         this.addEventListener(EnumEventPlayer.EndAd, this.hideAd);
     }
 
@@ -115,7 +115,7 @@ export default class PlayerOnboarding extends HTMLElement {
         this.render();
     }
 
-    private async play(): Promise<void> {
+    private play(): void {
         this.videoElement?.play();
     }
 

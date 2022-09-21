@@ -5,7 +5,7 @@ enum EnumEventPlayer {
     MutePlayerOnboarding = 'mute-player-onboarding',
     UnmutePlayerOnboarding = 'unmute-player-onboarding',
     EndAd = 'end-ad',
-    SkipAd = 'skip-ad'
+    SkipAdPlayerOnboarding = 'skip-ad-player-onboarding'
 }
 
 export default EnumEventPlayer;

@@ -1,6 +1,6 @@
 import html from '../../utils/html';
 import styles from './PlayerAdVideo.styles';
-import './ButtonSkip';
+import './ButtonSkipAd';
 
 export default class PlayerAdVideo extends HTMLElement {
     private rendered = false;
@@ -20,7 +20,7 @@ export default class PlayerAdVideo extends HTMLElement {
             </style>
 
             <video id="player-ad" preload="metadata">Player not supported</video>
-            <button is="button-skip"></button>
+            <button is="button-skip-ad"></button>
         `;
     }
 

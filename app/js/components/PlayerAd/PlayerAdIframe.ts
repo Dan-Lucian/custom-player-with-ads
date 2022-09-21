@@ -1,8 +1,10 @@
 import styles from './PlayerAdIframe.styles';
-import './ButtonSkip';
+import './ButtonSkipAd';
 import './ControlsPlayerAd';
 import IWindowIframe from '../../interfaces/IWindowIframe';
+import IVPAIDCreative from '../../interfaces/IVPAIDCreative';
 import EnumEventVPAID from '../../enums/EnumEventVPAID';
+import EnumEventPlayerAd from '../../enums/EnumEventPlayerAd';
 import EnumEventPlayer from '../../enums/EnumEventPlayer';
 
 export default class PlayerAdIframe extends HTMLElement {
@@ -10,12 +12,18 @@ export default class PlayerAdIframe extends HTMLElement {
 
     private dataSrc = '';
 
+    private VPAIDCreative: IVPAIDCreative | null = null;
+
     static get observedAttributes(): string[] {
         return ['data-src'];
     }
 
-    get controllerElement(): HTMLElement {
-        return this.closest('player-ad') as HTMLElement;
+    constructor() {
+        super();
+
+        this.addEventListener(EnumEventPlayerAd.PlayPlayerAd, this.play);
+        this.addEventListener(EnumEventPlayerAd.StopPlayerAd, this.pause);
+        this.addEventListener(EnumEventPlayerAd.SkipAdPlayerAd, this.skipAd);
     }
 
     private render(): void {
@@ -25,6 +33,9 @@ export default class PlayerAdIframe extends HTMLElement {
         const slotAd = document.createElement('div');
         slotAd.id = 'slot-ad';
 
+        const controlsPlayerAd = document.createElement('controls-player-ad');
+        controlsPlayerAd.setAttribute('autoplay', '');
+
         const iframe = document.createElement('iframe');
         iframe.onload = (): void => {
             if (iframe.contentDocument) {
@@ -33,6 +44,7 @@ export default class PlayerAdIframe extends HTMLElement {
                 scriptVPAID.onload = (): void => {
                     const VPAIDCreative = (iframe.contentWindow as IWindowIframe).getVPAIDAd();
                     console.log('VPAIDCreative: ', VPAIDCreative);
+                    this.VPAIDCreative = VPAIDCreative;
 
                     const handleAdLoaded = (): void => {
                         VPAIDCreative.startAd();
@@ -76,7 +88,7 @@ export default class PlayerAdIframe extends HTMLElement {
             }
         };
 
-        this.replaceChildren(styleElement, iframe, slotAd);
+        this.replaceChildren(styleElement, iframe, slotAd, controlsPlayerAd);
     }
 
     public async connectedCallback(): Promise<void> {
@@ -103,6 +115,24 @@ export default class PlayerAdIframe extends HTMLElement {
         }
 
         this.render();
+    }
+
+    private play(): void {
+        this.VPAIDCreative?.resumeAd();
+    }
+
+    private pause(): void {
+        this.VPAIDCreative?.pauseAd();
+    }
+
+    private skipAd(): void {
+        this.VPAIDCreative?.skipAd();
+        this.dispatchEvent(
+            new CustomEvent(EnumEventPlayer.SkipAdPlayerOnboarding, {
+                bubbles: true,
+                composed: true
+            })
+        );
     }
 }
 
