@@ -1,4 +1,4 @@
-enum EnumEvents {
+enum EnumEventPlayer {
     PlayPlayerOnboarding = 'play-player-onboarding',
     PlayAdPlayerOnboarding = 'play-ad-player-onboarding',
     StopPlayerOnboarding = 'stop-player-onboarding',
@@ -8,4 +8,4 @@ enum EnumEvents {
     SkipAd = 'skip-ad'
 }
 
-export default EnumEvents;
+export default EnumEventPlayer;

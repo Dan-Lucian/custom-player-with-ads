@@ -1,5 +1,6 @@
 import styles from './PlayerAdIframe.styles';
 import './ButtonSkip';
+import './ControlsPlayerAd';
 import IWindowIframe from '../../interfaces/IWindowIframe';
 import EnumEventVPAID from '../../enums/EnumEventVPAID';
 import EnumEventPlayer from '../../enums/EnumEventPlayer';

@@ -1,12 +1,8 @@
 import EnumEvents from '../../enums/EnumEventPlayer';
-import './ButtonPlay';
-import './ButtonLoadAd';
-import './ButtonStop';
-import './ButtonMute';
-import './ButtonUnmute';
 import html from '../../utils/html';
+import './ButtonPlayAd';
 
-export default class ControlsPlayer extends HTMLElement {
+export default class ControlsPlayerAd extends HTMLElement {
     private rendered = false;
 
     private isPlaying = false;
@@ -26,12 +22,12 @@ export default class ControlsPlayer extends HTMLElement {
         this.innerHTML = html`
             ${this.isPlaying
                 ? '<button class="control-hoverable" is="button-stop"></button>'
-                : '<button class="control-hoverable" is="button-play"></button>'}
+                : '<button class="control-hoverable" is="button-play-ad"></button>'}
             ${this.muted
                 ? '<button class="control-hoverable" is="button-unmute"></button>'
                 : '<button class="control-hoverable" is="button-mute"></button>'}
             <div class="spacer"></div>
-            <button class="control-hoverable" is="button-load-ad"></button>
+            <button class="control-hoverable" is="button-play-ad"></button>
         `;
     }
 
@@ -115,7 +111,7 @@ export default class ControlsPlayer extends HTMLElement {
             this.render();
         }
 
-        if (is === 'button-load-ad') {
+        if (is === 'button-play-ad') {
             this.dispatchEvent(
                 new CustomEvent(EnumEvents.PlayAdPlayerOnboarding, {
                     bubbles: true,
@@ -126,4 +122,4 @@ export default class ControlsPlayer extends HTMLElement {
     }
 }
 
-customElements.define('controls-player', ControlsPlayer);
+customElements.define('controls-player-ad', ControlsPlayerAd);
