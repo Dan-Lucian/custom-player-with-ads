@@ -8,30 +8,10 @@ import './PlayerAdVideo';
 
 export default class PlayerAd extends HTMLElement {
     private rendered = false;
-
     private vastObj: IInfoVast | null = null;
 
-    static get observedAttributes(): string[] {
+    public static get observedAttributes(): string[] {
         return ['hidden'];
-    }
-
-    private render(): void {
-        this.innerHTML = html`
-            <style>
-                ${styles}
-            </style>
-
-            ${this.vastObj && this.vastObj.isVPAID
-                ? html`<player-ad-iframe data-src="${this.vastObj.linkMedia}"></player-ad-iframe>`
-                : html`<player-ad-video></player-ad-video>`}
-        `;
-    }
-
-    public async connectedCallback(): Promise<void> {
-        if (!this.rendered) {
-            this.render();
-            this.rendered = true;
-        }
     }
 
     public async attributeChangedCallback(
@@ -59,6 +39,29 @@ export default class PlayerAd extends HTMLElement {
         this.render();
     }
 
+    public async connectedCallback(): Promise<void> {
+        if (!this.rendered) {
+            this.render();
+            this.rendered = true;
+        }
+    }
+
+    private render(): void {
+        this.innerHTML = html`
+            <style>
+                ${styles}
+            </style>
+
+            ${this.vastObj && this.vastObj.isVPAID
+                ? html`<player-ad-iframe data-src="${this.vastObj.linkMedia}"></player-ad-iframe>`
+                : html`<player-ad-video></player-ad-video>`}
+        `;
+    }
+
+    private cleanupPlayerAd(): void {
+        this.vastObj = null;
+    }
+
     private async requestAd(): Promise<void> {
         const vast = await serviceAd.requestAd();
 
@@ -66,10 +69,6 @@ export default class PlayerAd extends HTMLElement {
         const vastDOM = parser.parseFromString(vast, 'text/xml');
 
         this.vastObj = extractInfoFromVastDOM(vastDOM);
-    }
-
-    private cleanupPlayerAd(): void {
-        this.vastObj = null;
     }
 }
 

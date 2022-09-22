@@ -29,6 +29,7 @@
     },
     "ignorePatterns": ["**/*.test.ts", "public/", "webpack.*"],
     "rules": {
+        "lines-between-class-members": "off",
         "camelcase": "off",
         "import/extensions": "off",
         "max-len": ["error", { "code": 120 }],
