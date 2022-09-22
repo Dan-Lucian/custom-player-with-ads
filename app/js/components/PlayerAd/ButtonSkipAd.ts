@@ -9,15 +9,15 @@ export default class ButtonSkipAd extends HTMLButtonElement {
         this.addEventListener('click', this.handleClick);
     }
 
-    private render(): void {
-        this.innerHTML = html`Skip ad`;
-    }
-
     public connectedCallback(): void {
         if (!this.rendered) {
             this.render();
             this.rendered = true;
         }
+    }
+
+    private render(): void {
+        this.innerHTML = html`Skip ad`;
     }
 
     private handleClick(): void {

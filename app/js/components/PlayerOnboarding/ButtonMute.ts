@@ -3,6 +3,13 @@ import html from '../../utils/html';
 export default class ButtonMute extends HTMLButtonElement {
     private rendered = false;
 
+    public connectedCallback(): void {
+        if (!this.rendered) {
+            this.render();
+            this.rendered = true;
+        }
+    }
+
     private render(): void {
         this.innerHTML = html`
             <svg
@@ -18,13 +25,6 @@ export default class ButtonMute extends HTMLButtonElement {
                 ></path>
             </svg>
         `;
-    }
-
-    public connectedCallback(): void {
-        if (!this.rendered) {
-            this.render();
-            this.rendered = true;
-        }
     }
 }
 

@@ -7,39 +7,17 @@ import './ButtonUnmute';
 import html from '../../utils/html';
 
 export default class ControlsPlayer extends HTMLElement {
-    private rendered = false;
-
     private isPlaying = false;
-
     private muted = false;
-
-    static get observedAttributes(): string[] {
-        return ['muted', 'autoplay'];
-    }
+    private rendered = false;
 
     constructor() {
         super();
         this.addEventListener('click', this.handleClick);
     }
 
-    private render(): void {
-        this.innerHTML = html`
-            ${this.isPlaying
-                ? '<button class="control-hoverable" is="button-pause"></button>'
-                : '<button class="control-hoverable" is="button-play"></button>'}
-            ${this.muted
-                ? '<button class="control-hoverable" is="button-unmute"></button>'
-                : '<button class="control-hoverable" is="button-mute"></button>'}
-            <div class="spacer"></div>
-            <button class="control-hoverable" is="button-load-ad"></button>
-        `;
-    }
-
-    public connectedCallback(): void {
-        if (!this.rendered) {
-            this.render();
-            this.rendered = true;
-        }
+    public static get observedAttributes(): string[] {
+        return ['muted', 'autoplay'];
     }
 
     public attributeChangedCallback(property: string, oldValue: string, newValue: string): void {
@@ -59,6 +37,26 @@ export default class ControlsPlayer extends HTMLElement {
         }
 
         this.render();
+    }
+
+    public connectedCallback(): void {
+        if (!this.rendered) {
+            this.render();
+            this.rendered = true;
+        }
+    }
+
+    private render(): void {
+        this.innerHTML = html`
+            ${this.isPlaying
+                ? '<button class="control-hoverable" is="button-pause"></button>'
+                : '<button class="control-hoverable" is="button-play"></button>'}
+            ${this.muted
+                ? '<button class="control-hoverable" is="button-unmute"></button>'
+                : '<button class="control-hoverable" is="button-mute"></button>'}
+            <div class="spacer"></div>
+            <button class="control-hoverable" is="button-load-ad"></button>
+        `;
     }
 
     private handleClick(event: Event): void {

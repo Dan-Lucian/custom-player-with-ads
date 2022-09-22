@@ -9,37 +9,13 @@ import poster from '../../../assets/poster.bmp';
 // cause if it's fired it means the metadata has already been loaded
 // TODO: "timeupdate" event + video.currentTime to update the progress bar
 export default class PlayerOnboarding extends HTMLElement {
-    public src = '';
-
-    public muted = false;
-
-    public autoplay = false;
-
-    public width = '500';
-
+    private rendered = false;
     private shadow: ShadowRoot;
 
-    private rendered = false;
-
-    get videoElement(): HTMLVideoElement | null {
-        if (this.shadow) {
-            return this.shadow.getElementById('player-onboarding') as HTMLVideoElement;
-        }
-
-        return null;
-    }
-
-    get playerAd(): HTMLElement | null {
-        if (this.shadow) {
-            return this.shadow.getElementById('player-ad');
-        }
-
-        return null;
-    }
-
-    static get observedAttributes(): string[] {
-        return ['src', 'width', 'muted', 'autoplay'];
-    }
+    public autoplay = false;
+    public muted = false;
+    public src = '';
+    public width = '500';
 
     constructor() {
         super();
@@ -54,38 +30,24 @@ export default class PlayerOnboarding extends HTMLElement {
         this.addEventListener(EnumEventPlayer.EndAd, this.hideAd);
     }
 
-    private render(): void {
-        const autoplay = this.autoplay ? 'autoplay' : '';
-        const muted = this.muted ? 'muted' : '';
-
-        if (this.shadow) {
-            this.shadow.innerHTML = html`
-                <style>
-                    ${styles}
-                </style>
-
-                <video
-                    ${autoplay}
-                    ${muted}
-                    src=${this.src}
-                    width=${this.width}
-                    id="player-onboarding"
-                    poster=${poster}
-                    preload="metadata"
-                >
-                    Player not supported
-                </video>
-                <controls-player ${autoplay} ${muted}></controls-player>
-                <player-ad hidden id="player-ad"></player-ad>
-            `;
-        }
+    public static get observedAttributes(): string[] {
+        return ['src', 'width', 'muted', 'autoplay'];
     }
 
-    public connectedCallback(): void {
-        if (!this.rendered) {
-            this.render();
-            this.rendered = true;
+    public get playerAd(): HTMLElement | null {
+        if (this.shadow) {
+            return this.shadow.getElementById('player-ad');
         }
+
+        return null;
+    }
+
+    public get videoElement(): HTMLVideoElement | null {
+        if (this.shadow) {
+            return this.shadow.getElementById('player-onboarding') as HTMLVideoElement;
+        }
+
+        return null;
     }
 
     public attributeChangedCallback(property: string, oldValue: unknown, newValue: unknown): void {
@@ -115,12 +77,43 @@ export default class PlayerOnboarding extends HTMLElement {
         this.render();
     }
 
-    private play(): void {
-        this.videoElement?.play();
+    public connectedCallback(): void {
+        if (!this.rendered) {
+            this.render();
+            this.rendered = true;
+        }
     }
 
-    private pause(): void {
-        this.videoElement?.pause();
+    private render(): void {
+        const autoplay = this.autoplay ? 'autoplay' : '';
+        const muted = this.muted ? 'muted' : '';
+
+        if (this.shadow) {
+            this.shadow.innerHTML = html`
+                <style>
+                    ${styles}
+                </style>
+
+                <video
+                    ${autoplay}
+                    ${muted}
+                    src=${this.src}
+                    width=${this.width}
+                    id="player-onboarding"
+                    poster=${poster}
+                    preload="metadata"
+                >
+                    Player not supported
+                </video>
+                <controls-player ${autoplay} ${muted}></controls-player>
+                <player-ad hidden id="player-ad"></player-ad>
+            `;
+        }
+    }
+
+    private hideAd(): void {
+        this.playerAd?.setAttribute('hidden', '');
+        this.play();
     }
 
     private mute(): void {
@@ -129,10 +122,12 @@ export default class PlayerOnboarding extends HTMLElement {
         }
     }
 
-    private unmute(): void {
-        if (this.videoElement) {
-            this.videoElement.muted = false;
-        }
+    private pause(): void {
+        this.videoElement?.pause();
+    }
+
+    private play(): void {
+        this.videoElement?.play();
     }
 
     private renderAd(): void {
@@ -140,9 +135,10 @@ export default class PlayerOnboarding extends HTMLElement {
         this.playerAd?.removeAttribute('hidden');
     }
 
-    private hideAd(): void {
-        this.playerAd?.setAttribute('hidden', '');
-        this.play();
+    private unmute(): void {
+        if (this.videoElement) {
+            this.videoElement.muted = false;
+        }
     }
 }
 

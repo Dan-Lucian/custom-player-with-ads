@@ -4,45 +4,16 @@ import styles from './FormPlayer.styles';
 export default class FormPlayer extends HTMLFormElement {
     private rendered = false;
 
-    static get videoElement(): Element | null {
-        return document.getElementsByTagName('player-onboarding')[0] || null;
-    }
-
     constructor() {
         super();
         this.addEventListener('submit', FormPlayer.handleSubmit);
     }
 
-    private render(): void {
-        this.innerHTML = html`
-            <style>
-              ${styles}
-            </style>
-
-            <label for="input-src">Video link:</label>
-            <input type="text" id="input-src" name="src"></input>
-            
-            <label for="input-width">Width:</label>
-            <input type="number" id="input-width" name="width"></input>
-
-            <label for="input-autoplay">Autoplay</label>
-            <input type="checkbox" id="input-autoplay" name="autoplay"></input>
-            
-            <label for="input-muted">Muted:</label>
-            <input type="checkbox" id="input-muted" name="muted"></input>
-
-            <button type="submit">Load</button>
-        `;
+    public static get videoElement(): Element | null {
+        return document.getElementsByTagName('player-onboarding')[0] || null;
     }
 
-    public connectedCallback(): void {
-        if (!this.rendered) {
-            this.render();
-            this.rendered = true;
-        }
-    }
-
-    static handleSubmit(event: Event): void {
+    public static handleSubmit(event: Event): void {
         event.preventDefault();
 
         const dataFromForm = new FormData(event.target as HTMLFormElement);
@@ -71,6 +42,35 @@ export default class FormPlayer extends HTMLFormElement {
         } else {
             FormPlayer.videoElement?.removeAttribute('muted');
         }
+    }
+
+    public connectedCallback(): void {
+        if (!this.rendered) {
+            this.render();
+            this.rendered = true;
+        }
+    }
+
+    private render(): void {
+        this.innerHTML = html`
+            <style>
+              ${styles}
+            </style>
+
+            <label for="input-src">Video link:</label>
+            <input type="text" id="input-src" name="src"></input>
+            
+            <label for="input-width">Width:</label>
+            <input type="number" id="input-width" name="width"></input>
+
+            <label for="input-autoplay">Autoplay</label>
+            <input type="checkbox" id="input-autoplay" name="autoplay"></input>
+            
+            <label for="input-muted">Muted:</label>
+            <input type="checkbox" id="input-muted" name="muted"></input>
+
+            <button type="submit">Load</button>
+        `;
     }
 }
 

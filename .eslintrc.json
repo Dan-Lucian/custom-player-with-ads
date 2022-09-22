@@ -29,12 +29,12 @@
     },
     "ignorePatterns": ["**/*.test.ts", "public/", "webpack.*"],
     "rules": {
+        "no-console": "off",
         "lines-between-class-members": "off",
         "camelcase": "off",
         "import/extensions": "off",
         "max-len": ["error", { "code": 120 }],
         "no-restricted-syntax": "off",
-        "no-console": 2,
         "no-alert": 2,
         "comma-dangle": ["error", "never"],
         "no-use-before-define": [
