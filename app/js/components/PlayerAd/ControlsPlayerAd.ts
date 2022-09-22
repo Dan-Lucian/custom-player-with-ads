@@ -85,6 +85,8 @@ export default class ControlsPlayerAd extends HTMLElement {
             );
             this.isPlaying = false;
             this.render();
+
+            return;
         }
 
         if (is === 'button-mute-ad') {
