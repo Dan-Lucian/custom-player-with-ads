@@ -2,21 +2,13 @@ import styles from './PlayerAdIframe.styles';
 import './ButtonSkipAd';
 import './ControlsPlayerAd';
 import IWindowIframe from '../../interfaces/IWindowIframe';
-import IVPAIDCreative from '../../interfaces/IVPAIDCreative';
-import EnumEventVPAID from '../../enums/EnumEventVPAID';
 import EnumEventPlayerAd from '../../enums/EnumEventPlayerAd';
-import EnumEventPlayer from '../../enums/EnumEventPlayer';
+import WrapperVPAID from './WrapperVPAID';
 
 export default class PlayerAdIframe extends HTMLElement {
-    private rendered = false;
-
     private dataSrc = '';
-
-    private VPAIDCreative: IVPAIDCreative | null = null;
-
-    static get observedAttributes(): string[] {
-        return ['data-src'];
-    }
+    private rendered = false;
+    private wrapperVPAID: WrapperVPAID | null = null;
 
     constructor() {
         super();
@@ -28,76 +20,8 @@ export default class PlayerAdIframe extends HTMLElement {
         this.addEventListener(EnumEventPlayerAd.SkipAdPlayerAd, this.skipAd);
     }
 
-    private render(): void {
-        const styleElement = document.createElement('style');
-        styleElement.innerHTML = styles;
-
-        const slotAd = document.createElement('div');
-        slotAd.id = 'slot-ad';
-
-        const controlsPlayerAd = document.createElement('controls-player-ad');
-        controlsPlayerAd.setAttribute('autoplay', '');
-
-        const iframe = document.createElement('iframe');
-        iframe.onload = (): void => {
-            if (iframe.contentDocument) {
-                const scriptVPAID = document.createElement('script');
-                scriptVPAID.src = this.dataSrc;
-                scriptVPAID.onload = (): void => {
-                    const VPAIDCreative = (iframe.contentWindow as IWindowIframe).getVPAIDAd();
-                    console.log('VPAIDCreative: ', VPAIDCreative);
-                    this.VPAIDCreative = VPAIDCreative;
-
-                    const handleAdLoaded = (): void => {
-                        VPAIDCreative.startAd();
-                    };
-
-                    const handleAdStarted = (): void => {
-                        console.log('EVENT CAUGHT: AdStarted');
-                    };
-
-                    const handleAdVideoComplete = (): void => {
-                        console.log('EVENT DISPTACHED: end-ad');
-                        this.dispatchEvent(
-                            new CustomEvent(EnumEventPlayer.EndAd, {
-                                bubbles: true,
-                                composed: true
-                            })
-                        );
-                    };
-
-                    VPAIDCreative.subscribe(handleAdLoaded, EnumEventVPAID.AdLoaded);
-                    VPAIDCreative.subscribe(handleAdStarted, EnumEventVPAID.AdStarted);
-                    VPAIDCreative.subscribe(handleAdVideoComplete, EnumEventVPAID.AdVideoComplete);
-
-                    const versionVPAID = VPAIDCreative.handshakeVersion();
-                    console.log('handshake: versionVPAID: ', versionVPAID);
-
-                    VPAIDCreative.initAd(
-                        Number(slotAd.style.width),
-                        Number(slotAd.style.height),
-                        'normal',
-                        5000,
-                        null,
-                        {
-                            slot: slotAd,
-                            videoSlotCanAutoPlay: true
-                        }
-                    );
-                };
-
-                iframe.contentDocument.head.replaceChildren(scriptVPAID);
-            }
-        };
-
-        this.replaceChildren(styleElement, iframe, slotAd, controlsPlayerAd);
-    }
-
-    public async connectedCallback(): Promise<void> {
-        if (!this.rendered) {
-            this.render();
-            this.rendered = true;
-        }
+    public static get observedAttributes(): string[] {
+        return ['data-src'];
     }
 
     public async attributeChangedCallback(
@@ -119,37 +43,62 @@ export default class PlayerAdIframe extends HTMLElement {
         this.render();
     }
 
-    private play(): void {
-        this.VPAIDCreative?.resumeAd();
+    public async connectedCallback(): Promise<void> {
+        if (!this.rendered) {
+            this.render();
+            this.rendered = true;
+        }
     }
 
-    private pause(): void {
-        this.VPAIDCreative?.pauseAd();
+    private render(): void {
+        const styleElement = document.createElement('style');
+        styleElement.innerHTML = styles;
+
+        const slotAd = document.createElement('div');
+        slotAd.id = 'slot-ad';
+
+        const controlsPlayerAd = document.createElement('controls-player-ad');
+        controlsPlayerAd.setAttribute('autoplay', '');
+
+        const iframe = document.createElement('iframe');
+        iframe.onload = (): void => this.handleIframeLoad(iframe, slotAd);
+
+        this.replaceChildren(styleElement, iframe, slotAd, controlsPlayerAd);
+    }
+
+    private handleIframeLoad(iframe: HTMLIFrameElement, slotAd: HTMLDivElement): void {
+        if (iframe.contentDocument) {
+            const scriptVPAID = document.createElement('script');
+            scriptVPAID.src = this.dataSrc;
+            scriptVPAID.onload = (): void => {
+                const VPAID = (iframe.contentWindow as IWindowIframe).getVPAIDAd();
+
+                this.wrapperVPAID = new WrapperVPAID(VPAID, this, slotAd);
+                this.wrapperVPAID.init();
+            };
+
+            iframe.contentDocument.head.replaceChildren(scriptVPAID);
+        }
     }
 
     private mute(): void {
-        if (this.VPAIDCreative) {
-            // seems like changing volume is not supported since the first getter value is undefined
-            console.log('setting volume to 0 from current: ', this.VPAIDCreative.adVolume);
-            this.VPAIDCreative.adVolume = 0;
-        }
+        this.wrapperVPAID?.mute();
     }
 
-    private unmute(): void {
-        if (this.VPAIDCreative) {
-            console.log('setting volume to 1 from curent:', this.VPAIDCreative.adVolume);
-            this.VPAIDCreative.adVolume = 1;
-        }
+    private pause(): void {
+        this.wrapperVPAID?.pause();
+    }
+
+    private play(): void {
+        this.wrapperVPAID?.play();
     }
 
     private skipAd(): void {
-        this.VPAIDCreative?.skipAd();
-        this.dispatchEvent(
-            new CustomEvent(EnumEventPlayer.SkipAdPlayerOnboarding, {
-                bubbles: true,
-                composed: true
-            })
-        );
+        this.wrapperVPAID?.skipAd();
+    }
+
+    private unmute(): void {
+        this.wrapperVPAID?.unmute();
     }
 }
 
