@@ -13,9 +13,12 @@ export default class WrapperVPAID {
         this.nodeSlot = nodeSlot;
 
         if (this.VPAID) {
-            this.VPAID.subscribe(this.handleAdLoaded, EnumEventVPAID.AdLoaded);
+            this.VPAID.subscribe(this.handleAdLoaded.bind(this), EnumEventVPAID.AdLoaded);
             this.VPAID.subscribe(WrapperVPAID.handleAdStarted, EnumEventVPAID.AdStarted);
-            this.VPAID.subscribe(this.handleAdVideoComplete, EnumEventVPAID.AdVideoComplete);
+            this.VPAID.subscribe(
+                this.handleAdVideoComplete.bind(this),
+                EnumEventVPAID.AdVideoComplete
+            );
         }
     }
 
