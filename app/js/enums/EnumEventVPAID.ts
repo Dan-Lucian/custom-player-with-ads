@@ -1,4 +1,4 @@
-enum EnumEventsVPAID {
+enum EnumEventVPAID {
     AdLoaded = 'AdLoaded',
     AdStarted = 'AdStarted',
     AdStopped = 'AdStopped',
@@ -27,4 +27,4 @@ enum EnumEventsVPAID {
     AdError = 'AdError'
 }
 
-export default EnumEventsVPAID;
+export default EnumEventVPAID;
