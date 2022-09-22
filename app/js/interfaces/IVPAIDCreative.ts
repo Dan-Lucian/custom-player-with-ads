@@ -1,14 +1,15 @@
+/* eslint-disable no-unused-vars */
 interface VPAIDCreative {
-    handshakeVersion: () => void;
+    handshakeVersion: () => string;
     initAd: (
         width: number,
         height: number,
         viewMode: 'normal' | 'thumbnail' | 'fullscreen',
         desiredBitrate: number,
-        creativeData: Object | null,
+        creativeData: { prop: string } | null,
         environmentVars: {
             videoSlot?: HTMLVideoElement;
-            slot?: HTMLDivElement;
+            slot: HTMLDivElement | null;
             videoSlotCanAutoPlay: boolean;
         } | null
     ) => void;
