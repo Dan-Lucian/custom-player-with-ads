@@ -1,6 +1,6 @@
 /* eslint-disable no-unused-vars */
 interface VPAIDCreative {
-    handshakeVersion: () => string;
+    handshakeVersion: (version: string) => string;
     initAd: (
         width: number,
         height: number,

@@ -23,7 +23,7 @@ export default class WrapperVPAID {
     }
 
     public get version(): string {
-        return this.VPAID?.handshakeVersion() || '';
+        return this.VPAID?.handshakeVersion('2.0') || '';
     }
 
     public init(): void {
