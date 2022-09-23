@@ -1,16 +1,30 @@
-import html from '../../utils/html';
 import styles from './PlayerAdVideo.styles';
-import './ButtonSkipAd';
+import './ControlsPlayerAd';
+import EnumEventPlayerAd from '../../enums/EnumEventPlayerAd';
+import EnumEventPlayer from '../../enums/EnumEventPlayer';
 
 export default class PlayerAdVideo extends HTMLElement {
+    private dataSrc = '';
     private rendered = false;
+    private autoplay = false;
+    private muted = false;
 
-    public static get observedAttributes(): string[] {
-        return ['hidden'];
+    constructor() {
+        super();
+
+        this.addEventListener(EnumEventPlayerAd.PlayPlayerAd, this.play);
+        this.addEventListener(EnumEventPlayerAd.PausePlayerAd, this.pause);
+        this.addEventListener(EnumEventPlayerAd.MutePlayerAd, this.mute);
+        this.addEventListener(EnumEventPlayerAd.UnmutePlayerAd, this.unmute);
+        this.addEventListener(EnumEventPlayerAd.SkipAdPlayerAd, this.skipAd);
     }
 
-    public static get videoElement(): Element | null {
-        return document.getElementsByTagName('player-ad')[0] || null;
+    private get videoElement(): HTMLVideoElement | null {
+        return this.querySelector('#player-ad') || null;
+    }
+
+    public static get observedAttributes(): string[] {
+        return ['data-src'];
     }
 
     public async attributeChangedCallback(
@@ -19,6 +33,15 @@ export default class PlayerAdVideo extends HTMLElement {
         newValue: unknown
     ): Promise<void> {
         if (oldValue === newValue) return;
+
+        switch (property) {
+            case 'data-src':
+                this.dataSrc = String(newValue);
+                break;
+
+            default:
+                break;
+        }
 
         this.render();
     }
@@ -31,14 +54,62 @@ export default class PlayerAdVideo extends HTMLElement {
     }
 
     private render(): void {
-        this.innerHTML = html`
-            <style>
-                ${styles}
-            </style>
+        const styleElement = document.createElement('style');
+        styleElement.innerHTML = styles;
 
-            <video id="player-ad" preload="metadata">Player not supported</video>
-            <button is="button-skip-ad"></button>
-        `;
+        const controlsPlayerAd = document.createElement('controls-player-ad');
+        controlsPlayerAd.setAttribute('autoplay', '');
+        controlsPlayerAd.setAttribute('hidden', '');
+
+        const video = document.createElement('video');
+        const source = document.createElement('source');
+        source.src = this.dataSrc;
+        video.appendChild(source);
+        video.autoplay = this.autoplay;
+        video.muted = this.muted;
+        video.id = 'player-ad';
+        video.preload = 'metadata';
+        video.oncanplaythrough = (): void => this.handleVideoLoad(controlsPlayerAd);
+
+        this.replaceChildren(styleElement, video, controlsPlayerAd);
+    }
+
+    private handleVideoLoad(controlsPlayerAd: HTMLElement): void {
+        console.log('EVENT: video load');
+        controlsPlayerAd.removeAttribute('hidden');
+        this.play();
+    }
+
+    private mute(): void {
+        if (this.videoElement) {
+            this.videoElement.muted = true;
+        }
+    }
+
+    private pause(): void {
+        this.videoElement?.pause();
+    }
+
+    private play(): void {
+        this.videoElement?.play();
+    }
+
+    private unmute(): void {
+        if (this.videoElement) {
+            this.videoElement.muted = false;
+        }
+    }
+
+    private skipAd(): void {
+        console.log('EVENT DISPATCHED: ', EnumEventPlayer.SkipAdPlayerOnboarding);
+        this.dataSrc = '';
+        this.render();
+        this.dispatchEvent(
+            new CustomEvent(EnumEventPlayer.SkipAdPlayerOnboarding, {
+                bubbles: true,
+                composed: true
+            })
+        );
     }
 }
 

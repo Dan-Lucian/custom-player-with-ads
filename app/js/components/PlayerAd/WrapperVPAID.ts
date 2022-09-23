@@ -22,12 +22,8 @@ export default class WrapperVPAID {
         }
     }
 
-    public get versionVPAID(): string {
+    public get version(): string {
         return this.VPAID?.handshakeVersion() || '';
-    }
-
-    public static handleAdStarted(): void {
-        console.log('EVENT CAUGHT: AdStarted');
     }
 
     public init(): void {
@@ -39,7 +35,7 @@ export default class WrapperVPAID {
             null,
             {
                 slot: this.nodeSlot,
-                videoSlotCanAutoPlay: true
+                videoSlotCanAutoPlay: false
             }
         );
     }
@@ -49,6 +45,13 @@ export default class WrapperVPAID {
             // seems like changing volume is not supported since the first getter value is undefined
             console.log('setting volume to 0 from current: ', this.VPAID.adVolume);
             this.VPAID.adVolume = 0;
+        }
+    }
+
+    public unmute(): void {
+        if (this.VPAID) {
+            console.log('setting volume to 1 from curent:', this.VPAID.adVolume);
+            this.VPAID.adVolume = 1;
         }
     }
 
@@ -70,14 +73,12 @@ export default class WrapperVPAID {
         );
     }
 
-    public unmute(): void {
-        if (this.VPAID) {
-            console.log('setting volume to 1 from curent:', this.VPAID.adVolume);
-            this.VPAID.adVolume = 1;
-        }
+    public static handleAdStarted(): void {
+        console.log('EVENT CAUGHT: AdStarted');
     }
 
     private handleAdLoaded(): void {
+        console.log('EVENT CAUGHT: AdLoaded');
         this.VPAID?.startAd();
     }
 

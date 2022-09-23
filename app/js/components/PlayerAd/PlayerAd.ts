@@ -54,7 +54,9 @@ export default class PlayerAd extends HTMLElement {
 
             ${this.vastObj && this.vastObj.isVPAID
                 ? html`<player-ad-iframe data-src="${this.vastObj.linkMedia}"></player-ad-iframe>`
-                : html`<player-ad-video></player-ad-video>`}
+                : html`<player-ad-video
+                      data-src="${this.vastObj?.linkMedia || ''}"
+                  ></player-ad-video>`}
         `;
     }
 

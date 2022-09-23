@@ -17,18 +17,6 @@ const styles = css`
     player-ad-video video {
         width: 100%;
     }
-
-    [is='button-skip-ad'] {
-        background: rgba(0, 0, 0, 0.7);
-        padding: 10px 20px;
-        font-size: 20px;
-        border: none;
-        cursor: pointer;
-        color: #fff;
-        position: absolute;
-        right: 0;
-        bottom: 15%;
-    }
 `;
 
 export default styles;

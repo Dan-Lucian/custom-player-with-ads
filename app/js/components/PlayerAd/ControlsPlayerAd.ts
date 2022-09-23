@@ -5,6 +5,7 @@ import './ButtonPauseAd';
 import './ButtonMuteAd';
 import './ButtonUnmuteAd';
 import './ButtonSkipAd';
+import styles from './ControlsPlayerAd.styles';
 
 export default class ControlsPlayerAd extends HTMLElement {
     private isPlaying = false;
@@ -48,6 +49,10 @@ export default class ControlsPlayerAd extends HTMLElement {
 
     private render(): void {
         this.innerHTML = html`
+            <style>
+                ${styles}
+            </style>
+
             ${this.isPlaying
                 ? '<button class="control-hoverable" is="button-pause-ad"></button>'
                 : '<button class="control-hoverable" is="button-play-ad"></button>'}
