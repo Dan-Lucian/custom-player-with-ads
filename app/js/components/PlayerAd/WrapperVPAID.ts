@@ -73,12 +73,12 @@ export default class WrapperVPAID {
         );
     }
 
-    public static handleAdStarted(): void {
-        console.log('EVENT CAUGHT: AdStarted');
+    private static handleAdStarted(): void {
+        console.log('SUBSCRIPTION HEARD: AdStarted');
     }
 
     private handleAdLoaded(): void {
-        console.log('EVENT CAUGHT: AdLoaded');
+        console.log('SUBSCRIPTION HEARD: AdLoaded');
         this.VPAID?.startAd();
     }
 

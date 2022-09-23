@@ -18,6 +18,7 @@ interface VPAIDCreative {
     resumeAd: () => void;
     pauseAd: () => void;
     skipAd: () => void;
+    adRemainingTime: string;
     set adVolume(volume: number);
     get adVolume(): number;
 }
