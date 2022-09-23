@@ -69,13 +69,13 @@ export default class PlayerAdVideo extends HTMLElement {
         video.muted = this.muted;
         video.id = 'player-ad';
         video.preload = 'metadata';
-        video.oncanplaythrough = (): void => this.handleVideoLoad(controlsPlayerAd);
+        video.oncanplay = (): void => this.handleVideoLoad(controlsPlayerAd);
 
         this.replaceChildren(styleElement, video, controlsPlayerAd);
     }
 
     private handleVideoLoad(controlsPlayerAd: HTMLElement): void {
-        console.log('EVENT: video load');
+        console.log('EVENT HEARD: canplay');
         controlsPlayerAd.removeAttribute('hidden');
         this.play();
     }
