@@ -9,6 +9,10 @@ import './PlayerAdVideo';
 export default class PlayerAd extends HTMLElement {
     private rendered = false;
     private vastObj: IInfoVast | null = null;
+    private whenLoaded = Promise.all([
+        customElements.whenDefined('player-ad-video'),
+        customElements.whenDefined('player-ad-iframe')
+    ]);
 
     public static get observedAttributes(): string[] {
         return ['hidden'];
@@ -36,17 +40,21 @@ export default class PlayerAd extends HTMLElement {
                 break;
         }
 
+        if (!this.rendered) return;
         this.render();
     }
 
-    public async connectedCallback(): Promise<void> {
-        if (!this.rendered) {
-            this.render();
-            this.rendered = true;
-        }
+    public connectedCallback(): void {
+        this.whenLoaded.then(() => {
+            if (!this.rendered) {
+                this.render();
+                this.rendered = true;
+            }
+        });
     }
 
     private render(): void {
+        console.log('RENDER: <player-ad>');
         this.innerHTML = html`
             <style>
                 ${styles}

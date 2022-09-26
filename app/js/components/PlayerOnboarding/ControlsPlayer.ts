@@ -1,15 +1,22 @@
 import EnumEventPlayer from '../../enums/EnumEventPlayer';
 import './ButtonPlay';
-import './ButtonLoadAd';
 import './ButtonPause';
 import './ButtonMute';
 import './ButtonUnmute';
+import './ButtonLoadAd';
 import html from '../../utils/html';
 
 export default class ControlsPlayer extends HTMLElement {
     private isPlaying = false;
     private muted = false;
     private rendered = false;
+    private whenLoaded = Promise.all([
+        customElements.whenDefined('button-pause'),
+        customElements.whenDefined('button-play'),
+        customElements.whenDefined('button-unmute'),
+        customElements.whenDefined('button-mute'),
+        customElements.whenDefined('button-load-ad')
+    ]);
 
     constructor() {
         super();
@@ -36,17 +43,21 @@ export default class ControlsPlayer extends HTMLElement {
                 break;
         }
 
+        if (!this.rendered) return;
         this.render();
     }
 
     public connectedCallback(): void {
-        if (!this.rendered) {
-            this.render();
-            this.rendered = true;
-        }
+        this.whenLoaded.then(() => {
+            if (!this.rendered) {
+                this.render();
+                this.rendered = true;
+            }
+        });
     }
 
     private render(): void {
+        console.log('RENDER: <controls-player>');
         this.innerHTML = html`
             ${this.isPlaying
                 ? '<button class="control-hoverable" is="button-pause"></button>'

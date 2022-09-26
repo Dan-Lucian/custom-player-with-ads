@@ -11,6 +11,13 @@ export default class ControlsPlayerAd extends HTMLElement {
     private isPlaying = false;
     private muted = false;
     private rendered = false;
+    private whenLoaded = Promise.all([
+        customElements.whenDefined('button-pause-ad'),
+        customElements.whenDefined('button-play-ad'),
+        customElements.whenDefined('button-unmute-ad'),
+        customElements.whenDefined('button-mute-ad'),
+        customElements.whenDefined('button-skip-ad')
+    ]);
 
     constructor() {
         super();
@@ -37,17 +44,21 @@ export default class ControlsPlayerAd extends HTMLElement {
                 break;
         }
 
+        if (!this.rendered) return;
         this.render();
     }
 
     public connectedCallback(): void {
-        if (!this.rendered) {
-            this.render();
-            this.rendered = true;
-        }
+        this.whenLoaded.then(() => {
+            if (!this.rendered) {
+                this.render();
+                this.rendered = true;
+            }
+        });
     }
 
     private render(): void {
+        console.log('RENDER: <controls-player-ad>');
         this.innerHTML = html`
             <style>
                 ${styles}

@@ -1,5 +1,4 @@
 import styles from './PlayerAdIframe.styles';
-import './ButtonSkipAd';
 import './ControlsPlayerAd';
 import IWindowIframe from '../../interfaces/IWindowIframe';
 import EnumEventPlayerAd from '../../enums/EnumEventPlayerAd';
@@ -9,6 +8,7 @@ export default class PlayerAdIframe extends HTMLElement {
     private dataSrc = '';
     private rendered = false;
     private wrapperVPAID: WrapperVPAID | null = null;
+    private whenLoaded = Promise.all([customElements.whenDefined('controls-player-ad')]);
 
     constructor() {
         super();
@@ -40,17 +40,21 @@ export default class PlayerAdIframe extends HTMLElement {
                 break;
         }
 
+        if (!this.rendered) return;
         this.render();
     }
 
-    public async connectedCallback(): Promise<void> {
-        if (!this.rendered) {
-            this.render();
-            this.rendered = true;
-        }
+    public connectedCallback(): void {
+        this.whenLoaded.then(() => {
+            if (!this.rendered) {
+                this.render();
+                this.rendered = true;
+            }
+        });
     }
 
     private render(): void {
+        console.log('RENDER: <player-ad-iframe>');
         const styleElement = document.createElement('style');
         styleElement.innerHTML = styles;
 

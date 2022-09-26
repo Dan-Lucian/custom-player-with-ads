@@ -8,11 +8,17 @@ if (process.env.NODE_ENV !== 'production') {
     console.log('Looks like we are in development mode!');
 }
 
-const root = document.getElementById('root');
+const whenLoaded = Promise.all([
+    customElements.whenDefined('player-onboarding'),
+    customElements.whenDefined('form-player')
+]);
 
-if (root) {
-    root.innerHTML = html`
-        <player-onboarding src=${video}></player-onboarding>
-        <form is="form-player"></form>
-    `;
-}
+whenLoaded.then(() => {
+    const root = document.getElementById('root');
+    if (root) {
+        root.innerHTML = html`
+            <player-onboarding src=${video}></player-onboarding>
+            <form is="form-player"></form>
+        `;
+    }
+});

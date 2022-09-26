@@ -8,6 +8,7 @@ export default class PlayerAdVideo extends HTMLElement {
     private rendered = false;
     private autoplay = false;
     private muted = false;
+    private whenLoaded = Promise.all([customElements.whenDefined('controls-player-ad')]);
 
     constructor() {
         super();
@@ -43,17 +44,21 @@ export default class PlayerAdVideo extends HTMLElement {
                 break;
         }
 
+        if (!this.rendered) return;
         this.render();
     }
 
-    public async connectedCallback(): Promise<void> {
-        if (!this.rendered) {
-            this.render();
-            this.rendered = true;
-        }
+    public connectedCallback(): void {
+        this.whenLoaded.then(() => {
+            if (!this.rendered) {
+                this.render();
+                this.rendered = true;
+            }
+        });
     }
 
     private render(): void {
+        console.log('RENDER: <player-ad-video>');
         const styleElement = document.createElement('style');
         styleElement.innerHTML = styles;
 

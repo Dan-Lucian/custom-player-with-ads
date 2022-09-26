@@ -11,10 +11,14 @@ import poster from '../../../assets/poster.bmp';
 export default class PlayerOnboarding extends HTMLElement {
     private rendered = false;
     private shadow: ShadowRoot;
+    private whenLoaded = Promise.all([
+        customElements.whenDefined('player-ad'),
+        customElements.whenDefined('controls-player')
+    ]);
 
     public autoplay = false;
     public muted = false;
-    public src = '';
+    public src = '/';
     public width = '500';
 
     constructor() {
@@ -74,17 +78,22 @@ export default class PlayerOnboarding extends HTMLElement {
                 break;
         }
 
+        if (!this.rendered) return;
         this.render();
     }
 
     public connectedCallback(): void {
-        if (!this.rendered) {
-            this.render();
-            this.rendered = true;
-        }
+        this.whenLoaded.then(() => {
+            console.log('LOADED: <player-ad>');
+            if (!this.rendered) {
+                this.render();
+                this.rendered = true;
+            }
+        });
     }
 
     private render(): void {
+        console.log('RENDER: <player-onboarding>');
         const autoplay = this.autoplay ? 'autoplay' : '';
         const muted = this.muted ? 'muted' : '';
 
