@@ -3,11 +3,9 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
     context: path.join(__dirname, 'app'),
-    entry: ['./js/App.ts'],
-    output: {
-        path: path.join(__dirname, 'dist'),
-        filename: 'bundle.js',
-        assetModuleFilename: 'assets/[hash][ext][query]'
+    entry: {
+        player: './js/App.ts',
+        init: './js/init.ts'
     },
     module: {
         rules: [

@@ -102,7 +102,6 @@ export default class PlayerOnboarding extends HTMLElement {
                 <style>
                     ${styles}
                 </style>
-
                 <video
                     ${autoplay}
                     ${muted}
