@@ -77,6 +77,10 @@ const styles = css`
         top: 50%;
     }
 
+    .rotated180 {
+        transform: rotate(180deg);
+    }
+
     .spacer {
         flex-grow: 1;
     }

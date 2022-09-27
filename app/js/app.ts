@@ -2,7 +2,6 @@ import html from './utils/html';
 import '../css/main.scss';
 import './components/PlayerOnboarding';
 import './components/FormPlayer';
-import video from '../assets/video.mp4';
 import IWindowWithPlayerInitialization from './interfaces/IWindowWithPlayerInitialization';
 
 console.log('FILE: App.ts');
@@ -13,12 +12,16 @@ if (process.env.NODE_ENV !== 'production') {
 
 const windowWithPlayerInitialization: IWindowWithPlayerInitialization = window;
 
-windowWithPlayerInitialization.initializePlayer = (): void => {
-    const root = document.getElementById('root');
+windowWithPlayerInitialization.initializePlayer = ({ selector, playlist }): void => {
+    const root = document.querySelector(selector);
+    const template = html`
+        <player-onboarding playlist=${playlist.join()}></player-onboarding>
+        <form is="form-player"></form>
+    `;
+
     if (root) {
-        root.innerHTML = html`
-            <player-onboarding src=${video}></player-onboarding>
-            <form is="form-player"></form>
-        `;
+        root.innerHTML = template;
+    } else {
+        document.currentScript?.parentElement?.insertAdjacentHTML('beforeend', template);
     }
 };

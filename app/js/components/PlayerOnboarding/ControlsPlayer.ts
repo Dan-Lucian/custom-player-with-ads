@@ -4,6 +4,8 @@ import './ButtonPause';
 import './ButtonMute';
 import './ButtonUnmute';
 import './ButtonLoadAd';
+import './ButtonPlayNext';
+import './ButtonPlayPrevious';
 import html from '../../utils/html';
 
 console.log('FILE: ControlsPlayer.ts');
@@ -52,9 +54,11 @@ export default class ControlsPlayer extends HTMLElement {
     private render(): void {
         console.log('RENDER: <controls-player>');
         this.innerHTML = html`
+            <button class="control-hoverable rotated180" is="button-play-previous"></button>
             ${this.isPlaying
                 ? '<button class="control-hoverable" is="button-pause"></button>'
                 : '<button class="control-hoverable" is="button-play"></button>'}
+            <button class="control-hoverable" is="button-play-next"></button>
             ${this.muted
                 ? '<button class="control-hoverable" is="button-unmute"></button>'
                 : '<button class="control-hoverable" is="button-mute"></button>'}
@@ -115,6 +119,24 @@ export default class ControlsPlayer extends HTMLElement {
             );
             this.muted = false;
             this.render();
+        }
+
+        if (is === 'button-play-next') {
+            this.dispatchEvent(
+                new CustomEvent(EnumEventPlayer.PlayNextPlayerOnboarding, {
+                    bubbles: true,
+                    composed: true
+                })
+            );
+        }
+
+        if (is === 'button-play-previous') {
+            this.dispatchEvent(
+                new CustomEvent(EnumEventPlayer.PlayPreviousPlayerOnboarding, {
+                    bubbles: true,
+                    composed: true
+                })
+            );
         }
 
         if (is === 'button-load-ad') {
