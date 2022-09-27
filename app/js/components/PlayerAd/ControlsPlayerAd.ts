@@ -11,13 +11,6 @@ export default class ControlsPlayerAd extends HTMLElement {
     private isPlaying = false;
     private muted = false;
     private rendered = false;
-    private whenLoaded = Promise.all([
-        customElements.whenDefined('button-pause-ad'),
-        customElements.whenDefined('button-play-ad'),
-        customElements.whenDefined('button-unmute-ad'),
-        customElements.whenDefined('button-mute-ad'),
-        customElements.whenDefined('button-skip-ad')
-    ]);
 
     constructor() {
         super();
@@ -49,12 +42,10 @@ export default class ControlsPlayerAd extends HTMLElement {
     }
 
     public connectedCallback(): void {
-        this.whenLoaded.then(() => {
-            if (!this.rendered) {
-                this.render();
-                this.rendered = true;
-            }
-        });
+        if (!this.rendered) {
+            this.render();
+            this.rendered = true;
+        }
     }
 
     private render(): void {
@@ -86,18 +77,6 @@ export default class ControlsPlayerAd extends HTMLElement {
                 })
             );
             this.isPlaying = true;
-            this.render();
-
-            return;
-        }
-
-        if (is === 'button-pause-ad') {
-            this.dispatchEvent(
-                new CustomEvent(EnumEventPlayerAd.PausePlayerAd, {
-                    bubbles: true
-                })
-            );
-            this.isPlaying = false;
             this.render();
 
             return;

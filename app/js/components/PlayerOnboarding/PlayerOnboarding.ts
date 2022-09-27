@@ -5,16 +5,14 @@ import '../PlayerAd';
 import styles from './PlayerOnboarding.styles';
 import poster from '../../../assets/poster.bmp';
 
+console.log('FILE: PlayerOnboarding.ts');
+
 // TODO: "timeupdate" event + video.duration to obtain the video duration
 // cause if it's fired it means the metadata has already been loaded
 // TODO: "timeupdate" event + video.currentTime to update the progress bar
 export default class PlayerOnboarding extends HTMLElement {
     private rendered = false;
     private shadow: ShadowRoot;
-    private whenLoaded = Promise.all([
-        customElements.whenDefined('player-ad'),
-        customElements.whenDefined('controls-player')
-    ]);
 
     public autoplay = false;
     public muted = false;
@@ -83,13 +81,10 @@ export default class PlayerOnboarding extends HTMLElement {
     }
 
     public connectedCallback(): void {
-        this.whenLoaded.then(() => {
-            console.log('LOADED: <player-ad>');
-            if (!this.rendered) {
-                this.render();
-                this.rendered = true;
-            }
-        });
+        if (!this.rendered) {
+            this.render();
+            this.rendered = true;
+        }
     }
 
     private render(): void {

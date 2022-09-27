@@ -8,7 +8,6 @@ export default class PlayerAdIframe extends HTMLElement {
     private dataSrc = '';
     private rendered = false;
     private wrapperVPAID: WrapperVPAID | null = null;
-    private whenLoaded = Promise.all([customElements.whenDefined('controls-player-ad')]);
 
     constructor() {
         super();
@@ -45,12 +44,10 @@ export default class PlayerAdIframe extends HTMLElement {
     }
 
     public connectedCallback(): void {
-        this.whenLoaded.then(() => {
-            if (!this.rendered) {
-                this.render();
-                this.rendered = true;
-            }
-        });
+        if (!this.rendered) {
+            this.render();
+            this.rendered = true;
+        }
     }
 
     private render(): void {

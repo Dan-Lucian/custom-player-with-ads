@@ -6,17 +6,12 @@ import './ButtonUnmute';
 import './ButtonLoadAd';
 import html from '../../utils/html';
 
+console.log('FILE: ControlsPlayer.ts');
+
 export default class ControlsPlayer extends HTMLElement {
     private isPlaying = false;
     private muted = false;
     private rendered = false;
-    private whenLoaded = Promise.all([
-        customElements.whenDefined('button-pause'),
-        customElements.whenDefined('button-play'),
-        customElements.whenDefined('button-unmute'),
-        customElements.whenDefined('button-mute'),
-        customElements.whenDefined('button-load-ad')
-    ]);
 
     constructor() {
         super();
@@ -48,12 +43,10 @@ export default class ControlsPlayer extends HTMLElement {
     }
 
     public connectedCallback(): void {
-        this.whenLoaded.then(() => {
-            if (!this.rendered) {
-                this.render();
-                this.rendered = true;
-            }
-        });
+        if (!this.rendered) {
+            this.render();
+            this.rendered = true;
+        }
     }
 
     private render(): void {
