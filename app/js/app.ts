@@ -24,4 +24,8 @@ windowWithPlayerInitialization.initializePlayer = ({ selector, playlist }): void
     } else {
         document.currentScript?.parentElement?.insertAdjacentHTML('beforeend', template);
     }
+
+    const script = document.createElement('script');
+    script.src = '//imasdk.googleapis.com/js/sdkloader/ima3.js';
+    document.head.insertAdjacentElement('beforeend', script);
 };

@@ -12,5 +12,5 @@
         "lib": ["es2019", "dom", "dom.iterable"]
     },
     "moduleDirectories": ["node_modules", "assets"],
-    "exclude": ["./node_modules", "./dist", "./app/js/vendors/"]
+    "exclude": ["./node_modules"]
 }

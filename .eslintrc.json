@@ -27,7 +27,7 @@
         "node": true,
         "jest": true
     },
-    "ignorePatterns": ["**/*.test.ts", "dist/", "webpack.*", "vendors/"],
+    "ignorePatterns": ["**/*.test.ts", "dist/", "webpack.*"],
     "rules": {
         "no-console": "off",
         "lines-between-class-members": "off",
