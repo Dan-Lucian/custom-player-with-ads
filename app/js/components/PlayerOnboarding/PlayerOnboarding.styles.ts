@@ -9,6 +9,11 @@ const styles = css`
         position: relative;
     }
 
+    #player-container {
+        bottom: 0;
+        right: 0;
+    }
+
     video {
         display: block;
     }

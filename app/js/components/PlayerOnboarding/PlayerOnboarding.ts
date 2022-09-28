@@ -11,13 +11,15 @@ console.log('FILE: PlayerOnboarding.ts');
 // TODO: "timeupdate" event + video.currentTime to update the progress bar
 export default class PlayerOnboarding extends HTMLElement {
     private rendered = false;
-    private shadow: ShadowRoot;
+    private shadow!: ShadowRoot;
     private playlist: string[] = [''];
     private currentVideo = 0;
     private autoplay = false;
     private isPlaying = false;
     private muted = false;
     private width = '500';
+    private isInView = true;
+    private observer: IntersectionObserver | null = null;
 
     constructor() {
         super();
@@ -38,23 +40,23 @@ export default class PlayerOnboarding extends HTMLElement {
         return ['width', 'muted', 'autoplay', 'playlist'];
     }
 
-    public get playerAd(): HTMLElement | null {
-        if (this.shadow) {
-            return this.shadow.getElementById('player-ad');
-        }
-
-        return null;
+    private get playerAd(): HTMLElement | null {
+        return this.shadow.getElementById('player-ad');
     }
 
-    public get videoElement(): HTMLVideoElement | null {
-        if (this.shadow) {
-            return this.shadow.getElementById('player-onboarding') as HTMLVideoElement;
-        }
-
-        return null;
+    private get videoElement(): HTMLVideoElement | null {
+        return this.shadow.getElementById('player-onboarding') as HTMLVideoElement | null;
     }
 
-    public attributeChangedCallback(property: string, oldValue: unknown, newValue: unknown): void {
+    private get playerContainer(): HTMLDivElement | null {
+        return this.shadow.getElementById('player-container') as HTMLDivElement | null;
+    }
+
+    private get playerPlaceholder(): HTMLDivElement | null {
+        return this.shadow.getElementById('player-placeholder') as HTMLDivElement | null;
+    }
+
+    private attributeChangedCallback(property: string, oldValue: unknown, newValue: unknown): void {
         if (oldValue === newValue) return;
 
         switch (property) {
@@ -85,8 +87,13 @@ export default class PlayerOnboarding extends HTMLElement {
     public connectedCallback(): void {
         if (!this.rendered) {
             this.render();
+            this.setupIntersectionObserver();
             this.rendered = true;
         }
+    }
+
+    public disconnectedCallback(): void {
+        this.observer?.unobserve(this);
     }
 
     private render(): void {
@@ -99,22 +106,55 @@ export default class PlayerOnboarding extends HTMLElement {
                 <style>
                     ${styles}
                 </style>
-                <video
-                    ${autoplay}
-                    ${muted}
-                    src=${this.playlist[this.currentVideo]}
-                    width=${this.width}
-                    id="player-onboarding"
-                    preload="metadata"
-                >
-                    Player not supported
-                </video>
-                <controls-player ${autoplay} ${muted}></controls-player>
-                <player-ad hidden id="player-ad"></player-ad>
+                <div id="player-placeholder">
+                    <div id="player-container">
+                        <video
+                            ${autoplay}
+                            ${muted}
+                            src=${this.playlist[this.currentVideo]}
+                            width=${this.width}
+                            id="player-onboarding"
+                            preload="metadata"
+                        >
+                            Player not supported
+                        </video>
+                        <controls-player ${autoplay} ${muted}></controls-player>
+                        <player-ad hidden id="player-ad"></player-ad>
+                    </div>
+                </div>
             `;
         }
 
         this.videoElement?.addEventListener('ended', this.playNext.bind(this));
+    }
+
+    private setupIntersectionObserver(): void {
+        if (!this.observer) {
+            this.observer = new IntersectionObserver(
+                ([entry]) => {
+                    this.handlePlayerVisibilityChange(entry.isIntersecting);
+                },
+                { threshold: 0.5 }
+            );
+        }
+
+        this.observer.observe(this);
+    }
+
+    private handlePlayerVisibilityChange(isIntersecting: boolean): void {
+        if (this.isInView === isIntersecting) return;
+
+        this.isInView = isIntersecting;
+        if (this.playerPlaceholder && this.playerContainer) {
+            const { width, height } = this.playerContainer.getBoundingClientRect();
+
+            // set placeholder dimensions
+            this.playerPlaceholder.style.height = height ? `${height}` : 'auto';
+            this.playerPlaceholder.style.width = width ? `${width}` : 'auto';
+
+            // set container position
+            this.playerContainer.style.position = isIntersecting ? 'static' : 'fixed';
+        }
     }
 
     private hideAd(): void {
