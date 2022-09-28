@@ -35,6 +35,13 @@ const styles = css`
         background: rgba(1, 1, 1, 0.5);
     }
 
+    #ima-ad-container {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+    }
+
     .control-hoverable {
         width: 40px;
         height: 40px;

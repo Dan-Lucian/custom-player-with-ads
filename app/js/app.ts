@@ -19,14 +19,9 @@ windowWithPlayerInitialization.initializePlayer = ({ selector, playlist }): void
         <form is="form-player"></form>
     `;
 
-    const scriptIMA = document.createElement('script');
-    scriptIMA.src = '//imasdk.googleapis.com/js/sdkloader/ima3.js';
-
     if (root) {
         root.innerHTML = template;
-        root.insertAdjacentElement('beforeend', scriptIMA);
     } else {
         document.currentScript?.parentElement?.insertAdjacentHTML('beforeend', template);
-        document.currentScript?.parentElement?.insertAdjacentElement('beforeend', scriptIMA);
     }
 };

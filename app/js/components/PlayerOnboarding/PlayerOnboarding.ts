@@ -3,6 +3,7 @@ import EnumEventPlayer from '../../enums/EnumEventPlayer';
 import './ControlsPlayer';
 import '../PlayerAd';
 import styles from './PlayerOnboarding.styles';
+import IMA from '../../vendors/IMA';
 
 console.log('FILE: PlayerOnboarding.ts');
 
@@ -56,6 +57,10 @@ export default class PlayerOnboarding extends HTMLElement {
         return this.shadow.getElementById('player-placeholder') as HTMLDivElement | null;
     }
 
+    private get imaAdContainer(): HTMLDivElement | null {
+        return this.shadow.getElementById('ima-ad-container') as HTMLDivElement | null;
+    }
+
     private attributeChangedCallback(property: string, oldValue: unknown, newValue: unknown): void {
         if (oldValue === newValue) return;
 
@@ -88,6 +93,7 @@ export default class PlayerOnboarding extends HTMLElement {
         if (!this.rendered) {
             this.render();
             this.setupIntersectionObserver();
+            this.setupIMA();
             this.rendered = true;
         }
     }
@@ -120,6 +126,7 @@ export default class PlayerOnboarding extends HTMLElement {
                         </video>
                         <controls-player ${autoplay} ${muted}></controls-player>
                         <player-ad hidden id="player-ad"></player-ad>
+                        <div id="ima-ad-container"></div>
                     </div>
                 </div>
             `;
@@ -155,6 +162,14 @@ export default class PlayerOnboarding extends HTMLElement {
             // set container position
             this.playerContainer.style.position = isIntersecting ? 'static' : 'fixed';
         }
+    }
+
+    private setupIMA(): void {
+        const ima = IMA.getInstance(
+            this.parentElement || undefined,
+            this.imaAdContainer || undefined
+        );
+        ima.appendScript();
     }
 
     private hideAd(): void {
@@ -205,7 +220,16 @@ export default class PlayerOnboarding extends HTMLElement {
 
     private renderAd(): void {
         this.pause();
-        this.playerAd?.removeAttribute('hidden');
+
+        // custom ad handling
+        // this.playerAd?.removeAttribute('hidden');
+
+        // IMA ad handling
+        PlayerOnboarding.renderAdThroughIMA();
+    }
+
+    private static renderAdThroughIMA(): void {
+        console.log('rendering ad through IMA');
     }
 
     private unmute(): void {
