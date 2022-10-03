@@ -3,7 +3,7 @@ import EnumEventPlayer from '../../enums/EnumEventPlayer';
 import './ControlsPlayer';
 import '../PlayerAd';
 import styles from './PlayerOnboarding.styles';
-import IMA from '../../vendors/IMA';
+import IMA from '../../vendors/ima/IMA';
 
 console.log('FILE: PlayerOnboarding.ts');
 

@@ -6,6 +6,7 @@ class IMA {
     private adContainer: HTMLDivElement | null = null;
     private parentElement: HTMLElement | null = null;
     private adsLoaded = false;
+    private adsLoader = null;
 
     private constructor(parentElement: HTMLElement, adContainer: HTMLDivElement) {
         this.parentElement = parentElement;
@@ -27,19 +28,23 @@ class IMA {
         return IMA.instance;
     }
 
-    // left at https://developers.google.com/interactive-media-ads/docs/sdks/html5/client-side#6.-initialize-the-adsloader-and-make-an-ads-request
     public appendScript(): void {
         if (this.scriptElement) return;
 
         this.scriptElement = document.createElement('script');
         this.scriptElement.src = this.URL;
-        this.scriptElement.onload = (): void => this.initializeIMA();
+        this.scriptElement.onload = (): void => this.handleScriptLoad();
 
         this.parentElement?.insertAdjacentElement('beforeend', this.scriptElement);
     }
 
-    private initializeIMA(): void {
+    private handleScriptLoad(): void {
         console.log('this.adContainer', this.adContainer);
+        const adDisplayContainer = new google.ima.AdDisplayContainer(
+            this.adContainer,
+            videoElement
+        );
+        this.adsLoader = new google.ima.AdsLoader(adDisplayContainer);
     }
 }
 

@@ -10,6 +10,7 @@
         "plugin:import/warnings",
         "prettier"
     ],
+
     "parserOptions": {
         "ecmaVersion": 7,
         "sourceType": "module"
@@ -29,6 +30,7 @@
     },
     "ignorePatterns": ["**/*.test.ts", "dist/", "webpack.*"],
     "rules": {
+        "no-undef": "off",
         "no-console": "off",
         "lines-between-class-members": "off",
         "camelcase": "off",
