@@ -126,7 +126,7 @@ export default class PlayerOnboarding extends HTMLElement {
                         </video>
                         <controls-player ${autoplay} ${muted}></controls-player>
                         <player-ad hidden id="player-ad"></player-ad>
-                        <div id="ima-ad-container"></div>
+                        <div hidden id="ima-ad-container"></div>
                     </div>
                 </div>
             `;
@@ -167,13 +167,15 @@ export default class PlayerOnboarding extends HTMLElement {
     private setupIMA(): void {
         const ima = IMA.getInstance(
             this.parentElement || undefined,
-            this.imaAdContainer || undefined
+            this.imaAdContainer || undefined,
+            this.videoElement || undefined
         );
         ima.appendScript();
     }
 
     private hideAd(): void {
         this.playerAd?.setAttribute('hidden', '');
+        this.imaAdContainer?.setAttribute('hidden', '');
         this.play();
     }
 
@@ -218,18 +220,21 @@ export default class PlayerOnboarding extends HTMLElement {
         this.render();
     }
 
-    private renderAd(): void {
+    private renderAd(event: Event): void {
         this.pause();
 
         // custom ad handling
         // this.playerAd?.removeAttribute('hidden');
 
         // IMA ad handling
-        PlayerOnboarding.renderAdThroughIMA();
+        this.renderAdThroughIMA(event);
     }
 
-    private static renderAdThroughIMA(): void {
+    private renderAdThroughIMA(event: Event): void {
         console.log('rendering ad through IMA');
+        this.imaAdContainer?.removeAttribute('hidden');
+        const ima = IMA.getInstance();
+        ima.playAds(event);
     }
 
     private unmute(): void {

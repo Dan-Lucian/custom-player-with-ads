@@ -30,6 +30,7 @@
     },
     "ignorePatterns": ["**/*.test.ts", "dist/", "webpack.*"],
     "rules": {
+        "no-unused-vars": "off",
         "no-undef": "off",
         "no-console": "off",
         "lines-between-class-members": "off",
@@ -39,10 +40,7 @@
         "no-restricted-syntax": "off",
         "no-alert": 2,
         "comma-dangle": ["error", "never"],
-        "no-use-before-define": [
-            "error",
-            { "functions": false, "classes": true, "variables": true }
-        ],
+        "no-use-before-define": "off",
         "no-cond-assign": ["error", "except-parens"],
         "quote-props": [2, "consistent-as-needed"],
         "no-underscore-dangle": ["error", { "allowAfterThis": true }],

@@ -8,7 +8,7 @@ const styles = css`
         right: 0;
         left: 0;
         z-index: 1000;
-        background-color: red;
+        background-color: blue;
 
         display: flex;
         justify-content: center;
