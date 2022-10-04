@@ -194,11 +194,8 @@ export default class PlayerOnboarding extends HTMLElement {
     }
 
     private setupIMA(): void {
-        const ima = IMA.getInstance(
-            this.parentElement || undefined,
-            this.imaAdContainer || undefined,
-            this.videoElement || undefined
-        );
+        const ima = IMA.getInstance();
+        ima.setElements(this.parentElement, this.imaAdContainer, this.videoElement);
         ima.appendScript();
     }
 

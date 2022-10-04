@@ -3,39 +3,57 @@ class IMA {
 
     private URL_SCRIPT = '//imasdk.googleapis.com/js/sdkloader/ima3.js';
     private scriptElement!: HTMLScriptElement;
-    private adContainer!: HTMLDivElement;
-    private parentElement!: HTMLElement;
-    private videoElement!: HTMLVideoElement;
+    private _adContainer: HTMLDivElement | null = null;
+    private _parentElement: HTMLElement | null = null;
+    private _videoElement: HTMLVideoElement | null = null;
     private adsLoaded = false;
     private adsLoader?: google.ima.AdsLoader;
     private adsManager?: google.ima.AdsManager;
     private ima!: typeof google.ima;
     private adDisplayContainer!: google.ima.AdDisplayContainer;
 
-    private constructor(
-        parentElement: HTMLElement,
-        adContainer: HTMLDivElement,
-        videoElement: HTMLVideoElement
-    ) {
-        this.parentElement = parentElement;
-        this.adContainer = adContainer;
-        this.videoElement = videoElement;
+    private get adContainer(): HTMLDivElement {
+        if (!this._adContainer) {
+            throw new Error('ima: "_adContainer" prop is null.');
+        }
+
+        return this._adContainer;
     }
 
-    public static getInstance(
-        parentElement?: HTMLElement,
-        adContainer?: HTMLDivElement,
-        videoElement?: HTMLVideoElement
-    ): IMA {
+    private get parentElement(): HTMLElement {
+        if (!this._parentElement) {
+            throw new Error('ima: "_parentElement" prop is null.');
+        }
+
+        return this._parentElement;
+    }
+
+    private get videoElement(): HTMLVideoElement {
+        if (!this._videoElement) {
+            throw new Error('ima: "_videoElement" prop is null.');
+        }
+
+        return this._videoElement;
+    }
+
+    private constructor() {}
+
+    public static getInstance(): IMA {
         if (!IMA.instance) {
-            if (parentElement && adContainer && videoElement) {
-                IMA.instance = new IMA(parentElement, adContainer, videoElement);
-            } else {
-                throw new Error('missing "parentElement", "adContainer" and "videoElement" props');
-            }
+            IMA.instance = new IMA();
         }
 
         return IMA.instance;
+    }
+
+    public setElements(
+        parentElement: HTMLElement | null,
+        adContainer: HTMLDivElement | null,
+        videoElement: HTMLVideoElement | null
+    ): void {
+        this._parentElement = parentElement;
+        this._adContainer = adContainer;
+        this._videoElement = videoElement;
     }
 
     public appendScript(): void {
@@ -46,6 +64,8 @@ class IMA {
         this.scriptElement.addEventListener('load', () => {
             this.handleScriptLoad();
         });
+
+        // TODO: handle script load error
 
         this.parentElement?.insertAdjacentElement('beforeend', this.scriptElement);
         window.addEventListener('resize', this.handleWindowResize.bind(this));
@@ -119,6 +139,7 @@ class IMA {
         event.preventDefault();
         console.log('loading ads through ima');
         console.log('adDisplayContainer', this.adDisplayContainer);
+        console.log('this.videoElement: ', this.videoElement);
 
         // Initialize the container. Must be done via a user action on mobile devices.
         this.adDisplayContainer.initialize();
