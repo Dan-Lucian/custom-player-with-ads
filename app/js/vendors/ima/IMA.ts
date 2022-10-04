@@ -1,3 +1,5 @@
+import EnumEventIma from '../../enums/EnumEventIma';
+
 class IMA {
     private static instance: IMA;
 
@@ -120,6 +122,14 @@ class IMA {
 
     private handleAdsManagerLoaded(eventAdsManagerLoaded: google.ima.AdsManagerLoadedEvent): void {
         this.adsManager = eventAdsManagerLoaded.getAdsManager(this.videoElement);
+        this.adsManager.addEventListener(this.ima.AdEvent.Type.COMPLETE, () => {
+            this.adContainer.dispatchEvent(
+                new CustomEvent(EnumEventIma.EndAdIma, {
+                    bubbles: true,
+                    composed: true
+                })
+            );
+        });
     }
 
     private handleAdError(eventAdError: google.ima.AdErrorEvent): void {

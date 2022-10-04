@@ -4,6 +4,7 @@ import './ControlsPlayer';
 import '../PlayerAd';
 import styles from './PlayerOnboarding.styles';
 import IMA from '../../vendors/ima/IMA';
+import EnumEventIma from '../../enums/EnumEventIma';
 
 console.log('FILE: PlayerOnboarding.ts');
 
@@ -35,6 +36,7 @@ export default class PlayerOnboarding extends HTMLElement {
         this.addEventListener(EnumEventPlayer.PlayPreviousPlayerOnboarding, this.playPrevious);
         this.addEventListener(EnumEventPlayer.SkipAdPlayerOnboarding, this.hideAd);
         this.addEventListener(EnumEventPlayer.EndAd, this.hideAd);
+        this.addEventListener(EnumEventIma.EndAdIma, this.hideAd);
     }
 
     public static get observedAttributes(): string[] {
