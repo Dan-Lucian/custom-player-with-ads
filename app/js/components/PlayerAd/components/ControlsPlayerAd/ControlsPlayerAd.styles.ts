@@ -1,4 +1,4 @@
-import css from '../../utils/css';
+import css from '../../../../utils/css';
 
 const styles = css`
     controls-player-ad {

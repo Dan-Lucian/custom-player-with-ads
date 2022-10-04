@@ -1,5 +1,5 @@
-import EnumEventPlayerAd from '../../enums/EnumEventPlayerAd';
-import html from '../../utils/html';
+import EnumEventPlayerAd from '../../../../enums/EnumEventPlayerAd';
+import html from '../../../../utils/html';
 
 export default class ButtonSkipAd extends HTMLButtonElement {
     private rendered = false;

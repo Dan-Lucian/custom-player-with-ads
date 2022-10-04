@@ -1,7 +1,7 @@
 import styles from './PlayerAdIframe.styles';
-import './ControlsPlayerAd';
-import IWindowIframe from '../../interfaces/IWindowIframe';
-import EnumEventPlayerAd from '../../enums/EnumEventPlayerAd';
+import '../ControlsPlayerAd';
+import IWindowIframe from '../../../../interfaces/IWindowIframe';
+import EnumEventPlayerAd from '../../../../enums/EnumEventPlayerAd';
 import WrapperVPAID from './WrapperVPAID';
 
 export default class PlayerAdIframe extends HTMLElement {

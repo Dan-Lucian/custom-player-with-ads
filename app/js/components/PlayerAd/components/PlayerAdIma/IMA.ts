@@ -1,4 +1,4 @@
-import EnumEventIma from '../../enums/EnumEventIma';
+import EnumEventIma from '../../../../enums/EnumEventIma';
 
 class IMA {
     private static instance: IMA;

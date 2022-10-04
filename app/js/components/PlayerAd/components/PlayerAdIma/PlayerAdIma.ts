@@ -1,7 +1,7 @@
-import html from '../../utils/html';
+import html from '../../../../utils/html';
 import IMA from './IMA';
 import styles from './PlayerAdIma.styles';
-import EnumEventPlayerAd from '../../enums/EnumEventPlayerAd';
+import EnumEventPlayerAd from '../../../../enums/EnumEventPlayerAd';
 
 export default class PlayerAdIma extends HTMLElement {
     private dataSrc = '';

@@ -1,7 +1,7 @@
-import css from '../../utils/css';
+import css from '../../../../utils/css';
 
 const styles = css`
-    player-ad-video {
+    player-ad-ima {
         position: absolute;
         top: 0;
         bottom: 0;
@@ -14,8 +14,12 @@ const styles = css`
         justify-content: center;
     }
 
-    player-ad-video video {
-        width: 100%;
+    #ima-ad-container {
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
     }
 `;
 

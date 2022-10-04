@@ -1,7 +1,7 @@
 import styles from './PlayerAdVideo.styles';
-import './ControlsPlayerAd';
-import EnumEventPlayerAd from '../../enums/EnumEventPlayerAd';
-import EnumEventPlayer from '../../enums/EnumEventPlayer';
+import '../ControlsPlayerAd';
+import EnumEventPlayerAd from '../../../../enums/EnumEventPlayerAd';
+import EnumEventPlayer from '../../../../enums/EnumEventPlayer';
 
 export default class PlayerAdVideo extends HTMLElement {
     private dataSrc = '';
