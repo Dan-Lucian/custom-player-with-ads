@@ -5,8 +5,6 @@ import '../PlayerAd';
 import styles from './PlayerOnboarding.styles';
 import EnumEventIma from '../../enums/EnumEventIma';
 
-console.log('FILE: PlayerOnboarding.ts');
-
 // TODO: "timeupdate" event + video.duration to obtain the video duration
 // cause if it's fired it means the metadata has already been loaded
 // TODO: "timeupdate" event + video.currentTime to update the progress bar
@@ -37,6 +35,7 @@ export default class PlayerOnboarding extends HTMLElement {
         this.addEventListener(EnumEventPlayer.SkipAdPlayerOnboarding, this.hideAd);
         this.addEventListener(EnumEventPlayer.EndAd, this.hideAd);
         this.addEventListener(EnumEventIma.EndAdIma, this.hideAd);
+        this.addEventListener(EnumEventIma.ErrorAdsManager, this.hideAd);
     }
 
     public static get observedAttributes(): string[] {

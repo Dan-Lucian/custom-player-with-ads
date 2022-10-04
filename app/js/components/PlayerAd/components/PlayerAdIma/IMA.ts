@@ -145,13 +145,16 @@ class IMA {
         const width = this.videoElement.clientWidth;
         const height = this.videoElement.clientHeight;
         try {
-            console.log('this.adsManager: ', this.adsManager);
             this.adsManager?.init(width, height, this.ima.ViewMode.NORMAL);
             this.adsManager?.start();
         } catch (error: unknown) {
             console.log('AdsManager could not be started');
-            // resume play if ad loading error
-            // this.videoElement.play();
+            this.adContainer.dispatchEvent(
+                new CustomEvent(EnumEventIma.ErrorAdsManager, {
+                    bubbles: true,
+                    composed: true
+                })
+            );
         }
     }
 

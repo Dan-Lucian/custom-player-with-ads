@@ -1,5 +1,6 @@
 enum EnumEventIma {
-    EndAdIma = 'end-ad-ima'
+    EndAdIma = 'end-ad-ima',
+    ErrorAdsManager = 'error-ads-manager'
 }
 
 export default EnumEventIma;
