@@ -61,6 +61,10 @@ export default class PlayerOnboarding extends HTMLElement {
         return this.shadow.getElementById('ima-ad-container') as HTMLDivElement | null;
     }
 
+    private get controlsElement(): HTMLElement | null {
+        return this.shadow.getElementById('controls-player') as HTMLElement | null;
+    }
+
     private attributeChangedCallback(property: string, oldValue: unknown, newValue: unknown): void {
         if (oldValue === newValue) return;
 
@@ -104,7 +108,7 @@ export default class PlayerOnboarding extends HTMLElement {
 
     private render(): void {
         console.log('RENDER: <player-onboarding>');
-        const autoplay = this.autoplay || this.isPlaying ? 'autoplay' : '';
+        const autoplay = this.autoplay ? 'autoplay' : '';
         const muted = this.muted ? 'muted' : '';
 
         if (this.shadow) {
@@ -124,7 +128,11 @@ export default class PlayerOnboarding extends HTMLElement {
                         >
                             Player not supported
                         </video>
-                        <controls-player ${autoplay} ${muted}></controls-player>
+                        <controls-player
+                            ${autoplay}
+                            ${muted}
+                            id="controls-player"
+                        ></controls-player>
                         <player-ad hidden id="player-ad"></player-ad>
                         <div hidden id="ima-ad-container"></div>
                     </div>
@@ -133,6 +141,27 @@ export default class PlayerOnboarding extends HTMLElement {
         }
 
         this.videoElement?.addEventListener('ended', this.playNext.bind(this));
+    }
+
+    private refreshWithoutRender(): void {
+        if (this.videoElement) {
+            this.videoElement.src = this.playlist[this.currentVideo];
+        }
+
+        if (this.controlsElement) {
+            const newControlsElement = document.createElement('controls-player');
+            newControlsElement.id = 'controls-player';
+
+            if (this.autoplay) {
+                newControlsElement.setAttribute('autoplay', '');
+            }
+
+            if (this.muted) {
+                newControlsElement.setAttribute('muted', '');
+            }
+
+            this.controlsElement.replaceWith(newControlsElement);
+        }
     }
 
     private setupIntersectionObserver(): void {
@@ -205,7 +234,7 @@ export default class PlayerOnboarding extends HTMLElement {
             this.currentVideo += 1;
         }
 
-        this.render();
+        this.refreshWithoutRender();
     }
 
     private playPrevious(): void {
@@ -217,7 +246,7 @@ export default class PlayerOnboarding extends HTMLElement {
             this.currentVideo -= 1;
         }
 
-        this.render();
+        this.refreshWithoutRender();
     }
 
     private renderAd(event: Event): void {
