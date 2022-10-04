@@ -28,6 +28,7 @@ export default class PlayerOnboarding extends HTMLElement {
 
         this.addEventListener(EnumEventPlayer.PlayPlayerOnboarding, this.play);
         this.addEventListener(EnumEventPlayer.PlayAdPlayerOnboarding, this.renderAd);
+        this.addEventListener(EnumEventPlayer.PlayAdImaPlayerOnboarding, this.renderAdThroughIma);
         this.addEventListener(EnumEventPlayer.PausePlayerOnboarding, this.pause);
         this.addEventListener(EnumEventPlayer.MutePlayerOnboarding, this.mute);
         this.addEventListener(EnumEventPlayer.UnmutePlayerOnboarding, this.unmute);
@@ -236,6 +237,12 @@ export default class PlayerOnboarding extends HTMLElement {
 
     private renderAd(): void {
         this.pause();
+        this.playerAd?.removeAttribute('hidden');
+    }
+
+    private renderAdThroughIma(): void {
+        this.pause();
+        this.playerAd?.setAttribute('data-ima', '');
         this.playerAd?.removeAttribute('hidden');
     }
 

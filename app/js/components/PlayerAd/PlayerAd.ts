@@ -10,9 +10,10 @@ import './components/PlayerAdIma';
 export default class PlayerAd extends HTMLElement {
     private rendered = false;
     private vastObj: IInfoVast | null = null;
+    private isIma = false;
 
     public static get observedAttributes(): string[] {
-        return ['hidden'];
+        return ['data-ima', 'hidden'];
     }
 
     public async attributeChangedCallback(
@@ -23,9 +24,17 @@ export default class PlayerAd extends HTMLElement {
         if (oldValue === newValue) return;
 
         switch (property) {
+            case 'data-ima':
+                if (newValue === null) {
+                    this.isIma = false;
+                } else {
+                    this.isIma = true;
+                }
+                return;
+
             case 'hidden':
                 // if no "hidden" attribute on the component
-                if (newValue === null) {
+                if (newValue === null && !this.isIma) {
                     await this.requestAd();
                     break;
                 }
@@ -50,24 +59,28 @@ export default class PlayerAd extends HTMLElement {
 
     private render(): void {
         console.log('RENDER: <player-ad>');
-        // this.innerHTML = html`
-        //     <style>
-        //         ${styles}
-        //     </style>
+        if (this.isIma) {
+            this.innerHTML = html`
+                <style>
+                    ${styles}
+                </style>
 
-        //     ${this.vastObj && this.vastObj.isVPAID
-        //         ? html`<player-ad-iframe data-src="${this.vastObj.linkMedia}"></player-ad-iframe>`
-        //         : html`<player-ad-video
-        //               data-src="${this.vastObj?.linkMedia || ''}"
-        //           ></player-ad-video>`}
-        // `;
+                <player-ad-ima src=${serviceAd.getRandomLink()}></player-ad-ima>
+            `;
+
+            return;
+        }
 
         this.innerHTML = html`
             <style>
                 ${styles}
             </style>
 
-            ${this.vastObj && html`<player-ad-ima></player-ad-ima>`}
+            ${this.vastObj && this.vastObj.isVPAID
+                ? html`<player-ad-iframe data-src="${this.vastObj.linkMedia}"></player-ad-iframe>`
+                : html`<player-ad-video
+                      data-src="${this.vastObj?.linkMedia || ''}"
+                  ></player-ad-video>`}
         `;
     }
 

@@ -64,8 +64,12 @@ export default class ControlsPlayer extends HTMLElement {
                 ? '<button class="control-hoverable" is="button-unmute"></button>'
                 : '<button class="control-hoverable" is="button-mute"></button>'}
             <div class="spacer"></div>
-            <button class="control-hoverable" is="button-load-ad"></button>
-            <button class="control-hoverable" is="button-load-ad-ima"></button>
+            <button class="control-hoverable" is="button-load-ad" title="load ad"></button>
+            <button
+                class="control-hoverable"
+                is="button-load-ad-ima"
+                title="load ad through ima"
+            ></button>
         `;
     }
 

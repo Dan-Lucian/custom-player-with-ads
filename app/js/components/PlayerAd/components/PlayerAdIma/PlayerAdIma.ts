@@ -4,7 +4,7 @@ import styles from './PlayerAdIma.styles';
 import EnumEventPlayerAd from '../../../../enums/EnumEventPlayerAd';
 
 export default class PlayerAdIma extends HTMLElement {
-    private dataSrc = '';
+    private src = '';
     private rendered = false;
     private ima: IMA | null = null;
 
@@ -19,7 +19,7 @@ export default class PlayerAdIma extends HTMLElement {
     }
 
     public static get observedAttributes(): string[] {
-        return ['data-src'];
+        return ['src'];
     }
 
     public async attributeChangedCallback(
@@ -30,8 +30,8 @@ export default class PlayerAdIma extends HTMLElement {
         if (oldValue === newValue) return;
 
         switch (property) {
-            case 'data-src':
-                this.dataSrc = String(newValue);
+            case 'src':
+                this.src = String(newValue);
                 break;
 
             default:
@@ -74,7 +74,7 @@ export default class PlayerAdIma extends HTMLElement {
 
     private setupIMA(): void {
         this.ima = IMA.getInstance();
-        this.ima.setElements(this.imaAdContainer, this.videoElement);
+        this.ima.setElements(this.imaAdContainer, this.videoElement, this.src);
         this.ima.appendScript();
     }
 
