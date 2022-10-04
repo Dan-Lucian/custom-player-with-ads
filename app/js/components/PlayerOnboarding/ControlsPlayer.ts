@@ -4,6 +4,7 @@ import './ButtonPause';
 import './ButtonMute';
 import './ButtonUnmute';
 import './ButtonLoadAd';
+import './ButtonLoadAdIma';
 import './ButtonPlayNext';
 import './ButtonPlayPrevious';
 import html from '../../utils/html';
@@ -64,6 +65,7 @@ export default class ControlsPlayer extends HTMLElement {
                 : '<button class="control-hoverable" is="button-mute"></button>'}
             <div class="spacer"></div>
             <button class="control-hoverable" is="button-load-ad"></button>
+            <button class="control-hoverable" is="button-load-ad-ima"></button>
         `;
     }
 
@@ -142,6 +144,15 @@ export default class ControlsPlayer extends HTMLElement {
         if (is === 'button-load-ad') {
             this.dispatchEvent(
                 new CustomEvent(EnumEventPlayer.PlayAdPlayerOnboarding, {
+                    bubbles: true,
+                    composed: true
+                })
+            );
+        }
+
+        if (is === 'button-load-ad-ima') {
+            this.dispatchEvent(
+                new CustomEvent(EnumEventPlayer.PlayAdImaPlayerOnboarding, {
                     bubbles: true,
                     composed: true
                 })

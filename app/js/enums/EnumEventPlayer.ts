@@ -2,6 +2,7 @@
 enum EnumEventPlayer {
     PlayPlayerOnboarding = 'play-player-onboarding',
     PlayAdPlayerOnboarding = 'play-ad-player-onboarding',
+    PlayAdImaPlayerOnboarding = 'play-ad-ima-player-onboarding',
     PausePlayerOnboarding = 'pause-player-onboarding',
     MutePlayerOnboarding = 'mute-player-onboarding',
     UnmutePlayerOnboarding = 'unmute-player-onboarding',
