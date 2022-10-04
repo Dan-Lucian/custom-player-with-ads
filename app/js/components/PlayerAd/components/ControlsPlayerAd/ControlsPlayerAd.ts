@@ -82,6 +82,18 @@ export default class ControlsPlayerAd extends HTMLElement {
             return;
         }
 
+        if (is === 'button-pause-ad') {
+            this.dispatchEvent(
+                new CustomEvent(EnumEventPlayerAd.PausePlayerAd, {
+                    bubbles: true
+                })
+            );
+            this.isPlaying = false;
+            this.render();
+
+            return;
+        }
+
         if (is === 'button-mute-ad') {
             this.dispatchEvent(
                 new CustomEvent(EnumEventPlayerAd.MutePlayerAd, {
