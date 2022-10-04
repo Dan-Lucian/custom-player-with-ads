@@ -3,7 +3,6 @@ import EnumEventPlayer from '../../enums/EnumEventPlayer';
 import './ControlsPlayer';
 import '../PlayerAd';
 import styles from './PlayerOnboarding.styles';
-import IMA from '../../vendors/ima/IMA';
 import EnumEventIma from '../../enums/EnumEventIma';
 
 console.log('FILE: PlayerOnboarding.ts');
@@ -59,10 +58,6 @@ export default class PlayerOnboarding extends HTMLElement {
         return this.shadow.getElementById('player-placeholder') as HTMLDivElement | null;
     }
 
-    private get imaAdContainer(): HTMLDivElement | null {
-        return this.shadow.getElementById('ima-ad-container') as HTMLDivElement | null;
-    }
-
     private get controlsElement(): HTMLElement | null {
         return this.shadow.getElementById('controls-player') as HTMLElement | null;
     }
@@ -99,7 +94,6 @@ export default class PlayerOnboarding extends HTMLElement {
         if (!this.rendered) {
             this.render();
             this.setupIntersectionObserver();
-            this.setupIMA();
             this.rendered = true;
         }
     }
@@ -136,7 +130,6 @@ export default class PlayerOnboarding extends HTMLElement {
                             id="controls-player"
                         ></controls-player>
                         <player-ad hidden id="player-ad"></player-ad>
-                        <div hidden id="ima-ad-container"></div>
                     </div>
                 </div>
             `;
@@ -195,15 +188,8 @@ export default class PlayerOnboarding extends HTMLElement {
         }
     }
 
-    private setupIMA(): void {
-        const ima = IMA.getInstance();
-        ima.setElements(this.parentElement, this.imaAdContainer, this.videoElement);
-        ima.appendScript();
-    }
-
     private hideAd(): void {
         this.playerAd?.setAttribute('hidden', '');
-        this.imaAdContainer?.setAttribute('hidden', '');
         this.play();
     }
 
@@ -248,21 +234,9 @@ export default class PlayerOnboarding extends HTMLElement {
         this.refreshWithoutRender();
     }
 
-    private renderAd(event: Event): void {
+    private renderAd(): void {
         this.pause();
-
-        // custom ad handling
-        // this.playerAd?.removeAttribute('hidden');
-
-        // IMA ad handling
-        this.renderAdThroughIMA(event);
-    }
-
-    private renderAdThroughIMA(event: Event): void {
-        console.log('rendering ad through IMA');
-        this.imaAdContainer?.removeAttribute('hidden');
-        const ima = IMA.getInstance();
-        ima.playAds(event);
+        this.playerAd?.removeAttribute('hidden');
     }
 
     private unmute(): void {

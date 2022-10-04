@@ -6,7 +6,6 @@ class IMA {
     private URL_SCRIPT = '//imasdk.googleapis.com/js/sdkloader/ima3.js';
     private scriptElement!: HTMLScriptElement;
     private _adContainer: HTMLDivElement | null = null;
-    private _parentElement: HTMLElement | null = null;
     private _videoElement: HTMLVideoElement | null = null;
     private adsLoaded = false;
     private adsLoader?: google.ima.AdsLoader;
@@ -20,14 +19,6 @@ class IMA {
         }
 
         return this._adContainer;
-    }
-
-    private get parentElement(): HTMLElement {
-        if (!this._parentElement) {
-            throw new Error('ima: "_parentElement" prop is null.');
-        }
-
-        return this._parentElement;
     }
 
     private get videoElement(): HTMLVideoElement {
@@ -49,11 +40,9 @@ class IMA {
     }
 
     public setElements(
-        parentElement: HTMLElement | null,
         adContainer: HTMLDivElement | null,
         videoElement: HTMLVideoElement | null
     ): void {
-        this._parentElement = parentElement;
         this._adContainer = adContainer;
         this._videoElement = videoElement;
     }
@@ -69,7 +58,10 @@ class IMA {
 
         // TODO: handle script load error
 
-        this.parentElement?.insertAdjacentElement('beforeend', this.scriptElement);
+        // inserted inside body because ima internally uses document.querySelector
+        // to check if there is the ima script element, but since we use shadow dom
+        // on player-onboarding ima fails to find the script and triggers an error
+        document.body.insertAdjacentElement('beforeend', this.scriptElement);
         window.addEventListener('resize', this.handleWindowResize.bind(this));
     }
 
@@ -130,6 +122,8 @@ class IMA {
                 })
             );
         });
+
+        this.playAds();
     }
 
     private handleAdError(eventAdError: google.ima.AdErrorEvent): void {
@@ -139,17 +133,12 @@ class IMA {
         }
     }
 
-    public playAds(event: Event): void {
+    public playAds(): void {
         if (this.adsLoaded) {
             return;
         }
 
         this.adsLoaded = true;
-
-        event.preventDefault();
-        console.log('loading ads through ima');
-        console.log('adDisplayContainer', this.adDisplayContainer);
-        console.log('this.videoElement: ', this.videoElement);
 
         // Initialize the container. Must be done via a user action on mobile devices.
         this.adDisplayContainer.initialize();
