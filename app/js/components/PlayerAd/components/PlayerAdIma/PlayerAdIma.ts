@@ -6,6 +6,7 @@ import EnumEventPlayerAd from '../../../../enums/EnumEventPlayerAd';
 export default class PlayerAdIma extends HTMLElement {
     private dataSrc = '';
     private rendered = false;
+    private ima: IMA | null = null;
 
     private get imaAdContainer(): HTMLDivElement | null {
         return this.querySelector('#ima-ad-container') as HTMLDivElement | null;
@@ -44,7 +45,7 @@ export default class PlayerAdIma extends HTMLElement {
     constructor() {
         super();
 
-        this.addEventListener(EnumEventPlayerAd.PlayPlayerAd, this.play);
+        this.addEventListener(EnumEventPlayerAd.PlayPlayerAd, this.resume);
         this.addEventListener(EnumEventPlayerAd.PausePlayerAd, this.pause);
         this.addEventListener(EnumEventPlayerAd.MutePlayerAd, this.mute);
         this.addEventListener(EnumEventPlayerAd.UnmutePlayerAd, this.unmute);
@@ -67,39 +68,34 @@ export default class PlayerAdIma extends HTMLElement {
             </style>
 
             <div id="ima-ad-container"></div>
-            <controls-player-ad></controls-player-ad>
+            <controls-player-ad autoplay></controls-player-ad>
         `;
     }
 
     private setupIMA(): void {
-        const ima = IMA.getInstance();
-        ima.setElements(this.imaAdContainer, this.videoElement);
-        ima.appendScript();
+        this.ima = IMA.getInstance();
+        this.ima.setElements(this.imaAdContainer, this.videoElement);
+        this.ima.appendScript();
     }
 
-    private playAds(): void {
-        const ima = IMA.getInstance();
-        ima.playAds();
-    }
-
-    private mute(): void {
-        console.log('muting ima player');
-    }
-
-    private unmute(): void {
-        console.log('unmuting ima player');
-    }
-
-    private play(): void {
-        console.log('playing ima player');
+    private resume(): void {
+        this.ima?.resume();
     }
 
     private pause(): void {
-        console.log('pausing ima player');
+        this.ima?.pause();
+    }
+
+    private mute(): void {
+        this.ima?.mute();
+    }
+
+    private unmute(): void {
+        this.ima?.unmute();
     }
 
     private skipAd(): void {
-        console.log('skping ad ima player');
+        this.ima?.skipAd();
     }
 }
 

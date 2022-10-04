@@ -50,25 +50,25 @@ export default class PlayerAd extends HTMLElement {
 
     private render(): void {
         console.log('RENDER: <player-ad>');
-        this.innerHTML = html`
-            <style>
-                ${styles}
-            </style>
-
-            ${this.vastObj && this.vastObj.isVPAID
-                ? html`<player-ad-iframe data-src="${this.vastObj.linkMedia}"></player-ad-iframe>`
-                : html`<player-ad-video
-                      data-src="${this.vastObj?.linkMedia || ''}"
-                  ></player-ad-video>`}
-        `;
-
         // this.innerHTML = html`
         //     <style>
         //         ${styles}
         //     </style>
 
-        //     ${this.vastObj && html`<player-ad-ima></player-ad-ima>`}
+        //     ${this.vastObj && this.vastObj.isVPAID
+        //         ? html`<player-ad-iframe data-src="${this.vastObj.linkMedia}"></player-ad-iframe>`
+        //         : html`<player-ad-video
+        //               data-src="${this.vastObj?.linkMedia || ''}"
+        //           ></player-ad-video>`}
         // `;
+
+        this.innerHTML = html`
+            <style>
+                ${styles}
+            </style>
+
+            ${this.vastObj && html`<player-ad-ima></player-ad-ima>`}
+        `;
     }
 
     private cleanupPlayerAd(): void {

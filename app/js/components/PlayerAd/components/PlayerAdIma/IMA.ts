@@ -164,6 +164,26 @@ class IMA {
             this.adsManager.resize(width, height, google.ima.ViewMode.NORMAL);
         }
     }
+
+    public pause(): void {
+        this.adsManager?.pause();
+    }
+
+    public resume(): void {
+        this.adsManager?.resume();
+    }
+
+    public unmute(): void {
+        this.adsManager?.setVolume(1);
+    }
+
+    public mute(): void {
+        this.adsManager?.setVolume(0);
+    }
+
+    public skipAd(): void {
+        this.adsManager?.skip();
+    }
 }
 
 export default IMA;
