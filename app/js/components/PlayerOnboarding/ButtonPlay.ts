@@ -1,7 +1,5 @@
 import html from '../../utils/html';
 
-console.log('FILE: ButtonPlay.ts');
-
 export default class ButtonPlay extends HTMLButtonElement {
     private rendered = false;
 

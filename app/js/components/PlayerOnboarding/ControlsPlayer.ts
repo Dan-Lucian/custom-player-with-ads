@@ -9,8 +9,6 @@ import './ButtonPlayNext';
 import './ButtonPlayPrevious';
 import html from '../../utils/html';
 
-console.log('FILE: ControlsPlayer.ts');
-
 export default class ControlsPlayer extends HTMLElement {
     private isPlaying = false;
     private muted = false;

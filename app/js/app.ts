@@ -4,12 +4,6 @@ import './components/PlayerOnboarding';
 import './components/FormPlayer';
 import IWindowWithPlayerInitialization from './interfaces/IWindowWithPlayerInitialization';
 
-console.log('FILE: App.ts');
-
-if (process.env.NODE_ENV !== 'production') {
-    console.log('Looks like we are in development mode!');
-}
-
 const windowWithPlayerInitialization: IWindowWithPlayerInitialization = window;
 
 windowWithPlayerInitialization.initializePlayer = ({ selector, playlist }): void => {
