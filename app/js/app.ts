@@ -9,7 +9,7 @@ const windowWithPlayerInitialization: IWindowWithPlayerInitialization = window;
 windowWithPlayerInitialization.initializePlayer = ({ selector, playlist }): void => {
     const root = document.querySelector(selector);
     const template = html`
-        <player-onboarding playlist=${playlist.join()}></player-onboarding>
+        <player-onboarding playlist=${JSON.stringify(playlist)}></player-onboarding>
         <form is="form-player"></form>
     `;
 
