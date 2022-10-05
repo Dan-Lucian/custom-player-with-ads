@@ -175,6 +175,15 @@ class IMA {
             );
         });
 
+        this.adsManager.addEventListener(this.ima.AdEvent.Type.SKIPPED, () => {
+            this.adContainer.dispatchEvent(
+                new CustomEvent(EnumEventIma.SkippedAdIma, {
+                    bubbles: true,
+                    composed: true
+                })
+            );
+        });
+
         this.playAds();
     }
 

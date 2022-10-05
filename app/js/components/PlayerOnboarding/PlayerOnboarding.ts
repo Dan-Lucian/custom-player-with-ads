@@ -35,6 +35,7 @@ export default class PlayerOnboarding extends HTMLElement {
         this.addEventListener(EnumEventPlayer.SkipAdPlayerOnboarding, this.hideAd);
         this.addEventListener(EnumEventPlayer.EndAd, this.hideAd);
         this.addEventListener(EnumEventIma.EndAdIma, this.hideAd);
+        this.addEventListener(EnumEventIma.SkippedAdIma, this.hideAd);
         this.addEventListener(EnumEventIma.ErrorAdsManager, this.hideAd);
     }
 
