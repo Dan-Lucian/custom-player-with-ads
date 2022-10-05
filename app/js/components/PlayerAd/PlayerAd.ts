@@ -10,10 +10,10 @@ import './components/PlayerAdIma';
 export default class PlayerAd extends HTMLElement {
     private rendered = false;
     private vastObj: IInfoVast | null = null;
-    private isIma = false;
+    private dataUseIma = false;
 
     public static get observedAttributes(): string[] {
-        return ['data-ima', 'hidden'];
+        return ['data-use-ima', 'hidden'];
     }
 
     public async attributeChangedCallback(
@@ -24,17 +24,17 @@ export default class PlayerAd extends HTMLElement {
         if (oldValue === newValue) return;
 
         switch (property) {
-            case 'data-ima':
+            case 'data-use-ima':
                 if (newValue === null) {
-                    this.isIma = false;
+                    this.dataUseIma = false;
                 } else {
-                    this.isIma = true;
+                    this.dataUseIma = true;
                 }
                 return;
 
             case 'hidden':
                 // if no "hidden" attribute on the component
-                if (newValue === null && !this.isIma) {
+                if (newValue === null && !this.dataUseIma) {
                     await this.requestAd();
                     break;
                 }
@@ -59,7 +59,7 @@ export default class PlayerAd extends HTMLElement {
 
     private render(): void {
         console.log('RENDER: <player-ad>');
-        if (this.isIma) {
+        if (this.dataUseIma) {
             this.innerHTML = html`
                 <style>
                     ${styles}

@@ -18,6 +18,7 @@ export default class PlayerOnboarding extends HTMLElement {
     private isPlaying = false;
     private hls?: Hls;
     private muted = false;
+    private dataUseIma = false;
     private width = '500';
     private isInView = true;
     private observer: IntersectionObserver | null = null;
@@ -42,7 +43,7 @@ export default class PlayerOnboarding extends HTMLElement {
     }
 
     public static get observedAttributes(): string[] {
-        return ['width', 'muted', 'autoplay', 'playlist'];
+        return ['width', 'muted', 'autoplay', 'playlist', 'data-use-ima'];
     }
 
     private get playerAd(): HTMLElement | null {
@@ -85,6 +86,14 @@ export default class PlayerOnboarding extends HTMLElement {
                 this.playlist = JSON.parse(newValue as string);
                 break;
 
+            case 'data-use-ima':
+                if (newValue === null) {
+                    this.dataUseIma = false;
+                } else {
+                    this.dataUseIma = true;
+                }
+                return;
+
             default:
                 break;
         }
@@ -109,6 +118,7 @@ export default class PlayerOnboarding extends HTMLElement {
         console.log('RENDER: <player-onboarding>');
         const autoplay = this.autoplay ? 'autoplay' : '';
         const muted = this.muted ? 'muted' : '';
+        const dataUseIma = this.dataUseIma ? 'data-use-ima' : '';
 
         if (this.shadow) {
             this.shadow.innerHTML = html`
@@ -131,7 +141,7 @@ export default class PlayerOnboarding extends HTMLElement {
                             ${muted}
                             id="controls-player"
                         ></controls-player>
-                        <player-ad hidden id="player-ad"></player-ad>
+                        <player-ad ${dataUseIma} hidden id="player-ad"></player-ad>
                     </div>
                 </div>
             `;
@@ -266,7 +276,7 @@ export default class PlayerOnboarding extends HTMLElement {
 
     private renderAdThroughIma(): void {
         this.pause();
-        this.playerAd?.setAttribute('data-ima', '');
+        this.playerAd?.setAttribute('data-use-ima', '');
         this.playerAd?.removeAttribute('hidden');
     }
 

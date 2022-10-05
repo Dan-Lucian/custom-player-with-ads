@@ -6,10 +6,13 @@ import IWindowWithPlayerInitialization from './interfaces/IWindowWithPlayerIniti
 
 const windowWithPlayerInitialization: IWindowWithPlayerInitialization = window;
 
-windowWithPlayerInitialization.initializePlayer = ({ selector, playlist }): void => {
+windowWithPlayerInitialization.initializePlayer = ({ selector, playlist, useIma }): void => {
     const root = document.querySelector(selector);
+    const dataUseIma = useIma ? 'data-use-ima' : '';
+    console.log('dataUseIma: ', dataUseIma);
+
     const template = html`
-        <player-onboarding playlist=${JSON.stringify(playlist)}></player-onboarding>
+        <player-onboarding playlist=${JSON.stringify(playlist)} ${dataUseIma}></player-onboarding>
         <form is="form-player"></form>
     `;
 
