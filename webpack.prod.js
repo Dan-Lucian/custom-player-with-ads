@@ -7,7 +7,7 @@ module.exports = merge(common, {
     mode: 'production',
     output: {
         filename: '[name].[contenthash].bundle.js',
-        assetModuleFilename: 'assets/[hash][ext][query]',
+        assetModuleFilename: 'assets/[name][ext][query]',
         path: path.join(__dirname, 'dist')
     },
     module: {

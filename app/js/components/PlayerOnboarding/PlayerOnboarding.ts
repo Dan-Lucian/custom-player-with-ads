@@ -1,3 +1,4 @@
+import Hls from 'hls.js';
 import html from '../../utils/html';
 import EnumEventPlayer from '../../enums/EnumEventPlayer';
 import './ControlsPlayer';
@@ -11,10 +12,11 @@ import EnumEventIma from '../../enums/EnumEventIma';
 export default class PlayerOnboarding extends HTMLElement {
     private rendered = false;
     private shadow!: ShadowRoot;
-    private playlist: string[] = [''];
+    private playlist: { video: string; streamingManifest: string }[] = [];
     private currentVideo = 0;
     private autoplay = false;
     private isPlaying = false;
+    private hls?: Hls;
     private muted = false;
     private width = '500';
     private isInView = true;
@@ -80,7 +82,7 @@ export default class PlayerOnboarding extends HTMLElement {
                 break;
 
             case 'playlist':
-                this.playlist = (newValue as string).split(',');
+                this.playlist = JSON.parse(newValue as string);
                 break;
 
             default:
@@ -118,7 +120,6 @@ export default class PlayerOnboarding extends HTMLElement {
                         <video
                             ${autoplay}
                             ${muted}
-                            src=${this.playlist[this.currentVideo]}
                             width=${this.width}
                             id="player-onboarding"
                             preload="metadata"
@@ -137,11 +138,34 @@ export default class PlayerOnboarding extends HTMLElement {
         }
 
         this.videoElement?.addEventListener('ended', this.playNext.bind(this));
+        this.setupHls();
+    }
+
+    private setupHls(): void {
+        const src = this.playlist[this.currentVideo].streamingManifest;
+        if (this.videoElement) {
+            if (Hls.isSupported()) {
+                console.log('HLS: hls is supported ');
+                this.hls = new Hls();
+                this.hls.loadSource(src);
+                this.hls.attachMedia(this.videoElement);
+            } else if (this.videoElement.canPlayType('application/vnd.apple.mpegurl')) {
+                console.log('HLS: can play hls natively (apple)');
+                this.videoElement.src = src;
+            } else {
+                console.log('HLS: hls is not supported ');
+                this.videoElement.src = this.playlist[this.currentVideo].video;
+            }
+        }
     }
 
     private refreshWithoutRender(): void {
         if (this.videoElement) {
-            this.videoElement.src = this.playlist[this.currentVideo];
+            if (this.hls) {
+                this.hls.loadSource(this.playlist[this.currentVideo].streamingManifest);
+            } else {
+                this.videoElement.src = this.playlist[this.currentVideo].video;
+            }
         }
 
         if (this.controlsElement) {

@@ -12,15 +12,20 @@ module.exports = {
             {
                 test: /\.ts$/,
                 use: 'ts-loader',
-                exclude: /node_modules/
+                exclude: [/node_modules/, /assets/, /dist/]
             },
             {
                 test: /\.(scss|css)$/,
                 use: ['style-loader', 'css-loader', 'sass-loader']
             },
             {
-                test: /\.(png|svg|jpg|jpeg|gif|mp4|bmp)$/i,
+                test: /\.(png|svg|jpg|jpeg|gif|mp4|bmp|m3u8)$/i,
                 type: 'asset/resource'
+            },
+            {
+                test: /\.ts$/,
+                type: 'asset/resource',
+                include: /assets/
             }
         ]
     },
