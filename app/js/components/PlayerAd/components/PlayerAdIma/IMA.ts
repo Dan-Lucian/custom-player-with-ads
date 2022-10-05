@@ -4,15 +4,17 @@ class IMA {
     private static instance: IMA;
 
     private URL_SCRIPT = '//imasdk.googleapis.com/js/sdkloader/ima3.js';
-    private scriptElement!: HTMLScriptElement;
     private _adContainer: HTMLDivElement | null = null;
     private _videoElement: HTMLVideoElement | null = null;
+    private adDisplayContainer!: google.ima.AdDisplayContainer;
     private adsLoaded = false;
     private adsLoader?: google.ima.AdsLoader;
     private adsManager?: google.ima.AdsManager;
     private ima!: typeof google.ima;
-    private adDisplayContainer!: google.ima.AdDisplayContainer;
+    private scriptElement!: HTMLScriptElement;
     private src = '';
+
+    private constructor() {}
 
     private get adContainer(): HTMLDivElement {
         if (!this._adContainer) {
@@ -29,8 +31,6 @@ class IMA {
 
         return this._videoElement;
     }
-
-    private constructor() {}
 
     public static getInstance(): IMA {
         if (!IMA.instance) {
@@ -66,6 +66,52 @@ class IMA {
         // on player-onboarding ima fails to find the script and triggers an error
         document.body.insertAdjacentElement('beforeend', this.scriptElement);
         window.addEventListener('resize', this.handleWindowResize.bind(this));
+    }
+
+    public pause(): void {
+        this.adsManager?.pause();
+    }
+
+    public resume(): void {
+        this.adsManager?.resume();
+    }
+
+    public mute(): void {
+        this.adsManager?.setVolume(0);
+    }
+
+    public unmute(): void {
+        this.adsManager?.setVolume(1);
+    }
+
+    public skipAd(): void {
+        this.adsManager?.skip();
+    }
+
+    public playAds(): void {
+        if (this.adsLoaded) {
+            return;
+        }
+
+        this.adsLoaded = true;
+
+        // Initialize the container. Must be done via a user action on mobile devices.
+        this.adDisplayContainer.initialize();
+
+        const width = this.videoElement.clientWidth;
+        const height = this.videoElement.clientHeight;
+        try {
+            this.adsManager?.init(width, height, this.ima.ViewMode.NORMAL);
+            this.adsManager?.start();
+        } catch (error: unknown) {
+            console.log('AdsManager could not be started');
+            this.adContainer.dispatchEvent(
+                new CustomEvent(EnumEventIma.ErrorAdsManager, {
+                    bubbles: true,
+                    composed: true
+                })
+            );
+        }
     }
 
     private handleScriptLoad(): void {
@@ -111,6 +157,13 @@ class IMA {
         }
     }
 
+    private handleAdError(eventAdError: google.ima.AdErrorEvent): void {
+        console.log('Error: ', eventAdError.getError());
+        if (this.adsManager) {
+            this.adsManager.destroy();
+        }
+    }
+
     private handleAdsManagerLoaded(eventAdsManagerLoaded: google.ima.AdsManagerLoadedEvent): void {
         this.adsManager = eventAdsManagerLoaded.getAdsManager(this.videoElement);
         this.adsManager.addEventListener(this.ima.AdEvent.Type.COMPLETE, () => {
@@ -125,39 +178,6 @@ class IMA {
         this.playAds();
     }
 
-    private handleAdError(eventAdError: google.ima.AdErrorEvent): void {
-        console.log('Error: ', eventAdError.getError());
-        if (this.adsManager) {
-            this.adsManager.destroy();
-        }
-    }
-
-    public playAds(): void {
-        if (this.adsLoaded) {
-            return;
-        }
-
-        this.adsLoaded = true;
-
-        // Initialize the container. Must be done via a user action on mobile devices.
-        this.adDisplayContainer.initialize();
-
-        const width = this.videoElement.clientWidth;
-        const height = this.videoElement.clientHeight;
-        try {
-            this.adsManager?.init(width, height, this.ima.ViewMode.NORMAL);
-            this.adsManager?.start();
-        } catch (error: unknown) {
-            console.log('AdsManager could not be started');
-            this.adContainer.dispatchEvent(
-                new CustomEvent(EnumEventIma.ErrorAdsManager, {
-                    bubbles: true,
-                    composed: true
-                })
-            );
-        }
-    }
-
     private handleWindowResize(): void {
         console.log('window resize');
         if (this.adsManager) {
@@ -165,26 +185,6 @@ class IMA {
             const height = this.videoElement.clientHeight;
             this.adsManager.resize(width, height, google.ima.ViewMode.NORMAL);
         }
-    }
-
-    public pause(): void {
-        this.adsManager?.pause();
-    }
-
-    public resume(): void {
-        this.adsManager?.resume();
-    }
-
-    public unmute(): void {
-        this.adsManager?.setVolume(1);
-    }
-
-    public mute(): void {
-        this.adsManager?.setVolume(0);
-    }
-
-    public skipAd(): void {
-        this.adsManager?.skip();
     }
 }
 
