@@ -9,7 +9,8 @@ enum EnumEventPlayer {
     PlayNextPlayerOnboarding = 'play-next-player-onboarding',
     PlayPreviousPlayerOnboarding = 'play-previous-player-onboarding',
     EndAd = 'end-ad',
-    SkipAdPlayerOnboarding = 'skip-ad-player-onboarding'
+    SkipAdPlayerOnboarding = 'skip-ad-player-onboarding',
+    ChangeQualityPlayerOnboarding = 'quality-change-player-onboarding'
 }
 
 export default EnumEventPlayer;

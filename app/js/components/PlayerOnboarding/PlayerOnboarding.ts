@@ -1,10 +1,11 @@
-import Hls from 'hls.js';
 import html from '../../utils/html';
 import EnumEventPlayer from '../../enums/EnumEventPlayer';
 import './components/ControlsPlayer';
 import '../PlayerAd';
-import styles from './PlayerOnboarding.styles';
 import EnumEventIma from '../../enums/EnumEventIma';
+import EnumQualityVideo from '../../enums/EnumQualityVideo';
+import WrapperHls from './vendors/WrapperHls';
+import styles from './PlayerOnboarding.styles';
 
 // TODO: "timeupdate" event + video.duration to obtain the video duration
 // cause if it's fired it means the metadata has already been loaded
@@ -16,7 +17,7 @@ export default class PlayerOnboarding extends HTMLElement {
     private currentVideo = 0;
     private autoplay = false;
     private isPlaying = false;
-    private hls?: Hls;
+    private wrapperHls?: WrapperHls;
     private muted = false;
     private dataUseIma = false;
     private width = '500';
@@ -36,6 +37,7 @@ export default class PlayerOnboarding extends HTMLElement {
         this.addEventListener(EnumEventPlayer.PlayNextPlayerOnboarding, this.playNext);
         this.addEventListener(EnumEventPlayer.PlayPreviousPlayerOnboarding, this.playPrevious);
         this.addEventListener(EnumEventPlayer.SkipAdPlayerOnboarding, this.hideAd);
+        this.addEventListener(EnumEventPlayer.ChangeQualityPlayerOnboarding, this.changeQuality);
         this.addEventListener(EnumEventPlayer.EndAd, this.hideAd);
         this.addEventListener(EnumEventIma.EndAdIma, this.hideAd);
         this.addEventListener(EnumEventIma.SkippedAdIma, this.hideAd);
@@ -112,6 +114,7 @@ export default class PlayerOnboarding extends HTMLElement {
 
     public disconnectedCallback(): void {
         this.observer?.unobserve(this);
+        this.wrapperHls?.destroy();
     }
 
     private render(): void {
@@ -153,26 +156,28 @@ export default class PlayerOnboarding extends HTMLElement {
 
     private setupHls(): void {
         const src = this.playlist[this.currentVideo].streamingManifest;
-        if (this.videoElement) {
-            if (Hls.isSupported()) {
-                console.log('HLS: hls is supported ');
-                this.hls = new Hls();
-                this.hls.loadSource(src);
-                this.hls.attachMedia(this.videoElement);
-            } else if (this.videoElement.canPlayType('application/vnd.apple.mpegurl')) {
-                console.log('HLS: can play hls natively (apple)');
-                this.videoElement.src = src;
-            } else {
-                console.log('HLS: hls is not supported ');
-                this.videoElement.src = this.playlist[this.currentVideo].video;
+        this.wrapperHls = WrapperHls.getInstance();
+        this.wrapperHls.setConfig(this.videoElement, src, this.setInitialQualityLevels.bind(this));
+
+        try {
+            this.wrapperHls.initialize();
+        } catch (error) {
+            if (this.videoElement) {
+                if (this.videoElement.canPlayType('application/vnd.apple.mpegurl')) {
+                    console.log('HLS: can play hls natively (apple)');
+                    this.videoElement.src = src;
+                } else {
+                    console.log('HLS: hls is not supported ');
+                    this.videoElement.src = this.playlist[this.currentVideo].video;
+                }
             }
         }
     }
 
     private refreshWithoutRender(): void {
         if (this.videoElement) {
-            if (this.hls) {
-                this.hls.loadSource(this.playlist[this.currentVideo].streamingManifest);
+            if (this.wrapperHls) {
+                this.wrapperHls.loadSource(this.playlist[this.currentVideo].streamingManifest);
             } else {
                 this.videoElement.src = this.playlist[this.currentVideo].video;
             }
@@ -285,6 +290,15 @@ export default class PlayerOnboarding extends HTMLElement {
             this.videoElement.muted = false;
             this.muted = false;
         }
+    }
+
+    private setInitialQualityLevels(levels: string[]): void {
+        this.controlsElement?.setAttribute('data-qualities', levels.join());
+    }
+
+    private changeQuality(event: Event): void {
+        const customEvent = event as CustomEvent<{ quality: EnumQualityVideo }>;
+        this.wrapperHls?.setQualityTo(customEvent.detail.quality);
     }
 }
 

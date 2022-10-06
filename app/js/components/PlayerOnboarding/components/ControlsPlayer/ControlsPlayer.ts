@@ -7,12 +7,14 @@ import './ButtonLoadAd';
 import './ButtonLoadAdIma';
 import './ButtonPlayNext';
 import './ButtonPlayPrevious';
+import './components/MenuSettings';
 import html from '../../../../utils/html';
 
 export default class ControlsPlayer extends HTMLElement {
     private isPlaying = false;
     private muted = false;
     private rendered = false;
+    private dataQualities = '';
 
     constructor() {
         super();
@@ -20,7 +22,7 @@ export default class ControlsPlayer extends HTMLElement {
     }
 
     public static get observedAttributes(): string[] {
-        return ['muted', 'autoplay'];
+        return ['muted', 'autoplay', 'data-qualities'];
     }
 
     public attributeChangedCallback(property: string, oldValue: string, newValue: string): void {
@@ -33,6 +35,10 @@ export default class ControlsPlayer extends HTMLElement {
 
             case 'muted':
                 this.muted = !this.muted;
+                break;
+
+            case 'data-qualities':
+                this.dataQualities = String(newValue);
                 break;
 
             default:
@@ -50,7 +56,6 @@ export default class ControlsPlayer extends HTMLElement {
         }
     }
 
-    // TODO: video quality controls using hls
     private render(): void {
         console.log('RENDER: <controls-player>');
         this.innerHTML = html`
@@ -63,6 +68,7 @@ export default class ControlsPlayer extends HTMLElement {
                 ? '<button class="control-hoverable" is="button-unmute"></button>'
                 : '<button class="control-hoverable" is="button-mute"></button>'}
             <div class="spacer"></div>
+            <menu-settings data-qualities=${this.dataQualities}></menu-settings>
             <button class="control-hoverable" is="button-load-ad" title="load ad"></button>
             <button
                 class="control-hoverable"
