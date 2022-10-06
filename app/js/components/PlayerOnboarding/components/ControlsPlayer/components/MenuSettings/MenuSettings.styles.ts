@@ -41,6 +41,7 @@ const styles = css`
     }
 
     .button-quality--active {
+        font-weight: 700;
         color: #0099ff;
     }
 `;

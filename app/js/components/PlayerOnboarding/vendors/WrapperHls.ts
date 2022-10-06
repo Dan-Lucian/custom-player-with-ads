@@ -61,7 +61,7 @@ class WrapperHls {
             } to ${this.mapQualityToLevel.get(quality)} (${quality})`
         );
         if (this.hls) {
-            this.hls.currentLevel = this.mapQualityToLevel.get(quality) || 0;
+            this.hls.currentLevel = this.mapQualityToLevel.get(quality) || -1;
         }
     }
 
