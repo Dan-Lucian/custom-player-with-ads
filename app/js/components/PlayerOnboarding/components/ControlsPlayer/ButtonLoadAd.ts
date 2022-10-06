@@ -1,6 +1,6 @@
-import html from '../../utils/html';
+import html from '../../../../utils/html';
 
-export default class ButtonPlay extends HTMLButtonElement {
+export default class ButtonLoadAd extends HTMLButtonElement {
     private rendered = false;
 
     public connectedCallback(): void {
@@ -13,10 +13,10 @@ export default class ButtonPlay extends HTMLButtonElement {
     private render(): void {
         this.innerHTML = html`
             <svg width="24px" height="24px" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-                <path fill="#fff" d="M5 4v16l16-8z" fill-rule="evenodd"></path>
+                <path fill="#d7f707" d="M5 4v16l16-8z" fill-rule="evenodd"></path>
             </svg>
         `;
     }
 }
 
-customElements.define('button-play', ButtonPlay, { extends: 'button' });
+customElements.define('button-load-ad', ButtonLoadAd, { extends: 'button' });

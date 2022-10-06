@@ -1,4 +1,4 @@
-import html from '../../utils/html';
+import html from '../../../../utils/html';
 
 export default class ButtonUnmute extends HTMLButtonElement {
     private rendered = false;

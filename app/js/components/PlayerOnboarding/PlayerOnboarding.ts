@@ -1,7 +1,7 @@
 import Hls from 'hls.js';
 import html from '../../utils/html';
 import EnumEventPlayer from '../../enums/EnumEventPlayer';
-import './ControlsPlayer';
+import './components/ControlsPlayer';
 import '../PlayerAd';
 import styles from './PlayerOnboarding.styles';
 import EnumEventIma from '../../enums/EnumEventIma';

@@ -1,6 +1,6 @@
-import html from '../../utils/html';
+import html from '../../../../utils/html';
 
-export default class ButtonMute extends HTMLButtonElement {
+export default class ButtonPlayNext extends HTMLButtonElement {
     private rendered = false;
 
     public connectedCallback(): void {
@@ -15,17 +15,18 @@ export default class ButtonMute extends HTMLButtonElement {
             <svg
                 width="24px"
                 height="24px"
-                markup-inline=""
+                class="cnx-color-icon"
                 xmlns="http://www.w3.org/2000/svg"
                 viewBox="0 0 24 24"
             >
                 <path
                     fill="#fff"
-                    d="M0 7.913v7.913h4.946l5.935 5.045V1.978L4.946 7.913zm16.815 3.957a5.476 5.476 0 00-2.967-4.946v9.9a5.475 5.475 0 002.967-4.945zM13.848 0v2.077a10.39 10.39 0 010 19.585v2.077a12.05 12.05 0 008.9-11.87A12.05 12.05 0 0013.848 0z"
+                    d="M18 21h3V3h-3v18zM3 21l14-9L3 3v18z"
+                    fill-rule="evenodd"
                 ></path>
             </svg>
         `;
     }
 }
 
-customElements.define('button-mute', ButtonMute, { extends: 'button' });
+customElements.define('button-play-next', ButtonPlayNext, { extends: 'button' });

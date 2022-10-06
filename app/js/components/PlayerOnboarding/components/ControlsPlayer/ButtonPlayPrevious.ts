@@ -1,6 +1,6 @@
-import html from '../../utils/html';
+import html from '../../../../utils/html';
 
-export default class ButtonPlayNext extends HTMLButtonElement {
+export default class ButtonPlayPrevious extends HTMLButtonElement {
     private rendered = false;
 
     public connectedCallback(): void {
@@ -29,4 +29,4 @@ export default class ButtonPlayNext extends HTMLButtonElement {
     }
 }
 
-customElements.define('button-play-next', ButtonPlayNext, { extends: 'button' });
+customElements.define('button-play-previous', ButtonPlayPrevious, { extends: 'button' });

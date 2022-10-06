@@ -1,4 +1,4 @@
-import EnumEventPlayer from '../../enums/EnumEventPlayer';
+import EnumEventPlayer from '../../../../enums/EnumEventPlayer';
 import './ButtonPlay';
 import './ButtonPause';
 import './ButtonMute';
@@ -7,7 +7,7 @@ import './ButtonLoadAd';
 import './ButtonLoadAdIma';
 import './ButtonPlayNext';
 import './ButtonPlayPrevious';
-import html from '../../utils/html';
+import html from '../../../../utils/html';
 
 export default class ControlsPlayer extends HTMLElement {
     private isPlaying = false;
@@ -50,6 +50,7 @@ export default class ControlsPlayer extends HTMLElement {
         }
     }
 
+    // TODO: video quality controls using hls
     private render(): void {
         console.log('RENDER: <controls-player>');
         this.innerHTML = html`
