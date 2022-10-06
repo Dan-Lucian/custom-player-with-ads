@@ -74,8 +74,8 @@ class WrapperHls {
             (level, index) => [String(level.height) as EnumQualityVideo, index]
         );
         arrayQualityAndLevel.push([EnumQualityVideo.Auto, -1]);
-
         this.mapQualityToLevel = new Map(arrayQualityAndLevel);
+
         const foundQualities = data.levels.map((level) => String(level.height)).concat('auto');
 
         if (this.callbackAfterManifestParsed) {
