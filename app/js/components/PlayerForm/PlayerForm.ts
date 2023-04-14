@@ -1,9 +1,10 @@
 import html from 'utils/html';
 import { isNull, isStringDefined } from 'utils/typeUtils';
-import { styles } from 'components/player-form/player-form.styles';
-import { PlayerFormInputNameEnum } from 'components/player-form/enums/PlayerFormInputNameEnum';
+import { styles } from 'components/PlayerForm/PlayerForm.styles';
+import { PlayerFormInputNameEnum } from 'components/PlayerForm/enums/PlayerFormInputNameEnum';
+import { ComponentsEnum } from 'enums/ComponentsEnum';
 
-export default class PlayerForm extends HTMLFormElement {
+export class PlayerForm extends HTMLFormElement {
     private hasRendered = false;
 
     constructor() {
@@ -19,7 +20,7 @@ export default class PlayerForm extends HTMLFormElement {
     }
 
     private static getContentPlayer(): Element | null {
-        return document.getElementsByTagName('dans-player')[0] || null;
+        return document.getElementsByTagName(ComponentsEnum.MyAwesomePlayer)[0] || null;
     }
 
     private static handleSubmit(event: Event): void {
@@ -79,5 +80,3 @@ export default class PlayerForm extends HTMLFormElement {
         `;
     }
 }
-
-customElements.define('player-form', PlayerForm, { extends: 'form' });

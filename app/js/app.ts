@@ -1,9 +1,10 @@
 import '../css/main.scss';
-import 'components/PlayerOnboarding';
-import 'components/player-form/player-form';
+import 'components/MyAwesomePlayer/MyAwesomePlayer';
+import 'components/PlayerForm/PlayerForm';
 import html from 'utils/html';
-import IWindowWithPlayerInitialization from 'interfaces/IWindowWithPlayerInitialization';
+import { IWindowWithPlayerInitialization } from 'interfaces/IWindowWithPlayerInitialization';
 import { isNull } from 'utils/typeUtils';
+import { ComponentsEnum } from 'enums/ComponentsEnum';
 
 const windowWithPlayerInitialization: IWindowWithPlayerInitialization = window;
 
@@ -12,8 +13,10 @@ windowWithPlayerInitialization.initializePlayer = ({ selector, playlist, useIma 
     const dataUseIma = useIma ? 'data-use-ima' : '';
 
     const template = html`
-        <player-onboarding playlist=${JSON.stringify(playlist)} ${dataUseIma}></player-onboarding>
-        <form is="player-form"></form>
+        <${ComponentsEnum.MyAwesomePlayer}
+            playlist=${JSON.stringify(playlist)} ${dataUseIma}>
+        </${ComponentsEnum.MyAwesomePlayer}>
+        <form is=${ComponentsEnum.PlayerForm}></form>
     `;
 
     if (!isNull(root)) {

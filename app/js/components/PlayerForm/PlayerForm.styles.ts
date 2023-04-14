@@ -1,7 +1,8 @@
+import { ComponentsEnum } from 'enums/ComponentsEnum';
 import css from 'utils/css';
 
 export const styles = css`
-    [is='player-form'] {
+    [is='${ComponentsEnum.PlayerForm}'] {
         /* background-color: yellow; */
         display: grid;
         gap: 10px;

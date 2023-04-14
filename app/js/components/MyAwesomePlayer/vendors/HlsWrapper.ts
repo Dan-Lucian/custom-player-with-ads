@@ -1,14 +1,14 @@
 import Hls, { Events, ManifestParsedData } from 'hls.js';
-import EnumQualityVideo from '../../../enums/EnumQualityVideo';
+import { VideoQualityEnum } from 'enums/VideoQualityEnum';
 
-class WrapperHls {
-    private static instance: WrapperHls;
+export class HlsWrapper {
+    private static instance: HlsWrapper;
 
     private hls?: Hls;
     private _videoElement: HTMLVideoElement | null = null;
     private src = '';
     private callbackAfterManifestParsed: ((levels: string[]) => void) | null = null;
-    private mapQualityToLevel: Map<EnumQualityVideo, number> = new Map();
+    private mapQualityToLevel: Map<VideoQualityEnum, number> = new Map();
 
     private constructor() {}
 
@@ -20,12 +20,12 @@ class WrapperHls {
         return this._videoElement;
     }
 
-    public static getInstance(): WrapperHls {
-        if (!WrapperHls.instance) {
-            WrapperHls.instance = new WrapperHls();
+    public static getInstance(): HlsWrapper {
+        if (!HlsWrapper.instance) {
+            HlsWrapper.instance = new HlsWrapper();
         }
 
-        return WrapperHls.instance;
+        return HlsWrapper.instance;
     }
 
     public setConfig(
@@ -54,7 +54,7 @@ class WrapperHls {
         this.hls?.loadSource(src);
     }
 
-    public setQualityTo(quality: EnumQualityVideo): void {
+    public setQualityTo(quality: VideoQualityEnum): void {
         console.log(
             `WRAPPER_HLS: changing quality from ${
                 this.hls?.currentLevel
@@ -70,10 +70,10 @@ class WrapperHls {
     }
 
     private handleManifestParsed(event: Events.MANIFEST_PARSED, data: ManifestParsedData): void {
-        const arrayQualityAndLevel: Array<[EnumQualityVideo, number]> = data.levels.map(
-            (level, index) => [String(level.height) as EnumQualityVideo, index]
+        const arrayQualityAndLevel: Array<[VideoQualityEnum, number]> = data.levels.map(
+            (level, index) => [String(level.height) as VideoQualityEnum, index]
         );
-        arrayQualityAndLevel.push([EnumQualityVideo.Auto, -1]);
+        arrayQualityAndLevel.push([VideoQualityEnum.Auto, -1]);
         this.mapQualityToLevel = new Map(arrayQualityAndLevel);
 
         const foundQualities = data.levels.map((level) => String(level.height)).concat('auto');
@@ -84,5 +84,3 @@ class WrapperHls {
         console.log(`WRAPPER_HLS: quality levels found: `, foundQualities);
     }
 }
-
-export default WrapperHls;

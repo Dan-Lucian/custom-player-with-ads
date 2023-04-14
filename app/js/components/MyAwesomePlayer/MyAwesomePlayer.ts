@@ -1,23 +1,23 @@
-import html from '../../utils/html';
-import EnumEventPlayer from '../../enums/EnumEventPlayer';
-import './components/ControlsPlayer';
-import '../PlayerAd';
-import EnumEventIma from '../../enums/EnumEventIma';
-import EnumQualityVideo from '../../enums/EnumQualityVideo';
-import WrapperHls from './vendors/WrapperHls';
-import styles from './PlayerOnboarding.styles';
+import 'components/MyAwesomePlayer/components/ControlsPlayer';
+import 'components/PlayerAd';
+import html from 'utils/html';
+import EnumEventPlayer from 'enums/EnumEventPlayer';
+import EnumEventIma from 'enums/EnumEventIma';
+import { VideoQualityEnum } from 'enums/VideoQualityEnum';
+import { HlsWrapper } from 'components/MyAwesomePlayer/vendors/HlsWrapper';
+import { styles } from 'components/MyAwesomePlayer/MyAwesomePlayer.styles';
 
 // TODO: "timeupdate" event + video.duration to obtain the video duration
 // cause if it's fired it means the metadata has already been loaded
 // TODO: "timeupdate" event + video.currentTime to update the progress bar
-export default class PlayerOnboarding extends HTMLElement {
+export class MyAwesomePlayer extends HTMLElement {
     private rendered = false;
     private shadow!: ShadowRoot;
     private playlist: { video: string; streamingManifest: string }[] = [];
     private currentVideo = 0;
     private autoplay = false;
     private isPlaying = false;
-    private wrapperHls?: WrapperHls;
+    private wrapperHls?: HlsWrapper;
     private muted = false;
     private dataUseIma = false;
     private width = '500';
@@ -156,7 +156,7 @@ export default class PlayerOnboarding extends HTMLElement {
 
     private setupHls(): void {
         const src = this.playlist[this.currentVideo].streamingManifest;
-        this.wrapperHls = WrapperHls.getInstance();
+        this.wrapperHls = HlsWrapper.getInstance();
         this.wrapperHls.setConfig(this.videoElement, src, this.setInitialQualityLevels.bind(this));
 
         try {
@@ -297,9 +297,7 @@ export default class PlayerOnboarding extends HTMLElement {
     }
 
     private changeQuality(event: Event): void {
-        const customEvent = event as CustomEvent<{ quality: EnumQualityVideo }>;
+        const customEvent = event as CustomEvent<{ quality: VideoQualityEnum }>;
         this.wrapperHls?.setQualityTo(customEvent.detail.quality);
     }
 }
-
-customElements.define('player-onboarding', PlayerOnboarding);

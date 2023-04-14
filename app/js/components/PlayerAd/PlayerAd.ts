@@ -1,4 +1,4 @@
-import { serviceAd } from '../../services';
+import { adService } from '../../services';
 import html from '../../utils/html';
 import extractInfoFromVastDOM from '../../utils/extractInfoFromVastDOM';
 import IInfoVast from '../../interfaces/IInfoVast';
@@ -65,7 +65,7 @@ export default class PlayerAd extends HTMLElement {
                     ${styles}
                 </style>
 
-                <player-ad-ima src=${serviceAd.getRandomLink()}></player-ad-ima>
+                <player-ad-ima src=${adService.getRandomLink()}></player-ad-ima>
             `;
 
             return;
@@ -89,7 +89,7 @@ export default class PlayerAd extends HTMLElement {
     }
 
     private async requestAd(): Promise<void> {
-        const vast = await serviceAd.requestAd();
+        const vast = await adService.requestAd();
 
         const parser = new DOMParser();
         const vastDOM = parser.parseFromString(vast, 'text/xml');

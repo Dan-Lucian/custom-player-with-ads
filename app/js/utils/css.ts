@@ -1,3 +1,5 @@
-export default function css(strings: TemplateStringsArray): string {
-    return String(strings);
+import assembleLiterals from 'utils/assembleLitererals';
+
+export default function css(strings: TemplateStringsArray, ...values: unknown[]): string {
+    return assembleLiterals(strings, values);
 }

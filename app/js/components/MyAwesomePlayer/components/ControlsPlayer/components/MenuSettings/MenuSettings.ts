@@ -1,15 +1,15 @@
-import html from '../../../../../../utils/html';
-import styles from './MenuSettings.styles';
 import './ButtonSettings';
 import './ButtonQuality';
-import EnumEventPlayer from '../../../../../../enums/EnumEventPlayer';
-import EnumQualityVideo from '../../../../../../enums/EnumQualityVideo';
+import html from 'utils/html';
+import EnumEventPlayer from 'enums/EnumEventPlayer';
+import { VideoQualityEnum } from 'enums/VideoQualityEnum';
+import styles from './MenuSettings.styles';
 
 export default class MenuSettings extends HTMLElement {
     private rendered = false;
     private areSettingsVisible = false;
-    private dataQualities: EnumQualityVideo[] = [];
-    private currentQuality = EnumQualityVideo.Auto;
+    private dataQualities: VideoQualityEnum[] = [];
+    private currentQuality = VideoQualityEnum.Auto;
 
     private get wrapperSettings(): HTMLElement | null {
         return this.querySelector('#wrapper-settings');
@@ -24,7 +24,7 @@ export default class MenuSettings extends HTMLElement {
 
         switch (property) {
             case 'data-qualities':
-                this.dataQualities = String(newValue).split(',') as EnumQualityVideo[];
+                this.dataQualities = String(newValue).split(',') as VideoQualityEnum[];
                 break;
 
             default:
@@ -84,7 +84,7 @@ export default class MenuSettings extends HTMLElement {
         if (is === 'button-quality') {
             const quality = target
                 .closest('[data-quality]')
-                ?.getAttribute('data-quality') as EnumQualityVideo;
+                ?.getAttribute('data-quality') as VideoQualityEnum;
 
             this.toggleSettings();
             this.dispatchEvent(

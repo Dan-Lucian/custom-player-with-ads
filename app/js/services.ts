@@ -1,6 +1,3 @@
-import ServiceAd from './services/ServiceAd';
+import { AdService } from 'services/AdService';
 
-const serviceAd = new ServiceAd();
-
-// eslint-disable-next-line import/prefer-default-export
-export { serviceAd };
+export const adService = new AdService();

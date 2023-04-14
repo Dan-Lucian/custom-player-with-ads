@@ -1,4 +1,6 @@
-import './streamingChunks';
+import { IWindowWithPlayerInitialization } from 'interfaces/IWindowWithPlayerInitialization';
+import { defineAllComponents } from 'utils/defineAllComponents';
+import 'streamingChunks';
 import srcVideoBunny from '../assets/videos/bunny/video/bunny.mp4';
 import streamingManifestBunny from '../assets/videos/bunny/streaming/bunny.m3u8';
 import srcVideoBunnyLong from '../assets/videos/bunny-long/video/bunny-long.mp4';
@@ -7,7 +9,6 @@ import srcVideoStronger from '../assets/videos/stronger/video/stronger.mp4';
 import streamingManifestStronger from '../assets/videos/stronger/streaming/stronger.m3u8';
 import srcVideoRainingMen from '../assets/videos/raining-men/video/raining-men.mp4';
 import streamingManifestRainingMen from '../assets/videos/raining-men/streaming/raining-men.m3u8';
-import IWindowWithPlayerInitialization from './interfaces/IWindowWithPlayerInitialization';
 
 const assets = [
     {
@@ -34,6 +35,7 @@ const assets = [
     }
 ];
 
+defineAllComponents();
 const windowWithPlayerInitialization: IWindowWithPlayerInitialization = window;
 
 if (windowWithPlayerInitialization.initializePlayer) {

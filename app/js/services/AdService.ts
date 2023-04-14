@@ -1,6 +1,6 @@
-import random from '../utils/random';
+import random from 'utils/random';
 
-class ServiceAd {
+export class AdService {
     private links = [
         'http://rtr.innovid.com/r1.57ebf098e82109.85834506;cb=__CB__',
         'https://assets.connatix.com/Elements/29cf9ad9-2fab-4ace-a5c8-d37d0242f38d/VastAdTag.xml',
@@ -34,5 +34,3 @@ class ServiceAd {
         return random(...this.links) as string;
     }
 }
-
-export default ServiceAd;

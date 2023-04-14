@@ -1,6 +1,6 @@
-import css from '../../utils/css';
+import css from 'utils/css';
 
-const styles = css`
+export const styles = css`
     :host {
         box-sizing: border-box;
         background: green;
@@ -90,5 +90,3 @@ const styles = css`
         flex-grow: 1;
     }
 `;
-
-export default styles;

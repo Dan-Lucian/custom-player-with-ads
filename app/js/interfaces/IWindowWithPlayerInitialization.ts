@@ -1,8 +1,5 @@
-/* eslint-disable no-unused-vars */
-import IOptionsPlayer from './IOptionsPlayer';
+import IOptionsPlayer from 'interfaces/IOptionsPlayer';
 
-interface IWindowWithPlayerInitialization extends Window {
+export interface IWindowWithPlayerInitialization extends Window {
     initializePlayer?: (options: IOptionsPlayer) => void;
 }
-
-export default IWindowWithPlayerInitialization;
