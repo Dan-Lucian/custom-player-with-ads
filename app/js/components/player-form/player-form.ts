@@ -8,24 +8,24 @@ export default class PlayerForm extends HTMLFormElement {
 
     constructor() {
         super();
-        this.addEventListener('submit', PlayerForm._handleSubmit);
+        this.addEventListener('submit', PlayerForm.handleSubmit);
     }
 
     public connectedCallback(): void {
         if (!this.hasRendered) {
-            this._render();
+            this.render();
             this.hasRendered = true;
         }
     }
 
-    private static _getContentPlayer(): Element | null {
-        return document.getElementsByTagName('content-player')[0] || null;
+    private static getContentPlayer(): Element | null {
+        return document.getElementsByTagName('dans-player')[0] || null;
     }
 
-    private static _handleSubmit(event: Event): void {
+    private static handleSubmit(event: Event): void {
         event.preventDefault();
 
-        const contentPlayer = PlayerForm._getContentPlayer();
+        const contentPlayer = PlayerForm.getContentPlayer();
         if (isNull(contentPlayer)) {
             return;
         }
@@ -57,7 +57,7 @@ export default class PlayerForm extends HTMLFormElement {
         }
     }
 
-    private _render(): void {
+    private render(): void {
         this.innerHTML = html`
             <style>
               ${styles}
