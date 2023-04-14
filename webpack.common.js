@@ -37,6 +37,10 @@ module.exports = {
         })
     ],
     resolve: {
-        extensions: ['.js', '.jsx', '.ts', '.tsx']
+        extensions: ['.js', '.jsx', '.ts', '.tsx'],
+        modules: [
+          path.resolve('./node_modules'),
+          path.resolve('./app/js')
+        ]
     }
 };

@@ -1,7 +1,7 @@
 import html from './utils/html';
 import '../css/main.scss';
-import './components/PlayerOnboarding';
-import './components/FormPlayer';
+import 'components/PlayerOnboarding';
+import 'components/FormPlayer';
 import IWindowWithPlayerInitialization from './interfaces/IWindowWithPlayerInitialization';
 
 const windowWithPlayerInitialization: IWindowWithPlayerInitialization = window;
