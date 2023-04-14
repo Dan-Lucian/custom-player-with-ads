@@ -12,8 +12,9 @@ import IWindowWithPlayerInitialization from './interfaces/IWindowWithPlayerIniti
 const assets = [
     {
         video: srcVideoBunny as string,
-        streamingManifest:
-            'http://vid.connatix.com/pid-da4e4ec0-12c3-42db-9f96-6c849b48c95e/cb2a0fb7-4d8f-4dbd-8fc7-b3fc7b2ed524/playlist.m3u8'
+        streamingManifest: '123'
+        // eslint-disable-next-line max-len
+        // 'http://vid.connatix.com/pid-da4e4ec0-12c3-42db-9f96-6c849b48c95e/cb2a0fb7-4d8f-4dbd-8fc7-b3fc7b2ed524/playlist.m3u8'
     },
     {
         video: srcVideoBunny as string,

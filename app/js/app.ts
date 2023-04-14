@@ -1,8 +1,9 @@
-import html from './utils/html';
 import '../css/main.scss';
 import 'components/PlayerOnboarding';
-import 'components/FormPlayer';
-import IWindowWithPlayerInitialization from './interfaces/IWindowWithPlayerInitialization';
+import 'components/player-form/player-form';
+import html from 'utils/html';
+import IWindowWithPlayerInitialization from 'interfaces/IWindowWithPlayerInitialization';
+import { isNull } from 'utils/typeUtils';
 
 const windowWithPlayerInitialization: IWindowWithPlayerInitialization = window;
 
@@ -12,10 +13,10 @@ windowWithPlayerInitialization.initializePlayer = ({ selector, playlist, useIma 
 
     const template = html`
         <player-onboarding playlist=${JSON.stringify(playlist)} ${dataUseIma}></player-onboarding>
-        <form is="form-player"></form>
+        <form is="player-form"></form>
     `;
 
-    if (root) {
+    if (!isNull(root)) {
         root.innerHTML = template;
     } else {
         document.currentScript?.parentElement?.insertAdjacentHTML('beforeend', template);

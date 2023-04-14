@@ -1,7 +1,7 @@
-import css from '../../utils/css';
+import css from 'utils/css';
 
-const styles = css`
-    [is='form-player'] {
+export const styles = css`
+    [is='player-form'] {
         /* background-color: yellow; */
         display: grid;
         gap: 10px;
@@ -9,5 +9,3 @@ const styles = css`
         justify-items: flex-start;
     }
 `;
-
-export default styles;

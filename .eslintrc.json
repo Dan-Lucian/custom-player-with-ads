@@ -31,6 +31,8 @@
     },
     "ignorePatterns": ["**/*.test.ts", "dist/", "webpack.*"],
     "rules": {
+        "import/prefer-default-export": "off",
+        "no-shadow": "off",
         "no-unused-vars": "off",
         "no-undef": "off",
         "no-console": "off",
@@ -44,7 +46,7 @@
         "no-use-before-define": "off",
         "no-cond-assign": ["error", "except-parens"],
         "quote-props": [2, "consistent-as-needed"],
-        "no-underscore-dangle": ["error", { "allowAfterThis": true }],
+        "no-underscore-dangle": "off",
         "import/no-unresolved": [2],
         "no-param-reassign": [
             2,
