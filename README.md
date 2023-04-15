@@ -19,7 +19,7 @@ A player with custom UI that can serve ads.
 
 **Stuff**
 
-- the player was built with native browser web components, no frameworks.
+- the player was built with native browser web components (aka custom elements), no frameworks.
 - the player supports basic VAST ads, VPAID ads and IMA ads.
 	- the player will run IMA-like urls (https://pubads.g.doubleclick.net) through IMA sdk.
 - support for video streaming using HLS with m3u8 manifests.
