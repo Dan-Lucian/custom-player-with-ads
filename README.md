@@ -23,6 +23,7 @@ A player with custom UI that can serve ads.
 - the player supports basic VAST ads, VPAID ads and IMA ads.
 	- the player will run IMA-like urls (https://pubads.g.doubleclick.net) through IMA sdk.
 - support for video streaming using HLS with m3u8 manifests.
+  - video quality switcher for manifests with multiple qualities.
 - custom made webpack (dev/prod) + typescript + eslint + prettier intergration.
 
 
