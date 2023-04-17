@@ -1,6 +1,6 @@
 import { adService } from 'services';
 import { html } from 'utils/generalUtils';
-import { VastParser } from 'modules/VastParser';
+import { VastParser } from 'modules/VastParser/VastParser';
 import { IVastInfo } from 'interfaces/IVastInfo';
 import { styles } from 'components/AdPlayer/AdPlayer.styles';
 import { ComponentsEnum } from 'enums/ComponentsEnum';
