@@ -1,7 +1,8 @@
-import css from '../../utils/css';
+import css from 'utils/css';
+import { ComponentsEnum } from 'enums/ComponentsEnum';
 
-const styles = css`
-    player-ad {
+export const styles = css`
+    ${ComponentsEnum.AdPlayer} {
         position: absolute;
         top: 0;
         bottom: 0;
@@ -13,9 +14,7 @@ const styles = css`
         justify-content: center;
     }
 
-    player-ad[hidden] {
+    ${ComponentsEnum.AdPlayer}[hidden] {
         display: none !important;
     }
 `;
-
-export default styles;

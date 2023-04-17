@@ -1,5 +1,4 @@
 import 'components/MyAwesomePlayer/components/ControlsPlayer';
-import 'components/PlayerAd';
 import html from 'utils/html';
 import { EnumEventIma } from 'enums/ImaEventEnum';
 import { VideoQualityEnum } from 'enums/VideoQualityEnum';
@@ -7,7 +6,8 @@ import { HlsWrapper } from 'components/MyAwesomePlayer/vendors/HlsWrapper';
 import { styles } from 'components/MyAwesomePlayer/MyAwesomePlayer.styles';
 import { MyAwesomePlayerAttributeEnum } from 'components/MyAwesomePlayer/enums/MyAwesomePlayerAttributeEnum';
 import { MyAwesomePlayerConfig } from 'components/MyAwesomePlayer/config/MyAwesomePlayerConfig';
-import { PlayerEventEnum } from '../../enums/PlayerEventEnum';
+import { PlayerEventEnum } from 'enums/PlayerEventEnum';
+import { ComponentsEnum } from 'enums/ComponentsEnum';
 
 // TODO: "timeupdate" event + video.duration to obtain the video duration
 // cause if it's fired it means the metadata has already been loaded
@@ -156,7 +156,7 @@ export class MyAwesomePlayer extends HTMLElement {
                             ${muted}
                             id="controls-player"
                         ></controls-player>
-                        <player-ad ${dataUseIma} hidden id="player-ad"></player-ad>
+                        <${ComponentsEnum.AdPlayer} ${dataUseIma} hidden id="player-ad"></${ComponentsEnum.AdPlayer}>
                     </div>
                 </div>
             `;

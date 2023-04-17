@@ -1,13 +1,14 @@
-import { adService } from '../../services';
-import html from '../../utils/html';
-import extractInfoFromVastDOM from '../../utils/extractInfoFromVastDOM';
-import { IVastInfo } from '../../interfaces/IVastInfo';
-import styles from './PlayerAd.styles';
-import './components/PlayerAdIframe';
-import './components/PlayerAdVideo';
-import './components/PlayerAdIma';
+import { adService } from 'services';
+import html from 'utils/html';
+import extractInfoFromVastDOM from 'utils/extractInfoFromVastDOM';
+import { IVastInfo } from 'interfaces/IVastInfo';
+import { styles } from 'components/PlayerAd/PlayerAd.styles';
+import 'components/PlayerAd/components/PlayerAdIframe';
+import 'components/PlayerAd/components/PlayerAdVideo';
+import 'components/PlayerAd/components/PlayerAdIma';
+import { ComponentsEnum } from 'enums/ComponentsEnum';
 
-export default class PlayerAd extends HTMLElement {
+export class AdPlayer extends HTMLElement {
     private rendered = false;
     private vastObj: IVastInfo | null = null;
     private dataUseIma = false;
@@ -58,7 +59,7 @@ export default class PlayerAd extends HTMLElement {
     }
 
     private render(): void {
-        console.log('RENDER: <player-ad>');
+        console.log(`RENDER: <${ComponentsEnum.AdPlayer}>`);
         if (this.dataUseIma) {
             this.innerHTML = html`
                 <style>
@@ -97,5 +98,3 @@ export default class PlayerAd extends HTMLElement {
         this.vastObj = extractInfoFromVastDOM(vastDOM);
     }
 }
-
-customElements.define('player-ad', PlayerAd);
