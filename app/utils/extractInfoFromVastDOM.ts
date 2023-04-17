@@ -1,7 +1,7 @@
 import { ResourceTypeEnum } from 'enums/ResourceTypeEnum';
-import IInfoVast from 'interfaces/IInfoVast';
+import { IVastInfo } from 'interfaces/IVastInfo';
 
-const extractInfoFromVastDOM = (vastDOM: Document): IInfoVast => {
+const extractInfoFromVastDOM = (vastDOM: Document): IVastInfo => {
     const isJavaScript =
         vastDOM.getElementsByTagName('MediaFile')[0].getAttribute('type') ===
         ResourceTypeEnum.JavaScript;
@@ -13,7 +13,7 @@ const extractInfoFromVastDOM = (vastDOM: Document): IInfoVast => {
 
     return {
         isVPAID: isJavaScript && isFrameworkVPAID,
-        linkMedia
+        mediaLink: linkMedia
     };
 };
 

@@ -1,7 +1,7 @@
 import { adService } from '../../services';
 import html from '../../utils/html';
 import extractInfoFromVastDOM from '../../utils/extractInfoFromVastDOM';
-import IInfoVast from '../../interfaces/IInfoVast';
+import { IVastInfo } from '../../interfaces/IVastInfo';
 import styles from './PlayerAd.styles';
 import './components/PlayerAdIframe';
 import './components/PlayerAdVideo';
@@ -9,7 +9,7 @@ import './components/PlayerAdIma';
 
 export default class PlayerAd extends HTMLElement {
     private rendered = false;
-    private vastObj: IInfoVast | null = null;
+    private vastObj: IVastInfo | null = null;
     private dataUseIma = false;
 
     public static get observedAttributes(): string[] {
@@ -77,9 +77,9 @@ export default class PlayerAd extends HTMLElement {
             </style>
 
             ${this.vastObj && this.vastObj.isVPAID
-                ? html`<player-ad-iframe data-src="${this.vastObj.linkMedia}"></player-ad-iframe>`
+                ? html`<player-ad-iframe data-src="${this.vastObj.mediaLink}"></player-ad-iframe>`
                 : html`<player-ad-video
-                      data-src="${this.vastObj?.linkMedia || ''}"
+                      data-src="${this.vastObj?.mediaLink || ''}"
                   ></player-ad-video>`}
         `;
     }

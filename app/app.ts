@@ -5,16 +5,21 @@ import html from 'utils/html';
 import { IWindowWithPlayerInitialization } from 'interfaces/IWindowWithPlayerInitialization';
 import { isNull } from 'utils/typeUtils';
 import { ComponentsEnum } from 'enums/ComponentsEnum';
+import { MyAwesomePlayerAttributeEnum } from 'components/MyAwesomePlayer/enums/MyAwesomePlayerAttributeEnum';
 
 const windowWithPlayerInitialization: IWindowWithPlayerInitialization = window;
 
-windowWithPlayerInitialization.initializePlayer = ({ selector, playlist, useIma }): void => {
-    const root = document.querySelector(selector);
-    const dataUseIma = useIma ? 'data-use-ima' : '';
+windowWithPlayerInitialization.initializePlayer = ({
+    cssSelector,
+    playlist,
+    shouldUseIma
+}): void => {
+    const root = document.querySelector(cssSelector);
+    const useImaAttribute = shouldUseIma ? MyAwesomePlayerAttributeEnum.UseIma : '';
 
     const template = html`
         <${ComponentsEnum.MyAwesomePlayer}
-            playlist=${JSON.stringify(playlist)} ${dataUseIma}>
+            playlist=${JSON.stringify(playlist)} ${useImaAttribute}>
         </${ComponentsEnum.MyAwesomePlayer}>
         <form is=${ComponentsEnum.PlayerForm}></form>
     `;

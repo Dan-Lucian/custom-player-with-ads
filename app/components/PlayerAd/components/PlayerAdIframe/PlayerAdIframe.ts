@@ -1,7 +1,7 @@
+import { IIframeWindow } from 'interfaces/IIframeWindow';
+import { EnumEventPlayerAd } from 'enums/AdPlayerEventEnum';
 import styles from './PlayerAdIframe.styles';
 import '../ControlsPlayerAd';
-import IWindowIframe from '../../../../interfaces/IWindowIframe';
-import { EnumEventPlayerAd } from '../../../../enums/AdPlayerEventEnum';
 import WrapperVPAID from './WrapperVPAID';
 
 export default class PlayerAdIframe extends HTMLElement {
@@ -72,7 +72,7 @@ export default class PlayerAdIframe extends HTMLElement {
             const scriptVPAID = document.createElement('script');
             scriptVPAID.src = this.dataSrc;
             scriptVPAID.onload = (): void => {
-                const VPAID = (iframe.contentWindow as IWindowIframe).getVPAIDAd();
+                const VPAID = (iframe.contentWindow as IIframeWindow).getVPAIDAd();
 
                 this.wrapperVPAID = new WrapperVPAID(VPAID, this, slotAd);
                 this.wrapperVPAID.init();

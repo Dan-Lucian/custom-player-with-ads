@@ -1,5 +1,5 @@
-import IOptionsPlayer from 'interfaces/IOptionsPlayer';
+import { IPlayerApi } from 'interfaces/IPlayerApi';
 
 export interface IWindowWithPlayerInitialization extends Window {
-    initializePlayer?: (options: IOptionsPlayer) => void;
+    initializePlayer?: (api: IPlayerApi) => void;
 }

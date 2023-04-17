@@ -9,8 +9,8 @@ defineAllComponents();
 const windowWithPlayerInitialization: IWindowWithPlayerInitialization = window;
 if (isDefined(windowWithPlayerInitialization.initializePlayer)) {
     windowWithPlayerInitialization.initializePlayer({
-        selector: '#root',
+        cssSelector: '#root',
         playlist: PLAYLIST,
-        useIma: false
+        shouldUseIma: false
     });
 }

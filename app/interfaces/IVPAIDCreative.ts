@@ -1,5 +1,4 @@
-/* eslint-disable no-unused-vars */
-interface VPAIDCreative {
+export interface IVPAIDCreative {
     handshakeVersion: (version: string) => string;
     initAd: (
         width: number,
@@ -22,5 +21,3 @@ interface VPAIDCreative {
     set adVolume(volume: number);
     get adVolume(): number;
 }
-
-export default VPAIDCreative;
