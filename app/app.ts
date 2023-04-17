@@ -1,4 +1,4 @@
-import '../css/main.scss';
+import 'css/main.scss';
 import 'components/MyAwesomePlayer/MyAwesomePlayer';
 import 'components/PlayerForm/PlayerForm';
 import html from 'utils/html';

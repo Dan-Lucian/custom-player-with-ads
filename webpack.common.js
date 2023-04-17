@@ -4,8 +4,8 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 module.exports = {
     context: path.join(__dirname, 'app'),
     entry: {
-        player: './js/App.ts',
-        init: './js/init.ts'
+        player: './App.ts',
+        init: './init.ts'
     },
     module: {
         rules: [
@@ -40,7 +40,7 @@ module.exports = {
         extensions: ['.js', '.jsx', '.ts', '.tsx'],
         modules: [
           path.resolve('./node_modules'),
-          path.resolve('./app/js')
+          path.resolve('./app')
         ]
     }
 };

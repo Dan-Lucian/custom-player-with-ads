@@ -19,7 +19,7 @@
         "import/resolver": {
             "node": {
                 "extensions": [".ts"],
-                "paths": ["app/js"]
+                "paths": ["app"]
             }
         }
     },
