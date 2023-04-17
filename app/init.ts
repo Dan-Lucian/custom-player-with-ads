@@ -1,10 +1,10 @@
 import 'mocks/streamingChunks';
 import { PLAYLIST } from 'mocks/playlist';
 import { IWindowWithPlayerInitialization } from 'interfaces/IWindowWithPlayerInitialization';
-import { defineAllComponents } from 'utils/defineAllComponents';
 import { isDefined } from 'utils/typeUtils';
+import { ComponentsDefiner } from 'modules/ComponentsDefiner/ComponentsDefiner';
 
-defineAllComponents();
+ComponentsDefiner.defineModuleLevelComponents();
 
 const windowWithPlayerInitialization: IWindowWithPlayerInitialization = window;
 if (isDefined(windowWithPlayerInitialization.initializePlayer)) {
