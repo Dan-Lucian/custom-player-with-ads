@@ -1,5 +1,4 @@
-/* eslint-disable no-unused-vars */
-enum EnumEventPlayer {
+export enum EnumEventPlayer {
     PlayPlayerOnboarding = 'play-player-onboarding',
     PlayAdPlayerOnboarding = 'play-ad-player-onboarding',
     PlayAdImaPlayerOnboarding = 'play-ad-ima-player-onboarding',
@@ -12,5 +11,3 @@ enum EnumEventPlayer {
     SkipAdPlayerOnboarding = 'skip-ad-player-onboarding',
     ChangeQualityPlayerOnboarding = 'quality-change-player-onboarding'
 }
-
-export default EnumEventPlayer;

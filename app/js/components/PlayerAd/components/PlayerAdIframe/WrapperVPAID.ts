@@ -1,6 +1,6 @@
-import EnumEventPlayer from '../../../../enums/EnumEventPlayer';
-import EnumEventVPAID from '../../../../enums/EnumEventVPAID';
-import IVPAIDCreative from '../../../../interfaces/IVPAIDCreative';
+import { EnumEventPlayer } from 'enums/EnumEventPlayer';
+import EnumEventVPAID from 'enums/EnumEventVPAID';
+import IVPAIDCreative from 'interfaces/IVPAIDCreative';
 
 export default class WrapperVPAID {
     private VPAID: IVPAIDCreative | null = null;

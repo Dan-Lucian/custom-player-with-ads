@@ -1,8 +1,8 @@
+import { EnumEventPlayer } from 'enums/EnumEventPlayer';
+import { VideoQualityEnum } from 'enums/VideoQualityEnum';
 import './ButtonSettings';
 import './ButtonQuality';
 import html from 'utils/html';
-import EnumEventPlayer from 'enums/EnumEventPlayer';
-import { VideoQualityEnum } from 'enums/VideoQualityEnum';
 import styles from './MenuSettings.styles';
 
 export default class MenuSettings extends HTMLElement {

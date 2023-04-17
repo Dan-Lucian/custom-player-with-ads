@@ -1,4 +1,4 @@
-import EnumEventPlayer from '../../../../enums/EnumEventPlayer';
+import { EnumEventPlayer } from 'enums/EnumEventPlayer';
 import './ButtonPlay';
 import './ButtonPause';
 import './ButtonMute';

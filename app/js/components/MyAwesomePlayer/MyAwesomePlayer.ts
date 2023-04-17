@@ -1,28 +1,30 @@
 import 'components/MyAwesomePlayer/components/ControlsPlayer';
 import 'components/PlayerAd';
 import html from 'utils/html';
-import EnumEventPlayer from 'enums/EnumEventPlayer';
 import EnumEventIma from 'enums/EnumEventIma';
 import { VideoQualityEnum } from 'enums/VideoQualityEnum';
 import { HlsWrapper } from 'components/MyAwesomePlayer/vendors/HlsWrapper';
 import { styles } from 'components/MyAwesomePlayer/MyAwesomePlayer.styles';
+import { MyAwesomePlayerAttributeEnum } from 'components/MyAwesomePlayer/enums/MyAwesomePlayerAttributeEnum';
+import { MyAwesomePlayerConfig } from 'components/MyAwesomePlayer/config/MyAwesomePlayerConfig';
+import { EnumEventPlayer } from '../../enums/EnumEventPlayer';
 
 // TODO: "timeupdate" event + video.duration to obtain the video duration
 // cause if it's fired it means the metadata has already been loaded
 // TODO: "timeupdate" event + video.currentTime to update the progress bar
 export class MyAwesomePlayer extends HTMLElement {
-    private rendered = false;
+    private hasRendered = false;
+    private shouldAutoplay = false;
+    private isPlaying = false;
+    private isMuted = false;
+    private shouldUseIma = false;
+    private isInView = true;
     private shadow!: ShadowRoot;
     private playlist: { video: string; streamingManifest: string }[] = [];
     private currentVideo = 0;
-    private autoplay = false;
-    private isPlaying = false;
-    private wrapperHls?: HlsWrapper;
-    private muted = false;
-    private dataUseIma = false;
-    private width = '500';
-    private isInView = true;
+    private width = MyAwesomePlayerConfig.DefaultWidth;
     private observer: IntersectionObserver | null = null;
+    private hlsWrapper?: HlsWrapper;
 
     constructor() {
         super();
@@ -45,7 +47,13 @@ export class MyAwesomePlayer extends HTMLElement {
     }
 
     public static get observedAttributes(): string[] {
-        return ['width', 'muted', 'autoplay', 'playlist', 'data-use-ima'];
+        return [
+            MyAwesomePlayerAttributeEnum.Width,
+            MyAwesomePlayerAttributeEnum.Muted,
+            MyAwesomePlayerAttributeEnum.Autoplay,
+            MyAwesomePlayerAttributeEnum.Playlist,
+            MyAwesomePlayerAttributeEnum.UseIma
+        ];
     }
 
     private get playerAd(): HTMLElement | null {
@@ -68,31 +76,35 @@ export class MyAwesomePlayer extends HTMLElement {
         return this.shadow.getElementById('controls-player') as HTMLElement | null;
     }
 
-    private attributeChangedCallback(property: string, oldValue: unknown, newValue: unknown): void {
+    private attributeChangedCallback(
+        attribute: string,
+        oldValue: unknown,
+        newValue: unknown
+    ): void {
         if (oldValue === newValue) return;
 
-        switch (property) {
-            case 'width':
+        switch (attribute) {
+            case MyAwesomePlayerAttributeEnum.Width:
                 this.width = String(newValue);
                 break;
 
-            case 'autoplay':
-                this.autoplay = !this.autoplay;
+            case MyAwesomePlayerAttributeEnum.Autoplay:
+                this.shouldAutoplay = !this.shouldAutoplay;
                 break;
 
-            case 'muted':
-                this.muted = !this.muted;
+            case MyAwesomePlayerAttributeEnum.Muted:
+                this.isMuted = !this.isMuted;
                 break;
 
-            case 'playlist':
+            case MyAwesomePlayerAttributeEnum.Playlist:
                 this.playlist = JSON.parse(newValue as string);
                 break;
 
-            case 'data-use-ima':
+            case MyAwesomePlayerAttributeEnum.UseIma:
                 if (newValue === null) {
-                    this.dataUseIma = false;
+                    this.shouldUseIma = false;
                 } else {
-                    this.dataUseIma = true;
+                    this.shouldUseIma = true;
                 }
                 return;
 
@@ -100,28 +112,28 @@ export class MyAwesomePlayer extends HTMLElement {
                 break;
         }
 
-        if (!this.rendered) return;
+        if (!this.hasRendered) return;
         this.render();
     }
 
     public connectedCallback(): void {
-        if (!this.rendered) {
+        if (!this.hasRendered) {
             this.render();
             this.setupIntersectionObserver();
-            this.rendered = true;
+            this.hasRendered = true;
         }
     }
 
     public disconnectedCallback(): void {
         this.observer?.unobserve(this);
-        this.wrapperHls?.destroy();
+        this.hlsWrapper?.destroy();
     }
 
     private render(): void {
         console.log('RENDER: <player-onboarding>');
-        const autoplay = this.autoplay ? 'autoplay' : '';
-        const muted = this.muted ? 'muted' : '';
-        const dataUseIma = this.dataUseIma ? 'data-use-ima' : '';
+        const autoplay = this.shouldAutoplay ? MyAwesomePlayerAttributeEnum.Autoplay : '';
+        const muted = this.isMuted ? MyAwesomePlayerAttributeEnum.Muted : '';
+        const dataUseIma = this.shouldUseIma ? MyAwesomePlayerAttributeEnum.UseIma : '';
 
         if (this.shadow) {
             this.shadow.innerHTML = html`
@@ -156,11 +168,11 @@ export class MyAwesomePlayer extends HTMLElement {
 
     private setupHls(): void {
         const src = this.playlist[this.currentVideo].streamingManifest;
-        this.wrapperHls = HlsWrapper.getInstance();
-        this.wrapperHls.setConfig(this.videoElement, src, this.setInitialQualityLevels.bind(this));
+        this.hlsWrapper = HlsWrapper.getInstance();
+        this.hlsWrapper.setConfig(this.videoElement, src, this.setInitialQualityLevels.bind(this));
 
         try {
-            this.wrapperHls.initialize();
+            this.hlsWrapper.initialize();
         } catch (error) {
             if (this.videoElement) {
                 if (this.videoElement.canPlayType('application/vnd.apple.mpegurl')) {
@@ -176,8 +188,8 @@ export class MyAwesomePlayer extends HTMLElement {
 
     private refreshWithoutRender(): void {
         if (this.videoElement) {
-            if (this.wrapperHls) {
-                this.wrapperHls.loadSource(this.playlist[this.currentVideo].streamingManifest);
+            if (this.hlsWrapper) {
+                this.hlsWrapper.loadSource(this.playlist[this.currentVideo].streamingManifest);
             } else {
                 this.videoElement.src = this.playlist[this.currentVideo].video;
             }
@@ -187,12 +199,12 @@ export class MyAwesomePlayer extends HTMLElement {
             const newControlsElement = document.createElement('controls-player');
             newControlsElement.id = 'controls-player';
 
-            if (this.autoplay) {
-                newControlsElement.setAttribute('autoplay', '');
+            if (this.shouldAutoplay) {
+                newControlsElement.setAttribute(MyAwesomePlayerAttributeEnum.Autoplay, '');
             }
 
-            if (this.muted) {
-                newControlsElement.setAttribute('muted', '');
+            if (this.isMuted) {
+                newControlsElement.setAttribute(MyAwesomePlayerAttributeEnum.Muted, '');
             }
 
             this.controlsElement.replaceWith(newControlsElement);
@@ -236,7 +248,7 @@ export class MyAwesomePlayer extends HTMLElement {
     private mute(): void {
         if (this.videoElement) {
             this.videoElement.muted = true;
-            this.muted = true;
+            this.isMuted = true;
         }
     }
 
@@ -281,14 +293,14 @@ export class MyAwesomePlayer extends HTMLElement {
 
     private renderAdThroughIma(): void {
         this.pause();
-        this.playerAd?.setAttribute('data-use-ima', '');
+        this.playerAd?.setAttribute(MyAwesomePlayerAttributeEnum.UseIma, '');
         this.playerAd?.removeAttribute('hidden');
     }
 
     private unmute(): void {
         if (this.videoElement) {
             this.videoElement.muted = false;
-            this.muted = false;
+            this.isMuted = false;
         }
     }
 
@@ -298,6 +310,6 @@ export class MyAwesomePlayer extends HTMLElement {
 
     private changeQuality(event: Event): void {
         const customEvent = event as CustomEvent<{ quality: VideoQualityEnum }>;
-        this.wrapperHls?.setQualityTo(customEvent.detail.quality);
+        this.hlsWrapper?.setQualityTo(customEvent.detail.quality);
     }
 }
