@@ -1,4 +1,4 @@
-import { adService } from 'services';
+import { adService } from 'services/services';
 import { html } from 'utils/generalUtils';
 import { VastParser } from 'modules/VastParser/VastParser';
 import { IVastInfo } from 'interfaces/IVastInfo';
