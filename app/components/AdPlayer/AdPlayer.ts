@@ -2,11 +2,11 @@ import { adService } from 'services';
 import html from 'utils/html';
 import extractInfoFromVastDOM from 'utils/extractInfoFromVastDOM';
 import { IVastInfo } from 'interfaces/IVastInfo';
-import { styles } from 'components/PlayerAd/PlayerAd.styles';
-import 'components/PlayerAd/components/PlayerAdIframe';
-import 'components/PlayerAd/components/PlayerAdVideo';
-import 'components/PlayerAd/components/PlayerAdIma';
+import { styles } from 'components/AdPlayer/AdPlayer.styles';
 import { ComponentsEnum } from 'enums/ComponentsEnum';
+import 'components/AdPlayer/components/PlayerAdIframe';
+import 'components/AdPlayer/components/PlayerAdVideo';
+import 'components/AdPlayer/components/PlayerAdIma';
 
 export class AdPlayer extends HTMLElement {
     private rendered = false;

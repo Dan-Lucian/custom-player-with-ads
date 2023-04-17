@@ -1,5 +1,5 @@
 import { MyAwesomePlayer } from 'components/MyAwesomePlayer/MyAwesomePlayer';
-import { AdPlayer } from 'components/PlayerAd/PlayerAd';
+import { AdPlayer } from 'components/AdPlayer/AdPlayer';
 import { PlayerForm } from 'components/PlayerForm/PlayerForm';
 import { ComponentsEnum } from 'enums/ComponentsEnum';
 
