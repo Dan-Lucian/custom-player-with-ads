@@ -1,7 +1,7 @@
 import styles from './PlayerAdIframe.styles';
 import '../ControlsPlayerAd';
 import IWindowIframe from '../../../../interfaces/IWindowIframe';
-import EnumEventPlayerAd from '../../../../enums/EnumEventPlayerAd';
+import { EnumEventPlayerAd } from '../../../../enums/AdPlayerEventEnum';
 import WrapperVPAID from './WrapperVPAID';
 
 export default class PlayerAdIframe extends HTMLElement {
@@ -12,11 +12,11 @@ export default class PlayerAdIframe extends HTMLElement {
     constructor() {
         super();
 
-        this.addEventListener(EnumEventPlayerAd.PlayPlayerAd, this.play);
-        this.addEventListener(EnumEventPlayerAd.PausePlayerAd, this.pause);
-        this.addEventListener(EnumEventPlayerAd.MutePlayerAd, this.mute);
-        this.addEventListener(EnumEventPlayerAd.UnmutePlayerAd, this.unmute);
-        this.addEventListener(EnumEventPlayerAd.SkipAdPlayerAd, this.skipAd);
+        this.addEventListener(EnumEventPlayerAd.Play, this.play);
+        this.addEventListener(EnumEventPlayerAd.Pause, this.pause);
+        this.addEventListener(EnumEventPlayerAd.Mute, this.mute);
+        this.addEventListener(EnumEventPlayerAd.Unmute, this.unmute);
+        this.addEventListener(EnumEventPlayerAd.SkipAd, this.skipAd);
     }
 
     public static get observedAttributes(): string[] {

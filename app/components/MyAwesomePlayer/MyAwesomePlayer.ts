@@ -1,13 +1,13 @@
 import 'components/MyAwesomePlayer/components/ControlsPlayer';
 import 'components/PlayerAd';
 import html from 'utils/html';
-import EnumEventIma from 'enums/EnumEventIma';
+import { EnumEventIma } from 'enums/ImaEventEnum';
 import { VideoQualityEnum } from 'enums/VideoQualityEnum';
 import { HlsWrapper } from 'components/MyAwesomePlayer/vendors/HlsWrapper';
 import { styles } from 'components/MyAwesomePlayer/MyAwesomePlayer.styles';
 import { MyAwesomePlayerAttributeEnum } from 'components/MyAwesomePlayer/enums/MyAwesomePlayerAttributeEnum';
 import { MyAwesomePlayerConfig } from 'components/MyAwesomePlayer/config/MyAwesomePlayerConfig';
-import { EnumEventPlayer } from '../../enums/EnumEventPlayer';
+import { PlayerEventEnum } from '../../enums/PlayerEventEnum';
 
 // TODO: "timeupdate" event + video.duration to obtain the video duration
 // cause if it's fired it means the metadata has already been loaded
@@ -30,20 +30,20 @@ export class MyAwesomePlayer extends HTMLElement {
         super();
         this.shadow = this.attachShadow({ mode: 'open' });
 
-        this.addEventListener(EnumEventPlayer.PlayPlayerOnboarding, this.play);
-        this.addEventListener(EnumEventPlayer.PlayAdPlayerOnboarding, this.renderAd);
-        this.addEventListener(EnumEventPlayer.PlayAdImaPlayerOnboarding, this.renderAdThroughIma);
-        this.addEventListener(EnumEventPlayer.PausePlayerOnboarding, this.pause);
-        this.addEventListener(EnumEventPlayer.MutePlayerOnboarding, this.mute);
-        this.addEventListener(EnumEventPlayer.UnmutePlayerOnboarding, this.unmute);
-        this.addEventListener(EnumEventPlayer.PlayNextPlayerOnboarding, this.playNext);
-        this.addEventListener(EnumEventPlayer.PlayPreviousPlayerOnboarding, this.playPrevious);
-        this.addEventListener(EnumEventPlayer.SkipAdPlayerOnboarding, this.hideAd);
-        this.addEventListener(EnumEventPlayer.ChangeQualityPlayerOnboarding, this.changeQuality);
-        this.addEventListener(EnumEventPlayer.EndAd, this.hideAd);
-        this.addEventListener(EnumEventIma.EndAdIma, this.hideAd);
-        this.addEventListener(EnumEventIma.SkippedAdIma, this.hideAd);
-        this.addEventListener(EnumEventIma.ErrorAdsManager, this.hideAd);
+        this.addEventListener(PlayerEventEnum.Play, this.play);
+        this.addEventListener(PlayerEventEnum.PlayAd, this.renderAd);
+        this.addEventListener(PlayerEventEnum.PlayImaAd, this.renderAdThroughIma);
+        this.addEventListener(PlayerEventEnum.Pause, this.pause);
+        this.addEventListener(PlayerEventEnum.Mute, this.mute);
+        this.addEventListener(PlayerEventEnum.Unmute, this.unmute);
+        this.addEventListener(PlayerEventEnum.PlayNext, this.playNext);
+        this.addEventListener(PlayerEventEnum.PlayPrevious, this.playPrevious);
+        this.addEventListener(PlayerEventEnum.SkipAd, this.hideAd);
+        this.addEventListener(PlayerEventEnum.ChangeQuality, this.changeQuality);
+        this.addEventListener(PlayerEventEnum.EndAd, this.hideAd);
+        this.addEventListener(EnumEventIma.AdEnd, this.hideAd);
+        this.addEventListener(EnumEventIma.AdSkip, this.hideAd);
+        this.addEventListener(EnumEventIma.AdsManagerError, this.hideAd);
     }
 
     public static get observedAttributes(): string[] {

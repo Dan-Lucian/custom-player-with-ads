@@ -1,7 +1,7 @@
 import html from '../../../../utils/html';
 import IMA from './IMA';
 import styles from './PlayerAdIma.styles';
-import EnumEventPlayerAd from '../../../../enums/EnumEventPlayerAd';
+import { EnumEventPlayerAd } from '../../../../enums/AdPlayerEventEnum';
 
 export default class PlayerAdIma extends HTMLElement {
     private src = '';
@@ -45,11 +45,11 @@ export default class PlayerAdIma extends HTMLElement {
     constructor() {
         super();
 
-        this.addEventListener(EnumEventPlayerAd.PlayPlayerAd, this.resume);
-        this.addEventListener(EnumEventPlayerAd.PausePlayerAd, this.pause);
-        this.addEventListener(EnumEventPlayerAd.MutePlayerAd, this.mute);
-        this.addEventListener(EnumEventPlayerAd.UnmutePlayerAd, this.unmute);
-        this.addEventListener(EnumEventPlayerAd.SkipAdPlayerAd, this.skipAd);
+        this.addEventListener(EnumEventPlayerAd.Play, this.resume);
+        this.addEventListener(EnumEventPlayerAd.Pause, this.pause);
+        this.addEventListener(EnumEventPlayerAd.Mute, this.mute);
+        this.addEventListener(EnumEventPlayerAd.Unmute, this.unmute);
+        this.addEventListener(EnumEventPlayerAd.SkipAd, this.skipAd);
     }
 
     public connectedCallback(): void {

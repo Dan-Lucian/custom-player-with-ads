@@ -1,14 +1,18 @@
-enum EnumEventVPAID {
+export enum VpaidEventEnum {
     AdLoaded = 'AdLoaded',
     AdStarted = 'AdStarted',
     AdStopped = 'AdStopped',
     AdSkipped = 'AdSkipped',
-    AdSkippableStateChange = 'AdSkippableStateChange', // VPAID 2.0 new event
-    AdSizeChange = 'AdSizeChange', // VPAID 2.0 new event
+    // VPAID 2.0 new event
+    AdSkippableStateChange = 'AdSkippableStateChange',
+    // VPAID 2.0 new event
+    AdSizeChange = 'AdSizeChange',
     AdLinearChange = 'AdLinearChange',
-    AdDurationChange = 'AdDurationChange', // VPAID 2.0 new event
+    // VPAID 2.0 new event
+    AdDurationChange = 'AdDurationChange',
     AdExpandedChange = 'AdExpandedChange',
-    AdRemainingTimeChange = 'AdRemainingTimeChange', // [Deprecated in 2.0] but will be still fired for backwards compatibility
+    // [Deprecated in 2.0] but will be still fired for backwards compatibility
+    AdRemainingTimeChange = 'AdRemainingTimeChange',
     AdVolumeChange = 'AdVolumeChange',
     AdImpression = 'AdImpression',
     AdVideoStart = 'AdVideoStart',
@@ -17,7 +21,8 @@ enum EnumEventVPAID {
     AdVideoThirdQuartile = 'AdVideoThirdQuartile',
     AdVideoComplete = 'AdVideoComplete',
     AdClickThru = 'AdClickThru',
-    AdInteraction = 'AdInteraction', // VPAID 2.0 new event
+    // VPAID 2.0 new event
+    AdInteraction = 'AdInteraction',
     AdUserAcceptInvitation = 'AdUserAcceptInvitation',
     AdUserMinimize = 'AdUserMinimize',
     AdUserClose = 'AdUserClose',
@@ -26,5 +31,3 @@ enum EnumEventVPAID {
     AdLog = 'AdLog',
     AdError = 'AdError'
 }
-
-export default EnumEventVPAID;

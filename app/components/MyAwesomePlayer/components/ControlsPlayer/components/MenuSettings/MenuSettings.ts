@@ -1,4 +1,4 @@
-import { EnumEventPlayer } from 'enums/EnumEventPlayer';
+import { PlayerEventEnum } from 'enums/PlayerEventEnum';
 import { VideoQualityEnum } from 'enums/VideoQualityEnum';
 import './ButtonSettings';
 import './ButtonQuality';
@@ -88,7 +88,7 @@ export default class MenuSettings extends HTMLElement {
 
             this.toggleSettings();
             this.dispatchEvent(
-                new CustomEvent(EnumEventPlayer.ChangeQualityPlayerOnboarding, {
+                new CustomEvent(PlayerEventEnum.ChangeQuality, {
                     bubbles: true,
                     composed: true,
                     detail: { quality }

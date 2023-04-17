@@ -1,4 +1,4 @@
-import { EnumEventPlayer } from 'enums/EnumEventPlayer';
+import { PlayerEventEnum } from 'enums/PlayerEventEnum';
 import './ButtonPlay';
 import './ButtonPause';
 import './ButtonMute';
@@ -84,7 +84,7 @@ export default class ControlsPlayer extends HTMLElement {
 
         if (is === 'button-play') {
             this.dispatchEvent(
-                new CustomEvent(EnumEventPlayer.PlayPlayerOnboarding, {
+                new CustomEvent(PlayerEventEnum.Play, {
                     bubbles: true,
                     composed: true
                 })
@@ -97,7 +97,7 @@ export default class ControlsPlayer extends HTMLElement {
 
         if (is === 'button-pause') {
             this.dispatchEvent(
-                new CustomEvent(EnumEventPlayer.PausePlayerOnboarding, {
+                new CustomEvent(PlayerEventEnum.Pause, {
                     bubbles: true,
                     composed: true
                 })
@@ -110,7 +110,7 @@ export default class ControlsPlayer extends HTMLElement {
 
         if (is === 'button-mute') {
             this.dispatchEvent(
-                new CustomEvent(EnumEventPlayer.MutePlayerOnboarding, {
+                new CustomEvent(PlayerEventEnum.Mute, {
                     bubbles: true,
                     composed: true
                 })
@@ -123,7 +123,7 @@ export default class ControlsPlayer extends HTMLElement {
 
         if (is === 'button-unmute') {
             this.dispatchEvent(
-                new CustomEvent(EnumEventPlayer.UnmutePlayerOnboarding, {
+                new CustomEvent(PlayerEventEnum.Unmute, {
                     bubbles: true,
                     composed: true
                 })
@@ -134,7 +134,7 @@ export default class ControlsPlayer extends HTMLElement {
 
         if (is === 'button-play-next') {
             this.dispatchEvent(
-                new CustomEvent(EnumEventPlayer.PlayNextPlayerOnboarding, {
+                new CustomEvent(PlayerEventEnum.PlayNext, {
                     bubbles: true,
                     composed: true
                 })
@@ -143,7 +143,7 @@ export default class ControlsPlayer extends HTMLElement {
 
         if (is === 'button-play-previous') {
             this.dispatchEvent(
-                new CustomEvent(EnumEventPlayer.PlayPreviousPlayerOnboarding, {
+                new CustomEvent(PlayerEventEnum.PlayPrevious, {
                     bubbles: true,
                     composed: true
                 })
@@ -152,7 +152,7 @@ export default class ControlsPlayer extends HTMLElement {
 
         if (is === 'button-load-ad') {
             this.dispatchEvent(
-                new CustomEvent(EnumEventPlayer.PlayAdPlayerOnboarding, {
+                new CustomEvent(PlayerEventEnum.PlayAd, {
                     bubbles: true,
                     composed: true
                 })
@@ -161,7 +161,7 @@ export default class ControlsPlayer extends HTMLElement {
 
         if (is === 'button-load-ad-ima') {
             this.dispatchEvent(
-                new CustomEvent(EnumEventPlayer.PlayAdImaPlayerOnboarding, {
+                new CustomEvent(PlayerEventEnum.PlayImaAd, {
                     bubbles: true,
                     composed: true
                 })

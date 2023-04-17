@@ -1,5 +1,5 @@
-import { EnumEventPlayer } from 'enums/EnumEventPlayer';
-import EnumEventVPAID from 'enums/EnumEventVPAID';
+import { PlayerEventEnum } from 'enums/PlayerEventEnum';
+import { VpaidEventEnum } from 'enums/VpaidEventEnum';
 import IVPAIDCreative from 'interfaces/IVPAIDCreative';
 
 export default class WrapperVPAID {
@@ -13,11 +13,11 @@ export default class WrapperVPAID {
         this.nodeSlot = nodeSlot;
 
         if (this.VPAID) {
-            this.VPAID.subscribe(this.handleAdLoaded.bind(this), EnumEventVPAID.AdLoaded);
-            this.VPAID.subscribe(WrapperVPAID.handleAdStarted, EnumEventVPAID.AdStarted);
+            this.VPAID.subscribe(this.handleAdLoaded.bind(this), VpaidEventEnum.AdLoaded);
+            this.VPAID.subscribe(WrapperVPAID.handleAdStarted, VpaidEventEnum.AdStarted);
             this.VPAID.subscribe(
                 this.handleAdVideoComplete.bind(this),
-                EnumEventVPAID.AdVideoComplete
+                VpaidEventEnum.AdVideoComplete
             );
         }
     }
@@ -66,7 +66,7 @@ export default class WrapperVPAID {
     public skipAd(): void {
         this.VPAID?.skipAd();
         this.nodeCurrent?.dispatchEvent(
-            new CustomEvent(EnumEventPlayer.SkipAdPlayerOnboarding, {
+            new CustomEvent(PlayerEventEnum.SkipAd, {
                 bubbles: true,
                 composed: true
             })
@@ -85,7 +85,7 @@ export default class WrapperVPAID {
     private handleAdVideoComplete(): void {
         console.log('EVENT DISPTACHED: end-ad');
         this.nodeCurrent?.dispatchEvent(
-            new CustomEvent(EnumEventPlayer.EndAd, {
+            new CustomEvent(PlayerEventEnum.EndAd, {
                 bubbles: true,
                 composed: true
             })

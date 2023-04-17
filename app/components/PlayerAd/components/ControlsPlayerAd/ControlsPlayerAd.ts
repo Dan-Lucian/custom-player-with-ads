@@ -1,4 +1,4 @@
-import EnumEventPlayerAd from '../../../../enums/EnumEventPlayerAd';
+import { EnumEventPlayerAd } from '../../../../enums/AdPlayerEventEnum';
 import html from '../../../../utils/html';
 import './ButtonPlayAd';
 import './ButtonPauseAd';
@@ -72,7 +72,7 @@ export default class ControlsPlayerAd extends HTMLElement {
 
         if (is === 'button-play-ad') {
             this.dispatchEvent(
-                new CustomEvent(EnumEventPlayerAd.PlayPlayerAd, {
+                new CustomEvent(EnumEventPlayerAd.Play, {
                     bubbles: true
                 })
             );
@@ -84,7 +84,7 @@ export default class ControlsPlayerAd extends HTMLElement {
 
         if (is === 'button-pause-ad') {
             this.dispatchEvent(
-                new CustomEvent(EnumEventPlayerAd.PausePlayerAd, {
+                new CustomEvent(EnumEventPlayerAd.Pause, {
                     bubbles: true
                 })
             );
@@ -96,7 +96,7 @@ export default class ControlsPlayerAd extends HTMLElement {
 
         if (is === 'button-mute-ad') {
             this.dispatchEvent(
-                new CustomEvent(EnumEventPlayerAd.MutePlayerAd, {
+                new CustomEvent(EnumEventPlayerAd.Mute, {
                     bubbles: true
                 })
             );
@@ -108,7 +108,7 @@ export default class ControlsPlayerAd extends HTMLElement {
 
         if (is === 'button-unmute-ad') {
             this.dispatchEvent(
-                new CustomEvent(EnumEventPlayerAd.UnmutePlayerAd, {
+                new CustomEvent(EnumEventPlayerAd.Unmute, {
                     bubbles: true
                 })
             );

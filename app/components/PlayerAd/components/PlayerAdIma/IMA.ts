@@ -1,4 +1,4 @@
-import EnumEventIma from '../../../../enums/EnumEventIma';
+import { EnumEventIma } from '../../../../enums/ImaEventEnum';
 
 class IMA {
     private static instance: IMA;
@@ -106,7 +106,7 @@ class IMA {
         } catch (error: unknown) {
             console.log('AdsManager could not be started');
             this.adContainer.dispatchEvent(
-                new CustomEvent(EnumEventIma.ErrorAdsManager, {
+                new CustomEvent(EnumEventIma.AdsManagerError, {
                     bubbles: true,
                     composed: true
                 })
@@ -169,7 +169,7 @@ class IMA {
 
         this.adsManager.addEventListener(this.ima.AdEvent.Type.COMPLETE, () => {
             this.adContainer.dispatchEvent(
-                new CustomEvent(EnumEventIma.EndAdIma, {
+                new CustomEvent(EnumEventIma.AdEnd, {
                     bubbles: true,
                     composed: true
                 })
@@ -178,7 +178,7 @@ class IMA {
 
         this.adsManager.addEventListener(this.ima.AdEvent.Type.SKIPPED, () => {
             this.adContainer.dispatchEvent(
-                new CustomEvent(EnumEventIma.SkippedAdIma, {
+                new CustomEvent(EnumEventIma.AdSkip, {
                     bubbles: true,
                     composed: true
                 })

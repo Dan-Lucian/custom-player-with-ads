@@ -1,10 +1,10 @@
-import EnumTypeResource from '../enums/EnumTypeResource';
-import IInfoVast from '../interfaces/IInfoVast';
+import { ResourceTypeEnum } from 'enums/ResourceTypeEnum';
+import IInfoVast from 'interfaces/IInfoVast';
 
 const extractInfoFromVastDOM = (vastDOM: Document): IInfoVast => {
     const isJavaScript =
         vastDOM.getElementsByTagName('MediaFile')[0].getAttribute('type') ===
-        EnumTypeResource.JavaScript;
+        ResourceTypeEnum.JavaScript;
 
     const isFrameworkVPAID =
         vastDOM.getElementsByTagName('MediaFile')[0].getAttribute('apiFramework') === 'VPAID';

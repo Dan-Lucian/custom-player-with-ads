@@ -1,5 +1,5 @@
-import EnumEventPlayerAd from 'enums/EnumEventPlayerAd';
-import { EnumEventPlayer } from 'enums/EnumEventPlayer';
+import { EnumEventPlayerAd } from 'enums/AdPlayerEventEnum';
+import { PlayerEventEnum } from 'enums/PlayerEventEnum';
 import styles from './PlayerAdVideo.styles';
 import '../ControlsPlayerAd';
 
@@ -12,11 +12,11 @@ export default class PlayerAdVideo extends HTMLElement {
     constructor() {
         super();
 
-        this.addEventListener(EnumEventPlayerAd.PlayPlayerAd, this.play);
-        this.addEventListener(EnumEventPlayerAd.PausePlayerAd, this.pause);
-        this.addEventListener(EnumEventPlayerAd.MutePlayerAd, this.mute);
-        this.addEventListener(EnumEventPlayerAd.UnmutePlayerAd, this.unmute);
-        this.addEventListener(EnumEventPlayerAd.SkipAdPlayerAd, this.skipAd);
+        this.addEventListener(EnumEventPlayerAd.Play, this.play);
+        this.addEventListener(EnumEventPlayerAd.Pause, this.pause);
+        this.addEventListener(EnumEventPlayerAd.Mute, this.mute);
+        this.addEventListener(EnumEventPlayerAd.Unmute, this.unmute);
+        this.addEventListener(EnumEventPlayerAd.SkipAd, this.skipAd);
     }
 
     private get videoElement(): HTMLVideoElement | null {
@@ -103,11 +103,11 @@ export default class PlayerAdVideo extends HTMLElement {
     }
 
     private skipAd(): void {
-        console.log('EVENT DISPATCHED: ', EnumEventPlayer.SkipAdPlayerOnboarding);
+        console.log('EVENT DISPATCHED: ', PlayerEventEnum.SkipAd);
         this.dataSrc = '';
         this.render();
         this.dispatchEvent(
-            new CustomEvent(EnumEventPlayer.SkipAdPlayerOnboarding, {
+            new CustomEvent(PlayerEventEnum.SkipAd, {
                 bubbles: true,
                 composed: true
             })
