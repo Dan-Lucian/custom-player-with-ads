@@ -38,3 +38,16 @@ export function css(strings: TemplateStringsArray, ...values: unknown[]): string
 export function html(strings: TemplateStringsArray, ...values: unknown[]): string {
     return assembleTemplateStrings(strings, values);
 }
+
+/**
+ * Gets a random value from an array.
+ * @param {T[]} array array of values.
+ * @returns {T} random value.
+ */
+export function getRandomValueFromArray<T>(array: T[]): T {
+    const min = 0;
+    const max = array.length - 1;
+    const intRandom = Math.floor(Math.random() * (max - min + 1)) + min;
+
+    return array[intRandom];
+}

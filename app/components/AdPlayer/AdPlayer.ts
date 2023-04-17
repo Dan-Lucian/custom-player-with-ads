@@ -66,7 +66,7 @@ export class AdPlayer extends HTMLElement {
                     ${styles}
                 </style>
 
-                <player-ad-ima src=${adService.getRandomLink()}></player-ad-ima>
+                <player-ad-ima src=${adService.getRandomAdUrl()}></player-ad-ima>
             `;
 
             return;
