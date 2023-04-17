@@ -1,5 +1,5 @@
 import { ComponentsEnum } from 'enums/ComponentsEnum';
-import css from 'utils/css';
+import { css } from 'utils/generalUtils';
 
 export const styles = css`
     [is='${ComponentsEnum.PlayerForm}'] {

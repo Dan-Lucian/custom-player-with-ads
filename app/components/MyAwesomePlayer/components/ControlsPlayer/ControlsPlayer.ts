@@ -8,7 +8,7 @@ import './ButtonLoadAdIma';
 import './ButtonPlayNext';
 import './ButtonPlayPrevious';
 import './components/MenuSettings';
-import html from '../../../../utils/html';
+import { html } from '../../../../utils/generalUtils';
 
 export default class ControlsPlayer extends HTMLElement {
     private isPlaying = false;

@@ -1,4 +1,4 @@
-import css from '../../../../utils/css';
+import { css } from '../../../../utils/generalUtils';
 
 const styles = css`
     player-ad-ima {

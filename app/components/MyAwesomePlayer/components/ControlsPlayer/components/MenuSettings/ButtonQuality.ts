@@ -1,4 +1,4 @@
-import html from '../../../../../../utils/html';
+import { html } from '../../../../../../utils/generalUtils';
 
 export default class ButtonQuality extends HTMLButtonElement {
     private rendered = false;

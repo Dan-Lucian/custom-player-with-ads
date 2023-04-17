@@ -1,4 +1,4 @@
-import html from '../../../../utils/html';
+import { html } from '../../../../utils/generalUtils';
 import IMA from './IMA';
 import styles from './PlayerAdIma.styles';
 import { EnumEventPlayerAd } from '../../../../enums/AdPlayerEventEnum';

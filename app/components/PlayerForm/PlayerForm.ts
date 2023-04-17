@@ -1,4 +1,4 @@
-import html from 'utils/html';
+import { html } from 'utils/generalUtils';
 import { isNull, isStringDefined } from 'utils/typeUtils';
 import { styles } from 'components/PlayerForm/PlayerForm.styles';
 import { PlayerFormInputNameEnum } from 'components/PlayerForm/enums/PlayerFormInputNameEnum';

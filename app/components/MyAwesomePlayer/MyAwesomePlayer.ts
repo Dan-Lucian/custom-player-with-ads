@@ -1,5 +1,5 @@
 import 'components/MyAwesomePlayer/components/ControlsPlayer';
-import html from 'utils/html';
+import { html } from 'utils/generalUtils';
 import { EnumEventIma } from 'enums/ImaEventEnum';
 import { VideoQualityEnum } from 'enums/VideoQualityEnum';
 import { HlsWrapper } from 'components/MyAwesomePlayer/vendors/HlsWrapper';

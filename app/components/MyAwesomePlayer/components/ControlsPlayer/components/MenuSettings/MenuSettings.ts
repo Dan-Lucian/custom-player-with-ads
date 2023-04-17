@@ -2,7 +2,7 @@ import { PlayerEventEnum } from 'enums/PlayerEventEnum';
 import { VideoQualityEnum } from 'enums/VideoQualityEnum';
 import './ButtonSettings';
 import './ButtonQuality';
-import html from 'utils/html';
+import { html } from 'utils/generalUtils';
 import styles from './MenuSettings.styles';
 
 export default class MenuSettings extends HTMLElement {

@@ -1,4 +1,4 @@
-import css from 'utils/css';
+import { css } from 'utils/generalUtils';
 import { ComponentsEnum } from 'enums/ComponentsEnum';
 
 export const styles = css`

@@ -1,7 +1,7 @@
 import 'css/main.scss';
 import 'components/MyAwesomePlayer/MyAwesomePlayer';
 import 'components/PlayerForm/PlayerForm';
-import html from 'utils/html';
+import { html } from 'utils/generalUtils';
 import { IWindowWithPlayerInitialization } from 'interfaces/IWindowWithPlayerInitialization';
 import { isNull } from 'utils/typeUtils';
 import { ComponentsEnum } from 'enums/ComponentsEnum';

@@ -1,4 +1,4 @@
-import html from '../../../../../../utils/html';
+import { html } from '../../../../../../utils/generalUtils';
 
 export default class ButtonSettings extends HTMLButtonElement {
     private rendered = false;

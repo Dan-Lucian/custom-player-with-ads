@@ -1,5 +1,5 @@
 import { adService } from 'services';
-import html from 'utils/html';
+import { html } from 'utils/generalUtils';
 import extractInfoFromVastDOM from 'utils/extractInfoFromVastDOM';
 import { IVastInfo } from 'interfaces/IVastInfo';
 import { styles } from 'components/AdPlayer/AdPlayer.styles';

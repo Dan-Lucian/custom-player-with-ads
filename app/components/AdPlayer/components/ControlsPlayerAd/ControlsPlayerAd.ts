@@ -1,5 +1,5 @@
 import { EnumEventPlayerAd } from '../../../../enums/AdPlayerEventEnum';
-import html from '../../../../utils/html';
+import { html } from '../../../../utils/generalUtils';
 import './ButtonPlayAd';
 import './ButtonPauseAd';
 import './ButtonMuteAd';
