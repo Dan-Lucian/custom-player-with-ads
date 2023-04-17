@@ -1,11 +1,9 @@
 import 'css/main.scss';
-import 'components/MyAwesomePlayer/MyAwesomePlayer';
-import 'components/PlayerForm/PlayerForm';
 import { html } from 'utils/generalUtils';
 import { IWindowWithPlayerInitialization } from 'interfaces/IWindowWithPlayerInitialization';
 import { isNull } from 'utils/typeUtils';
 import { ComponentsEnum } from 'enums/ComponentsEnum';
-import { MyAwesomePlayerAttributeEnum } from 'components/MyAwesomePlayer/enums/MyAwesomePlayerAttributeEnum';
+import { MyAwesomePlayerAttributeEnum } from 'modules/MyAwesomePlayer/enums/MyAwesomePlayerAttributeEnum';
 
 const windowWithPlayerInitialization: IWindowWithPlayerInitialization = window;
 

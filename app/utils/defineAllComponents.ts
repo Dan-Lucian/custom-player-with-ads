@@ -1,6 +1,6 @@
-import { MyAwesomePlayer } from 'components/MyAwesomePlayer/MyAwesomePlayer';
-import { AdPlayer } from 'components/AdPlayer/AdPlayer';
-import { PlayerForm } from 'components/PlayerForm/PlayerForm';
+import { MyAwesomePlayer } from 'modules/MyAwesomePlayer/MyAwesomePlayer';
+import { AdPlayer } from 'modules/AdPlayer/AdPlayer';
+import { PlayerForm } from 'modules/PlayerForm/PlayerForm';
 import { ComponentsEnum } from 'enums/ComponentsEnum';
 
 export function defineAllComponents(): void {
