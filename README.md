@@ -29,4 +29,5 @@ A player with custom UI that can serve ads.
 
 ## Upcoming features
 
-- [] Feature: Seek bar.
+- [ ] Feature: Seek bar.
+- [ ] Feature: Sound slider.
