@@ -20,7 +20,9 @@ export default class MenuSettings extends HTMLElement {
     }
 
     public attributeChangedCallback(property: string, oldValue: string, newValue: string): void {
-        if (oldValue === newValue) return;
+        if (oldValue === newValue) {
+            return;
+        }
 
         switch (property) {
             case 'data-qualities':
@@ -31,7 +33,9 @@ export default class MenuSettings extends HTMLElement {
                 break;
         }
 
-        if (!this.rendered) return;
+        if (!this.rendered) {
+            return;
+        }
         this.render();
     }
 

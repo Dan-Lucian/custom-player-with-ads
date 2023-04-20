@@ -22,7 +22,9 @@ export class AdPlayer extends HTMLElement {
         oldValue: unknown,
         newValue: unknown
     ): Promise<void> {
-        if (oldValue === newValue) return;
+        if (oldValue === newValue) {
+            return;
+        }
 
         switch (property) {
             case 'data-use-ima':
@@ -47,7 +49,9 @@ export class AdPlayer extends HTMLElement {
                 break;
         }
 
-        if (!this.rendered) return;
+        if (!this.rendered) {
+            return;
+        }
         this.render();
     }
 

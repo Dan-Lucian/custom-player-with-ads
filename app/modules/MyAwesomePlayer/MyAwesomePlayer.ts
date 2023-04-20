@@ -14,8 +14,7 @@ import { isArrayDefined, isDefined, isNull, isString } from 'utils/typeUtils';
 // cause if it's fired it means the metadata has already been loaded
 // TODO: "timeupdate" event + video.currentTime to update the progress bar
 export class MyAwesomePlayer extends HTMLElement {
-    // TODO: test super.isConnected
-    private isConnected2 = false;
+    private isAttached = false;
     private shouldAutoplay = false;
     private isPlaying = false;
     private isMuted = false;
@@ -31,8 +30,6 @@ export class MyAwesomePlayer extends HTMLElement {
     constructor() {
         super();
         this.shadow = this.attachShadow({ mode: 'open' });
-        console.log('constructor super.isConnected: ', super.isConnected);
-        console.log('constructor this.isConnected: ', this.isConnected2);
 
         this.addEventListener(PlayerEventEnum.Play, this.play);
         this.addEventListener(PlayerEventEnum.PlayAd, this.renderAd);
@@ -98,32 +95,24 @@ export class MyAwesomePlayer extends HTMLElement {
                 break;
         }
 
-        console.log('attributeChangedCallback super.isConnected: ', super.isConnected);
-        console.log('attributeChangedCallback this.isConnected: ', this.isConnected2);
-        if (!this.isConnected2) {
+        if (!this.isAttached) {
             return;
         }
         this.render();
     }
 
     public connectedCallback(): void {
-        console.log('PRE super.isConnected: ', super.isConnected);
-        console.log('PRE this.isConnected: ', this.isConnected2);
-        if (!this.isConnected2) {
+        if (!this.isAttached) {
             this.render();
             this.setupIntersectionObserver();
-            this.isConnected2 = true;
-            console.log('PRE super.isConnected: ', super.isConnected);
-            console.log('PRE this.isConnected: ', this.isConnected2);
+            this.isAttached = true;
         }
     }
 
     public disconnectedCallback(): void {
         this.observer?.unobserve(this);
         this.hlsWrapper?.destroy();
-        this.isConnected2 = false;
-        console.log('disconnectedCallback super.isConnected: ', super.isConnected);
-        console.log('disconnectedCallback this.isConnected: ', this.isConnected2);
+        this.isAttached = false;
     }
 
     private getAdPlayer(): HTMLElement {

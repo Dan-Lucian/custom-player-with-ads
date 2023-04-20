@@ -27,7 +27,9 @@ export default class PlayerAdIma extends HTMLElement {
         oldValue: unknown,
         newValue: unknown
     ): Promise<void> {
-        if (oldValue === newValue) return;
+        if (oldValue === newValue) {
+            return;
+        }
 
         switch (property) {
             case 'src':
@@ -38,7 +40,9 @@ export default class PlayerAdIma extends HTMLElement {
                 break;
         }
 
-        if (!this.rendered) return;
+        if (!this.rendered) {
+            return;
+        }
         this.render();
     }
 

@@ -14,7 +14,7 @@ import { PlayerEventEnum } from 'enums/PlayerEventEnum';
 export class PlayerControls extends HTMLElement {
     private isPlaying = false;
     private muted = false;
-    private rendered = false;
+    private isAttached = false;
     private dataQualities = '';
 
     constructor() {
@@ -27,7 +27,9 @@ export class PlayerControls extends HTMLElement {
     }
 
     public attributeChangedCallback(property: string, oldValue: string, newValue: string): void {
-        if (oldValue === newValue) return;
+        if (oldValue === newValue) {
+            return;
+        }
 
         switch (property) {
             case 'autoplay':
@@ -46,15 +48,21 @@ export class PlayerControls extends HTMLElement {
                 break;
         }
 
-        if (!this.rendered) return;
+        if (!this.isAttached) {
+            return;
+        }
         this.render();
     }
 
     public connectedCallback(): void {
-        if (!this.rendered) {
+        if (!this.isAttached) {
             this.render();
-            this.rendered = true;
+            this.isAttached = true;
         }
+    }
+
+    public disconnectedCallback(): void {
+        this.isAttached = false;
     }
 
     private render(): void {
@@ -83,6 +91,7 @@ export class PlayerControls extends HTMLElement {
         const target = event.target as HTMLElement;
         const is = target.closest('[is|="button"]')?.getAttribute('is');
 
+        // TODO: maybe switch??
         if (is === 'button-play') {
             this.dispatchEvent(
                 new CustomEvent(PlayerEventEnum.Play, {
@@ -131,6 +140,7 @@ export class PlayerControls extends HTMLElement {
             );
             this.muted = false;
             this.render();
+            // TODO: check whether return is needed here and below
         }
 
         if (is === 'button-play-next') {

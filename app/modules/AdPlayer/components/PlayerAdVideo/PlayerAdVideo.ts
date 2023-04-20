@@ -32,7 +32,9 @@ export default class PlayerAdVideo extends HTMLElement {
         oldValue: unknown,
         newValue: unknown
     ): Promise<void> {
-        if (oldValue === newValue) return;
+        if (oldValue === newValue) {
+            return;
+        }
 
         switch (property) {
             case 'data-src':
@@ -43,7 +45,9 @@ export default class PlayerAdVideo extends HTMLElement {
                 break;
         }
 
-        if (!this.rendered) return;
+        if (!this.rendered) {
+            return;
+        }
         this.render();
     }
 

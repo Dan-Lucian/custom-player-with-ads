@@ -22,7 +22,9 @@ export default class ControlsPlayerAd extends HTMLElement {
     }
 
     public attributeChangedCallback(property: string, oldValue: string, newValue: string): void {
-        if (oldValue === newValue) return;
+        if (oldValue === newValue) {
+            return;
+        }
 
         switch (property) {
             case 'autoplay':
@@ -37,7 +39,9 @@ export default class ControlsPlayerAd extends HTMLElement {
                 break;
         }
 
-        if (!this.rendered) return;
+        if (!this.rendered) {
+            return;
+        }
         this.render();
     }
 

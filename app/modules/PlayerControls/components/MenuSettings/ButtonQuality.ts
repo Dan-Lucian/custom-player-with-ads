@@ -9,7 +9,9 @@ export default class ButtonQuality extends HTMLButtonElement {
     }
 
     public attributeChangedCallback(property: string, oldValue: string, newValue: string): void {
-        if (oldValue === newValue) return;
+        if (oldValue === newValue) {
+            return;
+        }
 
         switch (property) {
             case 'data-quality':
@@ -20,7 +22,9 @@ export default class ButtonQuality extends HTMLButtonElement {
                 break;
         }
 
-        if (!this.rendered) return;
+        if (!this.rendered) {
+            return;
+        }
         this.render();
     }
 
