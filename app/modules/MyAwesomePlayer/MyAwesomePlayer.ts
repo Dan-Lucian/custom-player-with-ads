@@ -32,6 +32,8 @@ export class MyAwesomePlayer extends HTMLElement {
     constructor() {
         super();
         this.shadow = this.attachShadow({ mode: 'open' });
+        console.log('constructor super.isConnected: ', super.isConnected);
+        console.log('constructor this.isConnected: ', this.isConnected2);
 
         this.addEventListener(PlayerEventEnum.Play, this.play);
         this.addEventListener(PlayerEventEnum.PlayAd, this.renderAd);
@@ -97,6 +99,8 @@ export class MyAwesomePlayer extends HTMLElement {
                 break;
         }
 
+        console.log('attributeChangedCallback super.isConnected: ', super.isConnected);
+        console.log('attributeChangedCallback this.isConnected: ', this.isConnected2);
         if (!this.isConnected2) {
             return;
         }
@@ -104,16 +108,23 @@ export class MyAwesomePlayer extends HTMLElement {
     }
 
     public connectedCallback(): void {
+        console.log('PRE super.isConnected: ', super.isConnected);
+        console.log('PRE this.isConnected: ', this.isConnected2);
         if (!this.isConnected2) {
             this.render();
             this.setupIntersectionObserver();
             this.isConnected2 = true;
+            console.log('PRE super.isConnected: ', super.isConnected);
+            console.log('PRE this.isConnected: ', this.isConnected2);
         }
     }
 
     public disconnectedCallback(): void {
         this.observer?.unobserve(this);
         this.hlsWrapper?.destroy();
+        this.isConnected2 = false;
+        console.log('disconnectedCallback super.isConnected: ', super.isConnected);
+        console.log('disconnectedCallback this.isConnected: ', this.isConnected2);
     }
 
     private getAdPlayer(): HTMLElement {

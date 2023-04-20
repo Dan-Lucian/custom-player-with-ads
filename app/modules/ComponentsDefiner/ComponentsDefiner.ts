@@ -4,6 +4,7 @@ import { PlayerForm } from 'modules/PlayerForm/PlayerForm';
 import { ComponentsEnum } from 'enums/ComponentsEnum';
 
 export class ComponentsDefiner {
+    // TODO: add .whenDefined
     public static defineModuleLevelComponents(): void {
         customElements.define(ComponentsEnum.AdPlayer, AdPlayer);
         customElements.define(ComponentsEnum.PlayerForm, PlayerForm, { extends: 'form' });
