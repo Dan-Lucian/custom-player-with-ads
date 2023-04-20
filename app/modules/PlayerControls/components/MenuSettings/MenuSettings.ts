@@ -1,9 +1,9 @@
 import { PlayerEventEnum } from 'enums/PlayerEventEnum';
 import { VideoQualityEnum } from 'enums/VideoQualityEnum';
-import 'modules/MyAwesomePlayer/components/ControlsPlayer/components/MenuSettings/ButtonSettings';
-import 'modules/MyAwesomePlayer/components/ControlsPlayer/components/MenuSettings/ButtonQuality';
+import 'modules/PlayerControls/components/MenuSettings/ButtonSettings';
+import 'modules/PlayerControls/components/MenuSettings/ButtonQuality';
 import { html } from 'utils/generalUtils';
-import { styles } from 'modules/MyAwesomePlayer/components/ControlsPlayer/components/MenuSettings/MenuSettings.styles';
+import { styles } from 'modules/PlayerControls/components/MenuSettings/MenuSettings.styles';
 
 export default class MenuSettings extends HTMLElement {
     private rendered = false;

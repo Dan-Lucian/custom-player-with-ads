@@ -2,7 +2,7 @@ import { html } from 'utils/generalUtils';
 import { isNull, isStringDefined } from 'utils/typeUtils';
 import { styles } from 'modules/PlayerForm/PlayerForm.styles';
 import { PlayerFormInputNameEnum } from 'modules/PlayerForm/enums/PlayerFormInputNameEnum';
-import { ComponentsEnum } from 'enums/ComponentsEnum';
+import { ComponentEnum } from 'enums/ComponentEnum';
 
 export class PlayerForm extends HTMLFormElement {
     private hasRendered = false;
@@ -20,7 +20,7 @@ export class PlayerForm extends HTMLFormElement {
     }
 
     private static getContentPlayer(): Element | null {
-        return document.getElementsByTagName(ComponentsEnum.MyAwesomePlayer)[0] || null;
+        return document.getElementsByTagName(ComponentEnum.MyAwesomePlayer)[0] || null;
     }
 
     private static handleSubmit(event: Event): void {

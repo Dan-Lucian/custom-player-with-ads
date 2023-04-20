@@ -18,7 +18,7 @@ export const styles = css`
         display: block;
     }
 
-    controls-player {
+    player-controls {
         display: flex;
         align-items: center;
         justify-content: center;

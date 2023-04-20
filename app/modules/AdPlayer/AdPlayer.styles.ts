@@ -1,8 +1,8 @@
 import { css } from 'utils/generalUtils';
-import { ComponentsEnum } from 'enums/ComponentsEnum';
+import { ComponentEnum } from 'enums/ComponentEnum';
 
 export const styles = css`
-    ${ComponentsEnum.AdPlayer} {
+    ${ComponentEnum.AdPlayer} {
         position: absolute;
         top: 0;
         bottom: 0;
@@ -14,7 +14,7 @@ export const styles = css`
         justify-content: center;
     }
 
-    ${ComponentsEnum.AdPlayer}[hidden] {
+    ${ComponentEnum.AdPlayer}[hidden] {
         display: none !important;
     }
 `;

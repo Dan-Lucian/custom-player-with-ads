@@ -1,4 +1,3 @@
-import 'modules/MyAwesomePlayer/components/ControlsPlayer';
 import { html } from 'utils/generalUtils';
 import { EnumEventIma } from 'enums/ImaEventEnum';
 import { VideoQualityEnum } from 'enums/VideoQualityEnum';
@@ -7,9 +6,9 @@ import { styles } from 'modules/MyAwesomePlayer/MyAwesomePlayer.styles';
 import { MyAwesomePlayerAttributeEnum } from 'modules/MyAwesomePlayer/enums/MyAwesomePlayerAttributeEnum';
 import { MyAwesomePlayerConfig } from 'modules/MyAwesomePlayer/config/MyAwesomePlayerConfig';
 import { PlayerEventEnum } from 'enums/PlayerEventEnum';
-import { ComponentsEnum } from 'enums/ComponentsEnum';
+import { ComponentEnum } from 'enums/ComponentEnum';
 import { TAttributeValue } from 'types/TAttributeValue';
-import { isArrayDefined, isDefined, isNull, isString } from '../../utils/typeUtils';
+import { isArrayDefined, isDefined, isNull, isString } from 'utils/typeUtils';
 
 // TODO: "timeupdate" event + video.duration to obtain the video duration
 // cause if it's fired it means the metadata has already been loaded
@@ -128,11 +127,11 @@ export class MyAwesomePlayer extends HTMLElement {
     }
 
     private getAdPlayer(): HTMLElement {
-        return this.shadow.getElementById(ComponentsEnum.AdPlayer) as HTMLElement;
+        return this.shadow.getElementById(ComponentEnum.AdPlayer) as HTMLElement;
     }
 
     private getVideoElement(): HTMLVideoElement {
-        return this.shadow.getElementById(ComponentsEnum.MyAwesomePlayer) as HTMLVideoElement;
+        return this.shadow.getElementById(ComponentEnum.MyAwesomePlayer) as HTMLVideoElement;
     }
 
     private getPlayerContainer(): HTMLDivElement {
@@ -144,11 +143,11 @@ export class MyAwesomePlayer extends HTMLElement {
     }
 
     private getPlayerControlsElement(): HTMLElement {
-        return this.shadow.getElementById(ComponentsEnum.PlayerControls) as HTMLElement;
+        return this.shadow.getElementById(ComponentEnum.PlayerControls) as HTMLElement;
     }
 
     private render(): void {
-        console.log(`RENDER: <${ComponentsEnum.MyAwesomePlayer}>`);
+        console.log(`RENDER: <${ComponentEnum.MyAwesomePlayer}>`);
         const autoplayAttribute = this.shouldAutoplay ? MyAwesomePlayerAttributeEnum.Autoplay : '';
         const mutedAttribute = this.isMuted ? MyAwesomePlayerAttributeEnum.Muted : '';
         const useImaAttribute = this.shouldUseIma ? MyAwesomePlayerAttributeEnum.UseIma : '';
@@ -165,17 +164,17 @@ export class MyAwesomePlayer extends HTMLElement {
                         ${autoplayAttribute}
                         ${mutedAttribute}
                         width=${widthAttribueValue}
-                        id=${ComponentsEnum.MyAwesomePlayer}
+                        id=${ComponentEnum.MyAwesomePlayer}
                         preload="metadata"
                     >
                         Player not supported
                     </video>
-                    <controls-player
+                    <player-controls
                         ${autoplayAttribute}
                         ${mutedAttribute}
-                        id="controls-player"
-                    ></controls-player>
-                    <ad-player ${useImaAttribute} hidden id=${ComponentsEnum.AdPlayer}> </ad-player>
+                        id=${ComponentEnum.PlayerControls}
+                    ></player-controls>
+                    <ad-player ${useImaAttribute} hidden id=${ComponentEnum.AdPlayer}> </ad-player>
                 </div>
             </div>
         `;
@@ -218,8 +217,8 @@ export class MyAwesomePlayer extends HTMLElement {
             videoElement.src = this.playlist[this.currentVideo].video;
         }
 
-        const newPlayerControlsElement = document.createElement(ComponentsEnum.PlayerControls);
-        newPlayerControlsElement.id = ComponentsEnum.PlayerControls;
+        const newPlayerControlsElement = document.createElement(ComponentEnum.PlayerControls);
+        newPlayerControlsElement.id = ComponentEnum.PlayerControls;
 
         if (this.shouldAutoplay) {
             newPlayerControlsElement.setAttribute(MyAwesomePlayerAttributeEnum.Autoplay, '');

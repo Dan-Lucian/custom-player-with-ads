@@ -3,7 +3,7 @@ import { html } from 'utils/generalUtils';
 import { VastParser } from 'modules/VastParser/VastParser';
 import { IVastInfo } from 'interfaces/IVastInfo';
 import { styles } from 'modules/AdPlayer/AdPlayer.styles';
-import { ComponentsEnum } from 'enums/ComponentsEnum';
+import { ComponentEnum } from 'enums/ComponentEnum';
 import 'modules/AdPlayer/components/PlayerAdIframe';
 import 'modules/AdPlayer/components/PlayerAdVideo';
 import 'modules/AdPlayer/components/PlayerAdIma';
@@ -59,7 +59,7 @@ export class AdPlayer extends HTMLElement {
     }
 
     private render(): void {
-        console.log(`RENDER: <${ComponentsEnum.AdPlayer}>`);
+        console.log(`RENDER: <${ComponentEnum.AdPlayer}>`);
         if (this.dataUseIma) {
             this.innerHTML = html`
                 <style>

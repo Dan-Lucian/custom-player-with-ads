@@ -1,16 +1,17 @@
-import { PlayerEventEnum } from 'enums/PlayerEventEnum';
-import './ButtonPlay';
-import './ButtonPause';
-import './ButtonMute';
-import './ButtonUnmute';
-import './ButtonLoadAd';
-import './ButtonLoadAdIma';
-import './ButtonPlayNext';
-import './ButtonPlayPrevious';
-import './components/MenuSettings';
+import 'modules/PlayerControls/components/ButtonPlay';
+import 'modules/PlayerControls/components/ButtonPause';
+import 'modules/PlayerControls/components/ButtonMute';
+import 'modules/PlayerControls/components/ButtonUnmute';
+import 'modules/PlayerControls/components/ButtonLoadAd';
+import 'modules/PlayerControls/components/ButtonLoadAdIma';
+import 'modules/PlayerControls/components/ButtonPlayNext';
+import 'modules/PlayerControls/components/ButtonPlayPrevious';
+import 'modules/PlayerControls/components/MenuSettings/MenuSettings';
 import { html } from 'utils/generalUtils';
+import { ComponentEnum } from 'enums/ComponentEnum';
+import { PlayerEventEnum } from 'enums/PlayerEventEnum';
 
-export default class ControlsPlayer extends HTMLElement {
+export class PlayerControls extends HTMLElement {
     private isPlaying = false;
     private muted = false;
     private rendered = false;
@@ -57,16 +58,16 @@ export default class ControlsPlayer extends HTMLElement {
     }
 
     private render(): void {
-        console.log('RENDER: <controls-player>');
+        console.log(`RENDER: ${ComponentEnum.PlayerControls}`);
         this.innerHTML = html`
             <button class="control-hoverable rotated180" is="button-play-previous"></button>
             ${this.isPlaying
-                ? '<button class="control-hoverable" is="button-pause"></button>'
-                : '<button class="control-hoverable" is="button-play"></button>'}
+                ? html`<button class="control-hoverable" is="button-pause"></button>`
+                : html`<button class="control-hoverable" is="button-play"></button>`}
             <button class="control-hoverable" is="button-play-next"></button>
             ${this.muted
-                ? '<button class="control-hoverable" is="button-unmute"></button>'
-                : '<button class="control-hoverable" is="button-mute"></button>'}
+                ? html`<button class="control-hoverable" is="button-unmute"></button>`
+                : html`<button class="control-hoverable" is="button-mute"></button>`}
             <div class="spacer"></div>
             <menu-settings data-qualities=${this.dataQualities}></menu-settings>
             <button class="control-hoverable" is="button-load-ad" title="load ad"></button>
@@ -169,5 +170,3 @@ export default class ControlsPlayer extends HTMLElement {
         }
     }
 }
-
-customElements.define('controls-player', ControlsPlayer);

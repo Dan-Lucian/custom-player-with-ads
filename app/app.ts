@@ -2,7 +2,7 @@ import 'css/main.scss';
 import { html } from 'utils/generalUtils';
 import { IWindowWithPlayerInitialization } from 'interfaces/IWindowWithPlayerInitialization';
 import { isNull } from 'utils/typeUtils';
-import { ComponentsEnum } from 'enums/ComponentsEnum';
+import { ComponentEnum } from 'enums/ComponentEnum';
 import { MyAwesomePlayerAttributeEnum } from 'modules/MyAwesomePlayer/enums/MyAwesomePlayerAttributeEnum';
 
 const windowWithPlayerInitialization: IWindowWithPlayerInitialization = window;
@@ -18,7 +18,7 @@ windowWithPlayerInitialization.initializePlayer = ({
     const template = html`
         <my-awesome-player playlist=${JSON.stringify(playlist)} ${useImaAttribute}>
         </my-awesome-player>
-        <form is=${ComponentsEnum.PlayerForm}></form>
+        <form is=${ComponentEnum.PlayerForm}></form>
     `;
 
     if (!isNull(root)) {

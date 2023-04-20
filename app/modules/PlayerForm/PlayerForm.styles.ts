@@ -1,8 +1,8 @@
-import { ComponentsEnum } from 'enums/ComponentsEnum';
+import { ComponentEnum } from 'enums/ComponentEnum';
 import { css } from 'utils/generalUtils';
 
 export const styles = css`
-    [is='${ComponentsEnum.PlayerForm}'] {
+    [is='${ComponentEnum.PlayerForm}'] {
         /* background-color: yellow; */
         display: grid;
         gap: 10px;

@@ -1,13 +1,15 @@
 import { MyAwesomePlayer } from 'modules/MyAwesomePlayer/MyAwesomePlayer';
 import { AdPlayer } from 'modules/AdPlayer/AdPlayer';
 import { PlayerForm } from 'modules/PlayerForm/PlayerForm';
-import { ComponentsEnum } from 'enums/ComponentsEnum';
+import { ComponentEnum } from 'enums/ComponentEnum';
+import { PlayerControls } from 'modules/PlayerControls/PlayerControls';
 
 export class ComponentsDefiner {
     // TODO: add .whenDefined
-    public static defineModuleLevelComponents(): void {
-        customElements.define(ComponentsEnum.AdPlayer, AdPlayer);
-        customElements.define(ComponentsEnum.PlayerForm, PlayerForm, { extends: 'form' });
-        customElements.define(ComponentsEnum.MyAwesomePlayer, MyAwesomePlayer);
+    public static defineAllComponents(): void {
+        customElements.define(ComponentEnum.AdPlayer, AdPlayer);
+        customElements.define(ComponentEnum.PlayerForm, PlayerForm, { extends: 'form' });
+        customElements.define(ComponentEnum.MyAwesomePlayer, MyAwesomePlayer);
+        customElements.define(ComponentEnum.PlayerControls, PlayerControls);
     }
 }

@@ -4,7 +4,7 @@ import { IWindowWithPlayerInitialization } from 'interfaces/IWindowWithPlayerIni
 import { isDefined } from 'utils/typeUtils';
 import { ComponentsDefiner } from 'modules/ComponentsDefiner/ComponentsDefiner';
 
-ComponentsDefiner.defineModuleLevelComponents();
+ComponentsDefiner.defineAllComponents();
 
 const windowWithPlayerInitialization: IWindowWithPlayerInitialization = window;
 if (isDefined(windowWithPlayerInitialization.initializePlayer)) {
