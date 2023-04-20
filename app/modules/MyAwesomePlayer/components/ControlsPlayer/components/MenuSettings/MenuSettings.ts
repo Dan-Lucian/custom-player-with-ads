@@ -88,7 +88,7 @@ export default class MenuSettings extends HTMLElement {
 
             this.toggleSettings();
             this.dispatchEvent(
-                new CustomEvent(PlayerEventEnum.ChangeQuality, {
+                new CustomEvent(PlayerEventEnum.ChangeStreamingQuality, {
                     bubbles: true,
                     composed: true,
                     detail: { quality }

@@ -10,8 +10,6 @@ export class HlsWrapper {
     private callbackAfterManifestParsed: ((levels: string[]) => void) | null = null;
     private mapQualityToLevel: Map<VideoQualityEnum, number> = new Map();
 
-    private constructor() {}
-
     private get videoElement(): HTMLVideoElement {
         if (!this._videoElement) {
             throw new Error('ima: "_videoElement" prop is null.');
@@ -29,7 +27,7 @@ export class HlsWrapper {
     }
 
     public setConfig(
-        videoElement: HTMLVideoElement | null,
+        videoElement: HTMLVideoElement,
         src: string,
         callbackAfterManifestParsed: (levels: string[]) => void
     ): void {

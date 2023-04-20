@@ -8,22 +8,25 @@ import { MyAwesomePlayerAttributeEnum } from 'modules/MyAwesomePlayer/enums/MyAw
 import { MyAwesomePlayerConfig } from 'modules/MyAwesomePlayer/config/MyAwesomePlayerConfig';
 import { PlayerEventEnum } from 'enums/PlayerEventEnum';
 import { ComponentsEnum } from 'enums/ComponentsEnum';
+import { TAttributeValue } from 'types/TAttributeValue';
+import { isArrayDefined, isDefined, isNull, isString } from '../../utils/typeUtils';
 
 // TODO: "timeupdate" event + video.duration to obtain the video duration
 // cause if it's fired it means the metadata has already been loaded
 // TODO: "timeupdate" event + video.currentTime to update the progress bar
 export class MyAwesomePlayer extends HTMLElement {
-    private hasRendered = false;
+    // TODO: test super.isConnected
+    private isConnected2 = false;
     private shouldAutoplay = false;
     private isPlaying = false;
     private isMuted = false;
     private shouldUseIma = false;
     private isInView = true;
-    private shadow!: ShadowRoot;
+    private shadow: ShadowRoot;
     private playlist: { video: string; streamingManifest: string }[] = [];
     private currentVideo = 0;
-    private width = MyAwesomePlayerConfig.DefaultWidth;
-    private observer: IntersectionObserver | null = null;
+    private width: string | null = MyAwesomePlayerConfig.DefaultWidth;
+    private observer?: IntersectionObserver;
     private hlsWrapper?: HlsWrapper;
 
     constructor() {
@@ -39,7 +42,7 @@ export class MyAwesomePlayer extends HTMLElement {
         this.addEventListener(PlayerEventEnum.PlayNext, this.playNext);
         this.addEventListener(PlayerEventEnum.PlayPrevious, this.playPrevious);
         this.addEventListener(PlayerEventEnum.SkipAd, this.hideAd);
-        this.addEventListener(PlayerEventEnum.ChangeQuality, this.changeQuality);
+        this.addEventListener(PlayerEventEnum.ChangeStreamingQuality, this.changeStreamingQuality);
         this.addEventListener(PlayerEventEnum.EndAd, this.hideAd);
         this.addEventListener(EnumEventIma.AdEnd, this.hideAd);
         this.addEventListener(EnumEventIma.AdSkip, this.hideAd);
@@ -56,71 +59,55 @@ export class MyAwesomePlayer extends HTMLElement {
         ];
     }
 
-    private get playerAd(): HTMLElement | null {
-        return this.shadow.getElementById('player-ad');
-    }
-
-    private get videoElement(): HTMLVideoElement | null {
-        return this.shadow.getElementById('player-onboarding') as HTMLVideoElement | null;
-    }
-
-    private get playerContainer(): HTMLDivElement | null {
-        return this.shadow.getElementById('player-container') as HTMLDivElement | null;
-    }
-
-    private get playerPlaceholder(): HTMLDivElement | null {
-        return this.shadow.getElementById('player-placeholder') as HTMLDivElement | null;
-    }
-
-    private get controlsElement(): HTMLElement | null {
-        return this.shadow.getElementById('controls-player') as HTMLElement | null;
-    }
-
-    private attributeChangedCallback(
+    public attributeChangedCallback(
         attribute: string,
-        oldValue: unknown,
-        newValue: unknown
+        oldValue: TAttributeValue,
+        newValue: TAttributeValue
     ): void {
-        if (oldValue === newValue) return;
+        if (oldValue === newValue) {
+            return;
+        }
 
         switch (attribute) {
             case MyAwesomePlayerAttributeEnum.Width:
-                this.width = String(newValue);
+                this.width = newValue;
                 break;
 
             case MyAwesomePlayerAttributeEnum.Autoplay:
-                this.shouldAutoplay = !this.shouldAutoplay;
+                this.shouldAutoplay = isString(newValue);
                 break;
 
             case MyAwesomePlayerAttributeEnum.Muted:
-                this.isMuted = !this.isMuted;
+                this.isMuted = isString(newValue);
                 break;
 
             case MyAwesomePlayerAttributeEnum.Playlist:
-                this.playlist = JSON.parse(newValue as string);
+                if (isString(newValue)) {
+                    this.playlist = JSON.parse(newValue);
+                } else {
+                    this.playlist = [];
+                }
                 break;
 
             case MyAwesomePlayerAttributeEnum.UseIma:
-                if (newValue === null) {
-                    this.shouldUseIma = false;
-                } else {
-                    this.shouldUseIma = true;
-                }
+                this.shouldUseIma = isString(newValue);
                 return;
 
             default:
                 break;
         }
 
-        if (!this.hasRendered) return;
+        if (!this.isConnected2) {
+            return;
+        }
         this.render();
     }
 
     public connectedCallback(): void {
-        if (!this.hasRendered) {
+        if (!this.isConnected2) {
             this.render();
             this.setupIntersectionObserver();
-            this.hasRendered = true;
+            this.isConnected2 = true;
         }
     }
 
@@ -129,90 +116,113 @@ export class MyAwesomePlayer extends HTMLElement {
         this.hlsWrapper?.destroy();
     }
 
+    private getAdPlayer(): HTMLElement {
+        return this.shadow.getElementById(ComponentsEnum.AdPlayer) as HTMLElement;
+    }
+
+    private getVideoElement(): HTMLVideoElement {
+        return this.shadow.getElementById(ComponentsEnum.MyAwesomePlayer) as HTMLVideoElement;
+    }
+
+    private getPlayerContainer(): HTMLDivElement {
+        return this.shadow.getElementById('player-container') as HTMLDivElement;
+    }
+
+    private getPlayerPlaceholder(): HTMLDivElement {
+        return this.shadow.getElementById('player-placeholder') as HTMLDivElement;
+    }
+
+    private getPlayerControlsElement(): HTMLElement {
+        return this.shadow.getElementById(ComponentsEnum.PlayerControls) as HTMLElement;
+    }
+
     private render(): void {
-        console.log('RENDER: <player-onboarding>');
-        const autoplay = this.shouldAutoplay ? MyAwesomePlayerAttributeEnum.Autoplay : '';
-        const muted = this.isMuted ? MyAwesomePlayerAttributeEnum.Muted : '';
-        const dataUseIma = this.shouldUseIma ? MyAwesomePlayerAttributeEnum.UseIma : '';
+        console.log(`RENDER: <${ComponentsEnum.MyAwesomePlayer}>`);
+        const autoplayAttribute = this.shouldAutoplay ? MyAwesomePlayerAttributeEnum.Autoplay : '';
+        const mutedAttribute = this.isMuted ? MyAwesomePlayerAttributeEnum.Muted : '';
+        const useImaAttribute = this.shouldUseIma ? MyAwesomePlayerAttributeEnum.UseIma : '';
+        const widthAttribueValue = isNull(this.width) ? '' : this.width;
 
-        if (this.shadow) {
-            this.shadow.innerHTML = html`
-                <style>
-                    ${styles}
-                </style>
-                <div id="player-placeholder">
-                    <div id="player-container">
-                        <video
-                            ${autoplay}
-                            ${muted}
-                            width=${this.width}
-                            id="player-onboarding"
-                            preload="metadata"
-                        >
-                            Player not supported
-                        </video>
-                        <controls-player
-                            ${autoplay}
-                            ${muted}
-                            id="controls-player"
-                        ></controls-player>
-                        <${ComponentsEnum.AdPlayer} ${dataUseIma} hidden id="player-ad"></${ComponentsEnum.AdPlayer}>
-                    </div>
+        // TODO: test lit syntax ?autoplay=${this.shouldAutoplay}
+        this.shadow.innerHTML = html`
+            <style>
+                ${styles}
+            </style>
+            <div id="player-placeholder">
+                <div id="player-container">
+                    <video
+                        ${autoplayAttribute}
+                        ${mutedAttribute}
+                        width=${widthAttribueValue}
+                        id=${ComponentsEnum.MyAwesomePlayer}
+                        preload="metadata"
+                    >
+                        Player not supported
+                    </video>
+                    <controls-player
+                        ${autoplayAttribute}
+                        ${mutedAttribute}
+                        id="controls-player"
+                    ></controls-player>
+                    <ad-player ${useImaAttribute} hidden id=${ComponentsEnum.AdPlayer}> </ad-player>
                 </div>
-            `;
-        }
+            </div>
+        `;
 
-        this.videoElement?.addEventListener('ended', this.playNext.bind(this));
+        const videoElement = this.getVideoElement();
+        videoElement.addEventListener('ended', this.playNext.bind(this));
         this.setupHls();
     }
 
     private setupHls(): void {
+        if (!isArrayDefined(this.playlist)) {
+            return;
+        }
+
+        const videoElement = this.getVideoElement();
         const src = this.playlist[this.currentVideo].streamingManifest;
         this.hlsWrapper = HlsWrapper.getInstance();
-        this.hlsWrapper.setConfig(this.videoElement, src, this.setInitialQualityLevels.bind(this));
+        this.hlsWrapper.setConfig(videoElement, src, this.setQualityLevels.bind(this));
 
         try {
             this.hlsWrapper.initialize();
         } catch (error) {
-            if (this.videoElement) {
-                if (this.videoElement.canPlayType('application/vnd.apple.mpegurl')) {
-                    console.log('HLS: can play hls natively (apple)');
-                    this.videoElement.src = src;
-                } else {
-                    console.log('HLS: hls is not supported ');
-                    this.videoElement.src = this.playlist[this.currentVideo].video;
-                }
+            if (videoElement.canPlayType('application/vnd.apple.mpegurl')) {
+                console.log('HLS: can play hls natively (apple)');
+                videoElement.src = src;
+            } else {
+                console.log('HLS: hls is not supported ');
+                videoElement.src = this.playlist[this.currentVideo].video;
             }
         }
     }
 
     private refreshWithoutRender(): void {
-        if (this.videoElement) {
-            if (this.hlsWrapper) {
-                this.hlsWrapper.loadSource(this.playlist[this.currentVideo].streamingManifest);
-            } else {
-                this.videoElement.src = this.playlist[this.currentVideo].video;
-            }
+        const videoElement = this.getVideoElement();
+        const playerControlsElement = this.getPlayerControlsElement();
+
+        if (isDefined(this.hlsWrapper) && isArrayDefined(this.playlist)) {
+            this.hlsWrapper.loadSource(this.playlist[this.currentVideo].streamingManifest);
+        } else {
+            videoElement.src = this.playlist[this.currentVideo].video;
         }
 
-        if (this.controlsElement) {
-            const newControlsElement = document.createElement('controls-player');
-            newControlsElement.id = 'controls-player';
+        const newPlayerControlsElement = document.createElement(ComponentsEnum.PlayerControls);
+        newPlayerControlsElement.id = ComponentsEnum.PlayerControls;
 
-            if (this.shouldAutoplay) {
-                newControlsElement.setAttribute(MyAwesomePlayerAttributeEnum.Autoplay, '');
-            }
-
-            if (this.isMuted) {
-                newControlsElement.setAttribute(MyAwesomePlayerAttributeEnum.Muted, '');
-            }
-
-            this.controlsElement.replaceWith(newControlsElement);
+        if (this.shouldAutoplay) {
+            newPlayerControlsElement.setAttribute(MyAwesomePlayerAttributeEnum.Autoplay, '');
         }
+
+        if (this.isMuted) {
+            newPlayerControlsElement.setAttribute(MyAwesomePlayerAttributeEnum.Muted, '');
+        }
+
+        playerControlsElement.replaceWith(newPlayerControlsElement);
     }
 
     private setupIntersectionObserver(): void {
-        if (!this.observer) {
+        if (!isDefined(this.observer)) {
             this.observer = new IntersectionObserver(
                 ([entry]) => {
                     this.handlePlayerVisibilityChange(entry.isIntersecting);
@@ -220,49 +230,56 @@ export class MyAwesomePlayer extends HTMLElement {
                 { threshold: 0.5 }
             );
         }
-
         this.observer.observe(this);
     }
 
     private handlePlayerVisibilityChange(isIntersecting: boolean): void {
-        if (this.isInView === isIntersecting) return;
+        if (this.isInView === isIntersecting) {
+            return;
+        }
 
         this.isInView = isIntersecting;
-        if (this.playerPlaceholder && this.playerContainer) {
-            const { width, height } = this.playerContainer.getBoundingClientRect();
+        const playerPlaceholder = this.getPlayerPlaceholder();
+        const playerContainer = this.getPlayerContainer();
+        const { width, height } = playerContainer.getBoundingClientRect();
 
-            // set placeholder dimensions
-            this.playerPlaceholder.style.height = height ? `${height}` : 'auto';
-            this.playerPlaceholder.style.width = width ? `${width}` : 'auto';
+        // set placeholder dimensions to match player dimensions
+        playerPlaceholder.style.height = height ? `${height}` : 'auto';
+        playerPlaceholder.style.width = width ? `${width}` : 'auto';
 
-            // set container position
-            this.playerContainer.style.position = isIntersecting ? 'static' : 'fixed';
-        }
+        // set container position if player in/out of view
+        playerContainer.style.position = isIntersecting ? 'static' : 'fixed';
     }
 
     private hideAd(): void {
-        this.playerAd?.setAttribute('hidden', '');
+        const AdPlayer = this.getAdPlayer();
+        AdPlayer.setAttribute('hidden', '');
         this.play();
     }
 
     private mute(): void {
-        if (this.videoElement) {
-            this.videoElement.muted = true;
-            this.isMuted = true;
-        }
+        const videoElement = this.getVideoElement();
+        videoElement.muted = true;
+        this.isMuted = true;
     }
 
     private pause(): void {
-        this.videoElement?.pause();
+        const videoElement = this.getVideoElement();
+        videoElement.pause();
         this.isPlaying = false;
     }
 
     private play(): void {
-        this.videoElement?.play();
+        const videoElement = this.getVideoElement();
+        videoElement.play();
         this.isPlaying = true;
     }
 
     private playNext(): void {
+        if (!isArrayDefined(this.playlist)) {
+            return;
+        }
+
         const max = this.playlist.length - 1;
 
         if (this.currentVideo === max) {
@@ -275,6 +292,10 @@ export class MyAwesomePlayer extends HTMLElement {
     }
 
     private playPrevious(): void {
+        if (!isArrayDefined(this.playlist)) {
+            return;
+        }
+
         const max = this.playlist.length - 1;
 
         if (this.currentVideo === 0) {
@@ -287,28 +308,32 @@ export class MyAwesomePlayer extends HTMLElement {
     }
 
     private renderAd(): void {
+        const adPlayer = this.getAdPlayer();
         this.pause();
-        this.playerAd?.removeAttribute('hidden');
+        adPlayer.removeAttribute('hidden');
     }
 
     private renderAdThroughIma(): void {
+        const adPlayer = this.getAdPlayer();
         this.pause();
-        this.playerAd?.setAttribute(MyAwesomePlayerAttributeEnum.UseIma, '');
-        this.playerAd?.removeAttribute('hidden');
+        // TODO: use attribute enum for adPlayer
+        adPlayer.setAttribute(MyAwesomePlayerAttributeEnum.UseIma, '');
+        adPlayer.removeAttribute('hidden');
     }
 
     private unmute(): void {
-        if (this.videoElement) {
-            this.videoElement.muted = false;
-            this.isMuted = false;
-        }
+        const videoElement = this.getVideoElement();
+        videoElement.muted = false;
+        this.isMuted = false;
     }
 
-    private setInitialQualityLevels(levels: string[]): void {
-        this.controlsElement?.setAttribute('data-qualities', levels.join());
+    private setQualityLevels(levels: string[]): void {
+        const playerControlsElement = this.getPlayerControlsElement();
+        // TODO: use PlayerControls attribue enum
+        playerControlsElement.setAttribute('data-qualities', levels.join());
     }
 
-    private changeQuality(event: Event): void {
+    private changeStreamingQuality(event: Event): void {
         const customEvent = event as CustomEvent<{ quality: VideoQualityEnum }>;
         this.hlsWrapper?.setQualityTo(customEvent.detail.quality);
     }

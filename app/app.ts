@@ -16,9 +16,8 @@ windowWithPlayerInitialization.initializePlayer = ({
     const useImaAttribute = shouldUseIma ? MyAwesomePlayerAttributeEnum.UseIma : '';
 
     const template = html`
-        <${ComponentsEnum.MyAwesomePlayer}
-            playlist=${JSON.stringify(playlist)} ${useImaAttribute}>
-        </${ComponentsEnum.MyAwesomePlayer}>
+        <my-awesome-player playlist=${JSON.stringify(playlist)} ${useImaAttribute}>
+        </my-awesome-player>
         <form is=${ComponentsEnum.PlayerForm}></form>
     `;
 

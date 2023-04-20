@@ -9,5 +9,5 @@ export enum PlayerEventEnum {
     PlayPrevious = 'ContentPlayerPlayPrevious',
     EndAd = 'ContentPlayerEndAd',
     SkipAd = 'ContentPlayerSkipAd',
-    ChangeQuality = 'ContentPlayerChangeQuality'
+    ChangeStreamingQuality = 'ContentPlayerChangeStreamingQuality'
 }

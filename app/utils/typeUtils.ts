@@ -45,3 +45,12 @@ export function isString(value: unknown): value is string {
 export function isStringDefined(value: unknown): value is string {
     return isString(value) && value.length > 0;
 }
+
+/**
+ * Type guard to check if a value is of string type and has at least 1 char.
+ * @param {T} value
+ * @returns {boolean} true if value is of string type and has at least 1 char.
+ */
+export function isArrayDefined<T>(value: unknown): value is T[] {
+    return Array.isArray(value) && value.length > 0;
+}
