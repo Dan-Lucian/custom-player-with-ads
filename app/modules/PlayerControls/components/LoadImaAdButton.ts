@@ -1,12 +1,12 @@
 import { html } from 'utils/generalUtils';
 
-export default class ButtonLoadAdIma extends HTMLButtonElement {
-    private rendered = false;
+export class LoadImaAdButton extends HTMLButtonElement {
+    private isAttached = false;
 
     public connectedCallback(): void {
-        if (!this.rendered) {
+        if (!this.isAttached) {
             this.render();
-            this.rendered = true;
+            this.isAttached = true;
         }
     }
 
@@ -18,5 +18,3 @@ export default class ButtonLoadAdIma extends HTMLButtonElement {
         `;
     }
 }
-
-customElements.define('button-load-ad-ima', ButtonLoadAdIma, { extends: 'button' });

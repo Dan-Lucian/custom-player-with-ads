@@ -1,12 +1,12 @@
 import { html } from 'utils/generalUtils';
 
-export default class ButtonPlayPrevious extends HTMLButtonElement {
-    private rendered = false;
+export class PlayNextButton extends HTMLButtonElement {
+    private isAttached = false;
 
     public connectedCallback(): void {
-        if (!this.rendered) {
+        if (!this.isAttached) {
             this.render();
-            this.rendered = true;
+            this.isAttached = true;
         }
     }
 
@@ -28,5 +28,3 @@ export default class ButtonPlayPrevious extends HTMLButtonElement {
         `;
     }
 }
-
-customElements.define('button-play-previous', ButtonPlayPrevious, { extends: 'button' });

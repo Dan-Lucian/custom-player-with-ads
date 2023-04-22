@@ -1,16 +1,7 @@
-import 'modules/PlayerControls/components/ButtonPlay';
-import 'modules/PlayerControls/components/ButtonPause';
-import 'modules/PlayerControls/components/ButtonMute';
-import 'modules/PlayerControls/components/ButtonUnmute';
-import 'modules/PlayerControls/components/ButtonLoadAd';
-import 'modules/PlayerControls/components/ButtonLoadAdIma';
-import 'modules/PlayerControls/components/ButtonPlayNext';
-import 'modules/PlayerControls/components/ButtonPlayPrevious';
-import 'modules/PlayerControls/components/MenuSettings/MenuSettings';
 import { html } from 'utils/generalUtils';
 import { ComponentEnum } from 'enums/ComponentEnum';
 import { PlayerEventEnum } from 'enums/PlayerEventEnum';
-import { PlayerControlsAttributeEnum } from 'modules/PlayerControls/PlayerControlsAttributeEnum';
+import { PlayerControlsAttributeEnum } from 'modules/PlayerControls/enums/PlayerControlsAttributeEnum';
 import { isNull, isString } from 'utils/typeUtils';
 import { TAttributeValue } from 'types/TAttributeValue';
 
@@ -91,20 +82,27 @@ export class PlayerControls extends HTMLElement {
             : this.streamingQualities;
 
         this.innerHTML = html`
-            <button class="control-hoverable rotated180" is="button-play-previous"></button>
+            <button
+                class="control-hoverable rotated180"
+                is=${ComponentEnum.PlayPreviousButton}
+            ></button>
             ${this.isPlaying
-                ? html`<button class="control-hoverable" is="button-pause"></button>`
-                : html`<button class="control-hoverable" is="button-play"></button>`}
-            <button class="control-hoverable" is="button-play-next"></button>
+                ? html`<button class="control-hoverable" is=${ComponentEnum.PauseButton}></button>`
+                : html`<button class="control-hoverable" is=${ComponentEnum.PlayButton}></button>`}
+            <button class="control-hoverable" is=${ComponentEnum.PlayNextButton}></button>
             ${this.isMuted
-                ? html`<button class="control-hoverable" is="button-unmute"></button>`
-                : html`<button class="control-hoverable" is="button-mute"></button>`}
+                ? html`<button class="control-hoverable" is=${ComponentEnum.UnmuteButton}></button>`
+                : html`<button class="control-hoverable" is=${ComponentEnum.MuteButton}></button>`}
             <div class="spacer"></div>
-            <menu-settings data-qualities=${qualitiesAttributeValue}></menu-settings>
-            <button class="control-hoverable" is="button-load-ad" title="load ad"></button>
+            <settings-menu data-qualities=${qualitiesAttributeValue}></settings-menu>
             <button
                 class="control-hoverable"
-                is="button-load-ad-ima"
+                is=${ComponentEnum.LoadAdButton}
+                title="load ad"
+            ></button>
+            <button
+                class="control-hoverable"
+                is=${ComponentEnum.LoadImaAdButton}
                 title="load ad through ima"
             ></button>
         `;
@@ -112,10 +110,11 @@ export class PlayerControls extends HTMLElement {
 
     private handleClick(event: Event): void {
         const target = event.target as HTMLElement;
-        const is = target.closest('[is|="button"]')?.getAttribute('is');
+        const component = target.closest('[is$="button"]')?.getAttribute('is');
 
-        switch (is) {
+        switch (component) {
             case ComponentEnum.PlayButton:
+                console.log('PLAY: ');
                 this.dispatchEvent(
                     new CustomEvent(PlayerEventEnum.Play, {
                         bubbles: true,

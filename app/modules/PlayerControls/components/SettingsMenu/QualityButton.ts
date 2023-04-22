@@ -1,7 +1,7 @@
 import { html } from 'utils/generalUtils';
 
-export default class ButtonQuality extends HTMLButtonElement {
-    private rendered = false;
+export class QualityButton extends HTMLButtonElement {
+    private isAttached = false;
     private quality = '';
 
     public static get observedAttributes(): string[] {
@@ -22,16 +22,16 @@ export default class ButtonQuality extends HTMLButtonElement {
                 break;
         }
 
-        if (!this.rendered) {
+        if (!this.isAttached) {
             return;
         }
         this.render();
     }
 
     public connectedCallback(): void {
-        if (!this.rendered) {
+        if (!this.isAttached) {
             this.render();
-            this.rendered = true;
+            this.isAttached = true;
         }
     }
 
@@ -39,5 +39,3 @@ export default class ButtonQuality extends HTMLButtonElement {
         this.innerHTML = html`${this.quality}`;
     }
 }
-
-customElements.define('button-quality', ButtonQuality, { extends: 'button' });

@@ -1,12 +1,13 @@
+/* eslint-disable max-len */
 import { html } from 'utils/generalUtils';
 
-export default class ButtonUnmute extends HTMLButtonElement {
-    private rendered = false;
+export class UnmuteButton extends HTMLButtonElement {
+    private isAttached = false;
 
     public connectedCallback(): void {
-        if (!this.rendered) {
+        if (!this.isAttached) {
             this.render();
-            this.rendered = true;
+            this.isAttached = true;
         }
     }
 
@@ -27,5 +28,3 @@ export default class ButtonUnmute extends HTMLButtonElement {
         `;
     }
 }
-
-customElements.define('button-unmute', ButtonUnmute, { extends: 'button' });

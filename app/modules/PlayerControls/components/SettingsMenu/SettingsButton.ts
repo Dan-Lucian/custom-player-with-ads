@@ -1,12 +1,13 @@
+/* eslint-disable max-len */
 import { html } from 'utils/generalUtils';
 
-export default class ButtonSettings extends HTMLButtonElement {
-    private rendered = false;
+export class SettingsButton extends HTMLButtonElement {
+    private isAttached = false;
 
     public connectedCallback(): void {
-        if (!this.rendered) {
+        if (!this.isAttached) {
             this.render();
-            this.rendered = true;
+            this.isAttached = true;
         }
     }
 
@@ -28,5 +29,3 @@ export default class ButtonSettings extends HTMLButtonElement {
         `;
     }
 }
-
-customElements.define('button-settings', ButtonSettings, { extends: 'button' });

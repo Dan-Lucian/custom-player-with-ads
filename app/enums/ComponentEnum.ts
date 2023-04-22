@@ -9,12 +9,15 @@ export enum ComponentEnum {
     PlayerForm = 'player-form',
     AdPlayer = 'ad-player',
     PlayerControls = 'player-controls',
-    PlayButton = 'button-play',
-    PauseButton = 'button-pause',
-    MuteButton = 'button-mute',
-    UnmuteButton = 'button-unmute',
-    PlayNextButton = 'button-play-next',
-    PlayPreviousButton = 'button-play-previous',
-    LoadAdButton = 'button-load-ad',
-    LoadImaAdButton = 'button-load-ad-ima'
+    PlayButton = 'play-button',
+    PauseButton = 'pause-button',
+    MuteButton = 'mute-button',
+    UnmuteButton = 'unmute-button',
+    PlayNextButton = 'play-next-button',
+    PlayPreviousButton = 'play-previous-button',
+    LoadAdButton = 'load-ad-button',
+    LoadImaAdButton = 'load-ad-ima-button',
+    SettingsMenu = 'settings-menu',
+    SettingsButton = 'settings-button',
+    QualityButton = 'quality-button'
 }

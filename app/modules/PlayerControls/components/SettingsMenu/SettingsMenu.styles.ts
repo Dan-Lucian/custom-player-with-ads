@@ -1,7 +1,8 @@
 import { css } from 'utils/generalUtils';
+import { ComponentEnum } from 'enums/ComponentEnum';
 
 export const styles = css`
-    menu-settings {
+    settings-menu {
         position: relative;
     }
 
@@ -23,7 +24,7 @@ export const styles = css`
         display: none !important;
     }
 
-    .button-quality {
+    .${ComponentEnum.QualityButton} {
         box-sizing: border-box;
         border: 0;
         padding: 0;
@@ -36,11 +37,11 @@ export const styles = css`
         font-size: 13px;
     }
 
-    .button-quality:hover {
+    .${ComponentEnum.QualityButton}:hover {
         background: rgba(255, 255, 255, 0.2);
     }
 
-    .button-quality--active {
+    .${ComponentEnum.QualityButton}--active {
         font-weight: 700;
         color: #0099ff;
     }
