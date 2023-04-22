@@ -1,5 +1,5 @@
 {
-    "name": "player-onboarding",
+    "name": "custom-player-with-ads",
     "version": "1.0.0",
     "description": "",
     "main": "index.js",
@@ -12,14 +12,14 @@
     },
     "repository": {
         "type": "git",
-        "url": "git+https://github.com/Dan-Lucian/player-onboarding.git"
+        "url": "git+https://github.com/Dan-Lucian/custom-player-with-ads.git"
     },
     "author": "",
     "license": "MIT",
     "bugs": {
-        "url": "https://github.com/Dan-Lucian/player-onboarding/issues"
+        "url": "https://github.com/Dan-Lucian/custom-player-with-ads/issues"
     },
-    "homepage": "https://github.com/Dan-Lucian/player-onboarding#readme",
+    "homepage": "https://github.com/Dan-Lucian/custom-player-with-ads#readme",
     "devDependencies": {
         "@babel/core": "^7.19.0",
         "@typescript-eslint/eslint-plugin": "^5.37.0",

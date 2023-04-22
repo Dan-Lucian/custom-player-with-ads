@@ -8,5 +8,13 @@ export enum ComponentEnum {
     MyAwesomePlayer = 'my-awesome-player',
     PlayerForm = 'player-form',
     AdPlayer = 'ad-player',
-    PlayerControls = 'player-controls'
+    PlayerControls = 'player-controls',
+    PlayButton = 'button-play',
+    PauseButton = 'button-pause',
+    MuteButton = 'button-mute',
+    UnmuteButton = 'button-unmute',
+    PlayNextButton = 'button-play-next',
+    PlayPreviousButton = 'button-play-previous',
+    LoadAdButton = 'button-load-ad',
+    LoadImaAdButton = 'button-load-ad-ima'
 }
