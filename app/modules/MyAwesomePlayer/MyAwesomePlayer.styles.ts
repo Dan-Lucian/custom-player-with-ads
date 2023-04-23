@@ -35,7 +35,7 @@ export const styles = css`
         background: rgba(1, 1, 1, 0.5);
     }
 
-    .control-hoverable {
+    .hoverable-control {
         width: 40px;
         height: 40px;
         padding: 0;
@@ -46,7 +46,7 @@ export const styles = css`
         z-index: 10;
     }
 
-    .control-hoverable::after {
+    .hoverable-control::after {
         content: '';
         transform: scale(0);
         transition: all 0.15s ease-in-out;
@@ -64,7 +64,7 @@ export const styles = css`
         top: 50%;
     }
 
-    .control-hoverable:hover::after {
+    .hoverable-control:hover::after {
         content: '';
         transform: scale(1);
         transition: all 0.15s ease-in-out;

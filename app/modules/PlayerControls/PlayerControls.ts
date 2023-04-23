@@ -4,6 +4,8 @@ import { PlayerEventEnum } from 'enums/PlayerEventEnum';
 import { PlayerControlsAttributeEnum } from 'modules/PlayerControls/enums/PlayerControlsAttributeEnum';
 import { isNull, isString } from 'utils/typeUtils';
 import { TAttributeValue } from 'types/TAttributeValue';
+// eslint-disable-next-line max-len
+import { SettingsMenuAttributeEnum } from 'modules/PlayerControls/components/SettingsMenu/enums/SettingsMenuAttributeEnum';
 
 export class PlayerControls extends HTMLElement {
     private isPlaying = false;
@@ -77,31 +79,29 @@ export class PlayerControls extends HTMLElement {
 
     private render(): void {
         console.log(`RENDER: ${ComponentEnum.PlayerControls}`);
-        const qualitiesAttributeValue = isNull(this.streamingQualities)
-            ? ''
-            : this.streamingQualities;
+        const qualities = isNull(this.streamingQualities) ? '' : this.streamingQualities;
 
         this.innerHTML = html`
             <button
-                class="control-hoverable rotated180"
+                class="hoverable-control rotated180"
                 is=${ComponentEnum.PlayPreviousButton}
             ></button>
             ${this.isPlaying
-                ? html`<button class="control-hoverable" is=${ComponentEnum.PauseButton}></button>`
-                : html`<button class="control-hoverable" is=${ComponentEnum.PlayButton}></button>`}
-            <button class="control-hoverable" is=${ComponentEnum.PlayNextButton}></button>
+                ? html`<button class="hoverable-control" is=${ComponentEnum.PauseButton}></button>`
+                : html`<button class="hoverable-control" is=${ComponentEnum.PlayButton}></button>`}
+            <button class="hoverable-control" is=${ComponentEnum.PlayNextButton}></button>
             ${this.isMuted
-                ? html`<button class="control-hoverable" is=${ComponentEnum.UnmuteButton}></button>`
-                : html`<button class="control-hoverable" is=${ComponentEnum.MuteButton}></button>`}
+                ? html`<button class="hoverable-control" is=${ComponentEnum.UnmuteButton}></button>`
+                : html`<button class="hoverable-control" is=${ComponentEnum.MuteButton}></button>`}
             <div class="spacer"></div>
-            <settings-menu data-qualities=${qualitiesAttributeValue}></settings-menu>
+            <settings-menu ${SettingsMenuAttributeEnum.Qualities}=${qualities}></settings-menu>
             <button
-                class="control-hoverable"
+                class="hoverable-control"
                 is=${ComponentEnum.LoadAdButton}
                 title="load ad"
             ></button>
             <button
-                class="control-hoverable"
+                class="hoverable-control"
                 is=${ComponentEnum.LoadImaAdButton}
                 title="load ad through ima"
             ></button>

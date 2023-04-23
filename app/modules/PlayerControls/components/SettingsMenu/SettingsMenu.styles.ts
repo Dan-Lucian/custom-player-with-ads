@@ -6,7 +6,7 @@ export const styles = css`
         position: relative;
     }
 
-    #wrapper-settings {
+    #settings-wrapper {
         padding: 7px 0;
 
         display: flex;
@@ -20,7 +20,7 @@ export const styles = css`
         background: rgba(13, 25, 45, 0.98);
     }
 
-    #wrapper-settings[hidden] {
+    #settings-wrapper[hidden] {
         display: none !important;
     }
 

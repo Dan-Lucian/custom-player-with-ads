@@ -11,9 +11,9 @@ import { PauseButton } from 'modules/PlayerControls/components/PauseButton';
 import { MuteButton } from 'modules/PlayerControls/components/MuteButton';
 import { LoadImaAdButton } from 'modules/PlayerControls/components/LoadImaAdButton';
 import { LoadAdButton } from 'modules/PlayerControls/components/LoadAdButton';
-import SettingsMenu from 'modules/PlayerControls/components/SettingsMenu/SettingsMenu';
-import { QualityButton } from 'modules/PlayerControls/components/SettingsMenu/QualityButton';
-import { SettingsButton } from 'modules/PlayerControls/components/SettingsMenu/SettingsButton';
+import { SettingsMenu } from 'modules/PlayerControls/components/SettingsMenu/SettingsMenu';
+import { QualityButton } from 'modules/PlayerControls/components/SettingsMenu/components/QualityButton/QualityButton';
+import { SettingsButton } from 'modules/PlayerControls/components/SettingsMenu/components/SettingsButton';
 
 export class ComponentsDefiner {
     // TODO: add .whenDefined

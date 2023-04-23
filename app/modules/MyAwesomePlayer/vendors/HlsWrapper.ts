@@ -74,7 +74,9 @@ export class HlsWrapper {
         arrayQualityAndLevel.push([VideoQualityEnum.Auto, -1]);
         this.mapQualityToLevel = new Map(arrayQualityAndLevel);
 
-        const foundQualities = data.levels.map((level) => String(level.height)).concat('auto');
+        const foundQualities = data.levels
+            .map((level) => String(level.height))
+            .concat(VideoQualityEnum.Auto);
 
         if (this.callbackAfterManifestParsed) {
             this.callbackAfterManifestParsed(foundQualities);

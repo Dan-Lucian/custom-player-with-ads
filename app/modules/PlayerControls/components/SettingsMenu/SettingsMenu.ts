@@ -3,29 +3,48 @@ import { VideoQualityEnum } from 'enums/VideoQualityEnum';
 import { html } from 'utils/generalUtils';
 import { styles } from 'modules/PlayerControls/components/SettingsMenu/SettingsMenu.styles';
 import { ComponentEnum } from 'enums/ComponentEnum';
+// eslint-disable-next-line max-len
+import { SettingsMenuAttributeEnum } from 'modules/PlayerControls/components/SettingsMenu/enums/SettingsMenuAttributeEnum';
+// eslint-disable-next-line max-len
+import { QualityButtonAttributeEnum } from 'modules/PlayerControls/components/SettingsMenu/components/QualityButton/enums/QualityButtonAttributeEnum';
+import { TAttributeValue } from 'types/TAttributeValue';
+import { isNull } from 'utils/typeUtils';
 
-export default class SettingsMenu extends HTMLElement {
+export class SettingsMenu extends HTMLElement {
     private isAttached = false;
     private areSettingsVisible = false;
-    private dataQualities: VideoQualityEnum[] = [];
+    private streamingQualities: VideoQualityEnum[] = [];
     private currentQuality = VideoQualityEnum.Auto;
 
-    private get wrapperSettings(): HTMLElement | null {
-        return this.querySelector('#wrapper-settings');
-    }
-
     public static get observedAttributes(): string[] {
-        return ['data-qualities'];
+        return [SettingsMenuAttributeEnum.Qualities];
     }
 
-    public attributeChangedCallback(property: string, oldValue: string, newValue: string): void {
+    private static parseQualitiesAttributeValue(value: TAttributeValue): VideoQualityEnum[] {
+        if (isNull(value)) {
+            return [VideoQualityEnum.Auto];
+        }
+
+        const qualities = value.split(',');
+        const supportedQualities = Object.values(VideoQualityEnum);
+
+        return qualities.filter((quality) =>
+            supportedQualities.includes(quality as VideoQualityEnum)
+        ) as VideoQualityEnum[];
+    }
+
+    public attributeChangedCallback(
+        attribute: string,
+        oldValue: TAttributeValue,
+        newValue: TAttributeValue
+    ): void {
         if (oldValue === newValue) {
             return;
         }
 
-        switch (property) {
-            case 'data-qualities':
-                this.dataQualities = String(newValue).split(',') as VideoQualityEnum[];
+        switch (attribute) {
+            case SettingsMenuAttributeEnum.Qualities:
+                this.streamingQualities = SettingsMenu.parseQualitiesAttributeValue(newValue);
                 break;
 
             default:
@@ -56,13 +75,13 @@ export default class SettingsMenu extends HTMLElement {
                 ${styles}
             </style>
 
-            <button class="control-hoverable" is=${ComponentEnum.SettingsButton}></button>
-            <div hidden id="wrapper-settings">${this.renderQualityButtons()}</div>
+            <button class="hoverable-control" is=${ComponentEnum.SettingsButton}></button>
+            <div hidden id="settings-wrapper">${this.renderQualityButtons()}</div>
         `;
     }
 
     private renderQualityButtons(): string {
-        return this.dataQualities
+        return this.streamingQualities
             .sort((a, b) => Number.parseInt(b, 10) - Number.parseInt(a, 10))
             .map(
                 (quality) => html`<button
@@ -70,7 +89,7 @@ export default class SettingsMenu extends HTMLElement {
                     class="${ComponentEnum.QualityButton} ${this.currentQuality === quality
                         ? `${ComponentEnum.QualityButton}--active`
                         : ''}"
-                    data-quality="${quality}"
+                    ${QualityButtonAttributeEnum.Quality}="${quality}"
                 ></button>`
             )
             .join('');
@@ -80,35 +99,47 @@ export default class SettingsMenu extends HTMLElement {
         const target = event.target as HTMLElement;
         const component = target.closest('[is$="button"]')?.getAttribute('is');
 
-        if (component === ComponentEnum.SettingsButton) {
-            this.toggleSettings();
-        }
+        switch (component) {
+            case ComponentEnum.SettingsButton:
+                this.toggleSettings();
+                break;
 
-        if (component === ComponentEnum.QualityButton) {
-            const quality = target
-                .closest('[data-quality]')
-                ?.getAttribute('data-quality') as VideoQualityEnum;
+            case ComponentEnum.QualityButton:
+                this.toggleQuality(target);
+                break;
 
-            this.toggleSettings();
-            this.dispatchEvent(
-                new CustomEvent(PlayerEventEnum.ChangeStreamingQuality, {
-                    bubbles: true,
-                    composed: true,
-                    detail: { quality }
-                })
-            );
-            this.currentQuality = quality;
-            this.render();
+            default:
         }
     }
 
     private toggleSettings(): void {
-        this.areSettingsVisible = !this.areSettingsVisible;
-
-        if (this.areSettingsVisible) {
-            this.wrapperSettings?.removeAttribute('hidden');
-        } else {
-            this.wrapperSettings?.setAttribute('hidden', '');
+        const settingsWrapperElement = this.querySelector('#settings-wrapper');
+        if (isNull(settingsWrapperElement)) {
+            return;
         }
+
+        this.areSettingsVisible = !this.areSettingsVisible;
+        if (this.areSettingsVisible) {
+            settingsWrapperElement.removeAttribute('hidden');
+        } else {
+            settingsWrapperElement.setAttribute('hidden', '');
+        }
+    }
+
+    private toggleQuality(target: HTMLElement): void {
+        const quality = target
+            .closest(`[${QualityButtonAttributeEnum.Quality}]`)
+            ?.getAttribute(QualityButtonAttributeEnum.Quality) as VideoQualityEnum;
+
+        this.toggleSettings();
+        this.dispatchEvent(
+            new CustomEvent(PlayerEventEnum.ChangeStreamingQuality, {
+                bubbles: true,
+                composed: true,
+                detail: { quality }
+            })
+        );
+        this.currentQuality = quality;
+        this.render();
     }
 }

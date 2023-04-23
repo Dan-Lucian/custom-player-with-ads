@@ -60,11 +60,11 @@ export default class ControlsPlayerAd extends HTMLElement {
             </style>
 
             ${this.isPlaying
-                ? '<button class="control-hoverable" is="button-pause-ad"></button>'
-                : '<button class="control-hoverable" is="button-play-ad"></button>'}
+                ? html`<button class="hoverable-control" is="button-pause-ad"></button>`
+                : html`<button class="hoverable-control" is="button-play-ad"></button>`}
             ${this.muted
-                ? '<button class="control-hoverable" is="button-unmute-ad"></button>'
-                : '<button class="control-hoverable" is="button-mute-ad"></button>'}
+                ? html`<button class="hoverable-control" is="button-unmute-ad"></button>`
+                : html`<button class="hoverable-control" is="button-mute-ad"></button>`}
             <div class="spacer"></div>
             <button is="button-skip-ad"></button>
         `;

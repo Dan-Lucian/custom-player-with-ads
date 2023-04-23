@@ -9,6 +9,7 @@ import { PlayerEventEnum } from 'enums/PlayerEventEnum';
 import { ComponentEnum } from 'enums/ComponentEnum';
 import { TAttributeValue } from 'types/TAttributeValue';
 import { isArrayDefined, isDefined, isNull, isString } from 'utils/typeUtils';
+import { PlayerControlsAttributeEnum } from 'modules/PlayerControls/enums/PlayerControlsAttributeEnum';
 
 // TODO: "timeupdate" event + video.duration to obtain the video duration
 // cause if it's fired it means the metadata has already been loaded
@@ -140,9 +141,8 @@ export class MyAwesomePlayer extends HTMLElement {
         const autoplayAttribute = this.shouldAutoplay ? MyAwesomePlayerAttributeEnum.Autoplay : '';
         const mutedAttribute = this.isMuted ? MyAwesomePlayerAttributeEnum.Muted : '';
         const useImaAttribute = this.shouldUseIma ? MyAwesomePlayerAttributeEnum.UseIma : '';
-        const widthAttribueValue = isNull(this.width) ? '' : this.width;
+        const playerWidth = isNull(this.width) ? '' : this.width;
 
-        // TODO: test lit syntax ?autoplay=${this.shouldAutoplay}
         this.shadow.innerHTML = html`
             <style>
                 ${styles}
@@ -152,7 +152,7 @@ export class MyAwesomePlayer extends HTMLElement {
                     <video
                         ${autoplayAttribute}
                         ${mutedAttribute}
-                        width=${widthAttribueValue}
+                        width=${playerWidth}
                         id=${ComponentEnum.MyAwesomePlayer}
                         preload="metadata"
                     >
@@ -328,8 +328,7 @@ export class MyAwesomePlayer extends HTMLElement {
 
     private setQualityLevels(levels: string[]): void {
         const playerControlsElement = this.getPlayerControlsElement();
-        // TODO: use PlayerControls attribue enum
-        playerControlsElement.setAttribute('data-qualities', levels.join());
+        playerControlsElement.setAttribute(PlayerControlsAttributeEnum.Qualities, levels.join());
     }
 
     private changeStreamingQuality(event: Event): void {
