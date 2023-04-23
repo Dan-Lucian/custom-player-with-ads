@@ -9,6 +9,7 @@ import { SettingsMenuAttributeEnum } from 'modules/PlayerControls/components/Set
 import { QualityButtonAttributeEnum } from 'modules/PlayerControls/components/SettingsMenu/components/QualityButton/enums/QualityButtonAttributeEnum';
 import { TAttributeValue } from 'types/TAttributeValue';
 import { isNull } from 'utils/typeUtils';
+import { parseQualitiesAttributeValue } from 'modules/PlayerControls/components/SettingsMenu/utils/SettingsMenuUtils';
 
 export class SettingsMenu extends HTMLElement {
     private isAttached = false;
@@ -18,19 +19,6 @@ export class SettingsMenu extends HTMLElement {
 
     public static get observedAttributes(): string[] {
         return [SettingsMenuAttributeEnum.Qualities];
-    }
-
-    private static parseQualitiesAttributeValue(value: TAttributeValue): VideoQualityEnum[] {
-        if (isNull(value)) {
-            return [VideoQualityEnum.Auto];
-        }
-
-        const qualities = value.split(',');
-        const supportedQualities = Object.values(VideoQualityEnum);
-
-        return qualities.filter((quality) =>
-            supportedQualities.includes(quality as VideoQualityEnum)
-        ) as VideoQualityEnum[];
     }
 
     public attributeChangedCallback(
@@ -44,7 +32,7 @@ export class SettingsMenu extends HTMLElement {
 
         switch (attribute) {
             case SettingsMenuAttributeEnum.Qualities:
-                this.streamingQualities = SettingsMenu.parseQualitiesAttributeValue(newValue);
+                this.streamingQualities = parseQualitiesAttributeValue(newValue);
                 break;
 
             default:
