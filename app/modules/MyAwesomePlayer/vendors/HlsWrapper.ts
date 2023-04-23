@@ -1,50 +1,37 @@
 import Hls, { Events, ManifestParsedData } from 'hls.js';
 import { VideoQualityEnum } from 'enums/VideoQualityEnum';
+import { isDefined } from 'utils/typeUtils';
 
 export class HlsWrapper {
     private static instance: HlsWrapper;
 
     private hls?: Hls;
-    private _videoElement: HTMLVideoElement | null = null;
-    private src = '';
     private callbackAfterManifestParsed: ((levels: string[]) => void) | null = null;
     private mapQualityToLevel: Map<VideoQualityEnum, number> = new Map();
 
-    private get videoElement(): HTMLVideoElement {
-        if (!this._videoElement) {
-            throw new Error('ima: "_videoElement" prop is null.');
-        }
-
-        return this._videoElement;
-    }
-
     public static getInstance(): HlsWrapper {
-        if (!HlsWrapper.instance) {
+        if (!isDefined(HlsWrapper.instance)) {
             HlsWrapper.instance = new HlsWrapper();
         }
 
         return HlsWrapper.instance;
     }
 
-    public setConfig(
+    public initialize(
         videoElement: HTMLVideoElement,
         src: string,
         callbackAfterManifestParsed: (levels: string[]) => void
     ): void {
-        this._videoElement = videoElement;
-        this.src = src;
         this.callbackAfterManifestParsed = callbackAfterManifestParsed;
-    }
 
-    public initialize(): void {
         if (Hls.isSupported()) {
             const config = { ...Hls.DefaultConfig, capLevelToPlayerSize: true };
             this.hls = new Hls(config);
-            this.hls.loadSource(this.src);
+            this.hls.loadSource(src);
             this.hls.on(Hls.Events.MANIFEST_PARSED, this.handleManifestParsed.bind(this));
-            this.hls.attachMedia(this.videoElement);
+            this.hls.attachMedia(videoElement);
         } else {
-            throw new Error('Hls not supported');
+            throw new Error('HlsWrapper_Hls_not_supported');
         }
     }
 
@@ -81,6 +68,6 @@ export class HlsWrapper {
         if (this.callbackAfterManifestParsed) {
             this.callbackAfterManifestParsed(foundQualities);
         }
-        console.log(`WRAPPER_HLS: quality levels found: `, foundQualities);
+        console.log(`HlsWrapper_quality_levels_found: `, foundQualities);
     }
 }

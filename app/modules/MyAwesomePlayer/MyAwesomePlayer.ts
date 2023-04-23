@@ -180,17 +180,16 @@ export class MyAwesomePlayer extends HTMLElement {
 
         const videoElement = this.getVideoElement();
         const src = this.playlist[this.currentVideo].streamingManifest;
-        this.hlsWrapper = HlsWrapper.getInstance();
-        this.hlsWrapper.setConfig(videoElement, src, this.setQualityLevels.bind(this));
 
         try {
-            this.hlsWrapper.initialize();
+            this.hlsWrapper = HlsWrapper.getInstance();
+            this.hlsWrapper.initialize(videoElement, src, this.setQualityLevels.bind(this));
         } catch (error) {
             if (videoElement.canPlayType('application/vnd.apple.mpegurl')) {
-                console.log('HLS: can play hls natively (apple)');
+                console.log('MyAwesomePlayer_can_play_hls_natively_apple');
                 videoElement.src = src;
             } else {
-                console.log('HLS: hls is not supported ');
+                console.log('MyAwesomePlayer_hls_is_not_supported ');
                 videoElement.src = this.playlist[this.currentVideo].video;
             }
         }
