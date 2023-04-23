@@ -10,13 +10,6 @@ export class AdService {
             'gdfp_req=1&output=vast&unviewed_position_start=1&env=vp&impl=s&correlator='
     ];
 
-    public async requestAd(): Promise<string> {
-        const url = getRandomValueFromArray(this.adUrls);
-
-        const response = await AdService.requestAdByUrl(url);
-        return response;
-    }
-
     public static async requestAdByUrl(url: string): Promise<string> {
         const response = await fetch(url, {
             method: 'GET'

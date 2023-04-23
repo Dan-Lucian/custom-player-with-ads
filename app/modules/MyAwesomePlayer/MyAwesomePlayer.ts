@@ -1,4 +1,4 @@
-import { html } from 'utils/generalUtils';
+import { html, isImaUrl } from 'utils/generalUtils';
 import { EnumEventIma } from 'enums/ImaEventEnum';
 import { VideoQualityEnum } from 'enums/VideoQualityEnum';
 import { HlsWrapper } from 'modules/MyAwesomePlayer/vendors/HlsWrapper';
@@ -10,6 +10,11 @@ import { ComponentEnum } from 'enums/ComponentEnum';
 import { TAttributeValue } from 'types/TAttributeValue';
 import { isArrayDefined, isDefined, isNull, isString } from 'utils/typeUtils';
 import { PlayerControlsAttributeEnum } from 'modules/PlayerControls/enums/PlayerControlsAttributeEnum';
+import { adService, vastParser } from 'services/services';
+import { AdPlayer } from 'modules/AdPlayer/AdPlayer';
+import { AdPlayerAttributeEnum } from 'modules/AdPlayer/enums/AdPlayerAttributeEnum';
+import { AdService } from 'services/AdService';
+import { IParsedVast } from 'interfaces/IParsedVast';
 
 // TODO: "timeupdate" event + video.duration to obtain the video duration
 // cause if it's fired it means the metadata has already been loaded
@@ -33,8 +38,8 @@ export class MyAwesomePlayer extends HTMLElement {
         this.shadow = this.attachShadow({ mode: 'open' });
 
         this.addEventListener(PlayerEventEnum.Play, this.play);
-        this.addEventListener(PlayerEventEnum.PlayAd, this.renderAd);
-        this.addEventListener(PlayerEventEnum.PlayImaAd, this.renderAdThroughIma);
+        this.addEventListener(PlayerEventEnum.PlayAd, this.renderAd.bind(this, false));
+        this.addEventListener(PlayerEventEnum.PlayImaAd, this.renderAd.bind(this, true));
         this.addEventListener(PlayerEventEnum.Pause, this.pause);
         this.addEventListener(PlayerEventEnum.Mute, this.mute);
         this.addEventListener(PlayerEventEnum.Unmute, this.unmute);
@@ -116,8 +121,8 @@ export class MyAwesomePlayer extends HTMLElement {
         this.isAttached = false;
     }
 
-    private getAdPlayer(): HTMLElement {
-        return this.shadow.getElementById(ComponentEnum.AdPlayer) as HTMLElement;
+    private getAdPlayer(): AdPlayer {
+        return this.shadow.getElementById(ComponentEnum.AdPlayer) as AdPlayer;
     }
 
     private getVideoElement(): HTMLVideoElement {
@@ -251,7 +256,7 @@ export class MyAwesomePlayer extends HTMLElement {
 
     private hideAd(): void {
         const AdPlayer = this.getAdPlayer();
-        AdPlayer.setAttribute('hidden', '');
+        AdPlayer.setAttribute(AdPlayerAttributeEnum.Hidden, '');
         this.play();
     }
 
@@ -305,18 +310,26 @@ export class MyAwesomePlayer extends HTMLElement {
         this.refreshWithoutRender();
     }
 
-    private renderAd(): void {
-        const adPlayer = this.getAdPlayer();
-        this.pause();
-        adPlayer.removeAttribute('hidden');
-    }
+    private async renderAd(shouldUseIma: boolean): Promise<void> {
+        let parsedVast: IParsedVast;
+        const url = adService.getRandomAdUrl();
 
-    private renderAdThroughIma(): void {
-        const adPlayer = this.getAdPlayer();
+        if (shouldUseIma || isImaUrl(url)) {
+            parsedVast = {
+                isIMAUrl: true,
+                isVPAID: false,
+                mediaLink: url
+            };
+        } else {
+            const vast = await AdService.requestAdByUrl(url);
+            parsedVast = vastParser.parseString(vast);
+        }
+
         this.pause();
-        // TODO: use attribute enum for adPlayer
-        adPlayer.setAttribute(MyAwesomePlayerAttributeEnum.UseIma, '');
-        adPlayer.removeAttribute('hidden');
+
+        const adPlayer = this.getAdPlayer();
+        adPlayer.removeAttribute(AdPlayerAttributeEnum.Hidden);
+        adPlayer.parsedVast = parsedVast;
     }
 
     private unmute(): void {

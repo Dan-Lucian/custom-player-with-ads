@@ -1,76 +1,92 @@
 import { adService } from 'services/services';
 import { html } from 'utils/generalUtils';
-import { VastParser } from 'modules/VastParser/VastParser';
-import { IVastInfo } from 'interfaces/IVastInfo';
+import { IParsedVast } from 'interfaces/IParsedVast';
 import { styles } from 'modules/AdPlayer/AdPlayer.styles';
 import { ComponentEnum } from 'enums/ComponentEnum';
 import 'modules/AdPlayer/components/PlayerAdIframe';
 import 'modules/AdPlayer/components/PlayerAdVideo';
 import 'modules/AdPlayer/components/PlayerAdIma';
+import { AdPlayerAttributeEnum } from 'modules/AdPlayer/enums/AdPlayerAttributeEnum';
+import { TAttributeValue } from 'types/TAttributeValue';
+import { isNull, isString } from 'utils/typeUtils';
 
 export class AdPlayer extends HTMLElement {
-    private rendered = false;
-    private vastObj: IVastInfo | null = null;
-    private dataUseIma = false;
+    private isAttached = false;
+    private _parsedVast: IParsedVast | null = null;
+    private shouldUseIma = false;
+
+    // External property
+    set parsedVast(value: IParsedVast) {
+        this._parsedVast = value;
+
+        if (!this.isAttached) {
+            return;
+        }
+        this.render();
+    }
 
     public static get observedAttributes(): string[] {
-        return ['data-use-ima', 'hidden'];
+        return [AdPlayerAttributeEnum.UseIma, AdPlayerAttributeEnum.Hidden];
     }
 
     public async attributeChangedCallback(
-        property: string,
-        oldValue: unknown,
-        newValue: unknown
+        attribute: string,
+        oldValue: TAttributeValue,
+        newValue: TAttributeValue
     ): Promise<void> {
         if (oldValue === newValue) {
             return;
         }
 
-        switch (property) {
-            case 'data-use-ima':
-                if (newValue === null) {
-                    this.dataUseIma = false;
+        switch (attribute) {
+            case AdPlayerAttributeEnum.UseIma:
+                if (isNull(newValue)) {
+                    this.shouldUseIma = false;
                 } else {
-                    this.dataUseIma = true;
+                    this.shouldUseIma = true;
                 }
                 return;
 
-            case 'hidden':
-                // if no "hidden" attribute on the component
-                if (newValue === null && !this.dataUseIma) {
-                    await this.requestAd();
+            case AdPlayerAttributeEnum.Hidden:
+                if (isString(newValue)) {
+                    this.cleanupAdPlayer();
                     break;
                 }
-
-                this.cleanupPlayerAd();
                 break;
 
             default:
                 break;
         }
 
-        if (!this.rendered) {
+        if (!this.isAttached) {
             return;
         }
         this.render();
     }
 
     public connectedCallback(): void {
-        if (!this.rendered) {
+        if (!this.isAttached) {
             this.render();
-            this.rendered = true;
+            this.isAttached = true;
         }
     }
 
     private render(): void {
         console.log(`RENDER: <${ComponentEnum.AdPlayer}>`);
-        if (this.dataUseIma) {
+        if (isNull(this._parsedVast)) {
+            console.log('AdPlayer_parsedVast_is_null');
+            return;
+        }
+
+        if (this.shouldUseIma || this._parsedVast.isIMAUrl) {
             this.innerHTML = html`
                 <style>
                     ${styles}
                 </style>
 
-                <player-ad-ima src=${adService.getRandomAdUrl()}></player-ad-ima>
+                <player-ad-ima
+                    src=${this._parsedVast.mediaLink || adService.getRandomAdUrl()}
+                ></player-ad-ima>
             `;
 
             return;
@@ -81,24 +97,17 @@ export class AdPlayer extends HTMLElement {
                 ${styles}
             </style>
 
-            ${this.vastObj && this.vastObj.isVPAID
-                ? html`<player-ad-iframe data-src="${this.vastObj.mediaLink}"></player-ad-iframe>`
+            ${this._parsedVast.isVPAID
+                ? html`<player-ad-iframe
+                      data-src="${this._parsedVast.mediaLink}"
+                  ></player-ad-iframe>`
                 : html`<player-ad-video
-                      data-src="${this.vastObj?.mediaLink || ''}"
+                      data-src="${this._parsedVast.mediaLink}"
                   ></player-ad-video>`}
         `;
     }
 
-    private cleanupPlayerAd(): void {
-        this.vastObj = null;
-    }
-
-    private async requestAd(): Promise<void> {
-        const vast = await adService.requestAd();
-
-        const parser = new DOMParser();
-        const vastDOM = parser.parseFromString(vast, 'text/xml');
-
-        this.vastObj = VastParser.parseVastDom(vastDOM);
+    private cleanupAdPlayer(): void {
+        this._parsedVast = null;
     }
 }

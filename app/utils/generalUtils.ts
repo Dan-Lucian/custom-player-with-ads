@@ -51,3 +51,12 @@ export function getRandomValueFromArray<T>(array: T[]): T {
 
     return array[intRandom];
 }
+
+/**
+ * Determines if a URL is of IMA format.
+ * @param {string} url url.
+ * @returns {boolean} true if URL is of IMA format.
+ */
+export function isImaUrl(url: string): boolean {
+    return url.includes('pubads.g.doubleclick.net');
+}

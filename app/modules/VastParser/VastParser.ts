@@ -1,13 +1,20 @@
 import { ResourceTypeEnum } from 'enums/ResourceTypeEnum';
-import { IVastInfo } from 'interfaces/IVastInfo';
+import { IParsedVast } from 'interfaces/IParsedVast';
 
 export class VastParser {
+    private domParser;
+
+    constructor() {
+        this.domParser = new DOMParser();
+    }
+
     /**
-     * Extracts essential values from a vast dom.
-     * @param {Document} vastDOM vast dom.
-     * @returns {IVastInfo} IVastInfo.
+     * Extracts essential values from a vast xml.
+     * @param {Document} vast vast xml.
+     * @returns {IParsedVast} IVastInfo.
      */
-    public static parseVastDom(vastDOM: Document): IVastInfo {
+    public parseString(vast: string): IParsedVast {
+        const vastDOM = this.domParser.parseFromString(vast, 'text/xml');
         const isJavaScript =
             vastDOM.getElementsByTagName('MediaFile')[0].getAttribute('type') ===
             ResourceTypeEnum.JavaScript;
@@ -19,7 +26,8 @@ export class VastParser {
 
         return {
             isVPAID: isJavaScript && isVPAID,
-            mediaLink
+            mediaLink,
+            isIMAUrl: false
         };
     }
 }
