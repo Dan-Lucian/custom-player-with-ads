@@ -1,7 +1,8 @@
 import { css } from 'utils/generalUtils';
+import { ComponentEnum } from 'enums/ComponentEnum';
 
-const styles = css`
-    player-ad-video {
+export const styles = css`
+    ${ComponentEnum.VideoAdPlayer} {
         position: absolute;
         top: 0;
         bottom: 0;
@@ -14,9 +15,7 @@ const styles = css`
         justify-content: center;
     }
 
-    player-ad-video video {
+    ${ComponentEnum.VideoAdPlayer} video {
         width: 100%;
     }
 `;
-
-export default styles;

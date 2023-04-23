@@ -1,7 +1,8 @@
 import { html } from 'utils/generalUtils';
+import { ComponentEnum } from 'enums/ComponentEnum';
 import IMA from './IMA';
 import styles from './PlayerAdIma.styles';
-import { EnumEventPlayerAd } from '../../../../enums/AdPlayerEventEnum';
+import { AdPlayerEventEnum } from '../../../../enums/AdPlayerEventEnum';
 
 export default class PlayerAdIma extends HTMLElement {
     private src = '';
@@ -14,7 +15,7 @@ export default class PlayerAdIma extends HTMLElement {
 
     private get videoElement(): HTMLVideoElement | null {
         return this.closest('#player-container')?.querySelector(
-            '#player-onboarding'
+            `#${ComponentEnum.MyAwesomePlayer}`
         ) as HTMLVideoElement | null;
     }
 
@@ -49,11 +50,11 @@ export default class PlayerAdIma extends HTMLElement {
     constructor() {
         super();
 
-        this.addEventListener(EnumEventPlayerAd.Play, this.resume);
-        this.addEventListener(EnumEventPlayerAd.Pause, this.pause);
-        this.addEventListener(EnumEventPlayerAd.Mute, this.mute);
-        this.addEventListener(EnumEventPlayerAd.Unmute, this.unmute);
-        this.addEventListener(EnumEventPlayerAd.SkipAd, this.skipAd);
+        this.addEventListener(AdPlayerEventEnum.Play, this.resume);
+        this.addEventListener(AdPlayerEventEnum.Pause, this.pause);
+        this.addEventListener(AdPlayerEventEnum.Mute, this.mute);
+        this.addEventListener(AdPlayerEventEnum.Unmute, this.unmute);
+        this.addEventListener(AdPlayerEventEnum.SkipAd, this.skipAd);
     }
 
     public connectedCallback(): void {

@@ -7,7 +7,6 @@
 export enum ComponentEnum {
     MyAwesomePlayer = 'my-awesome-player',
     PlayerForm = 'player-form',
-    AdPlayer = 'ad-player',
     PlayerControls = 'player-controls',
     PlayButton = 'play-button',
     PauseButton = 'pause-button',
@@ -19,5 +18,10 @@ export enum ComponentEnum {
     LoadImaAdButton = 'load-ad-ima-button',
     SettingsMenu = 'settings-menu',
     SettingsButton = 'settings-button',
-    QualityButton = 'quality-button'
+    QualityButton = 'quality-button',
+    AdPlayer = 'ad-player',
+    VideoAdPlayer = 'video-ad-player',
+    ImaAdPlayer = 'ima-ad-player',
+    VpaidAdPlayer = 'vpaid-ad-player',
+    AdPlayerControls = 'controls-player-ad'
 }

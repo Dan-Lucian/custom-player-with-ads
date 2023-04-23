@@ -4,7 +4,6 @@ import { IParsedVast } from 'interfaces/IParsedVast';
 import { styles } from 'modules/AdPlayer/AdPlayer.styles';
 import { ComponentEnum } from 'enums/ComponentEnum';
 import 'modules/AdPlayer/components/PlayerAdIframe';
-import 'modules/AdPlayer/components/PlayerAdVideo';
 import 'modules/AdPlayer/components/PlayerAdIma';
 import { AdPlayerAttributeEnum } from 'modules/AdPlayer/enums/AdPlayerAttributeEnum';
 import { TAttributeValue } from 'types/TAttributeValue';
@@ -101,9 +100,9 @@ export class AdPlayer extends HTMLElement {
                 ? html`<player-ad-iframe
                       data-src="${this._parsedVast.mediaLink}"
                   ></player-ad-iframe>`
-                : html`<player-ad-video
+                : html`<video-ad-player
                       data-src="${this._parsedVast.mediaLink}"
-                  ></player-ad-video>`}
+                  ></video-ad-player>`}
         `;
     }
 

@@ -63,7 +63,7 @@ class IMA {
 
         // inserted inside body because ima internally uses document.querySelector
         // to check if there is the ima script element, but since we use shadow dom
-        // on player-onboarding ima fails to find the script and triggers an error
+        // on my-awesome-player ima fails to find the script and triggers an error
         document.body.insertAdjacentElement('beforeend', this.scriptElement);
         window.addEventListener('resize', this.handleWindowResize.bind(this));
     }

@@ -1,5 +1,5 @@
 import { html } from 'utils/generalUtils';
-import { EnumEventPlayerAd } from '../../../../enums/AdPlayerEventEnum';
+import { AdPlayerEventEnum } from '../../../../enums/AdPlayerEventEnum';
 
 export default class ButtonSkipAd extends HTMLButtonElement {
     private rendered = false;
@@ -22,7 +22,7 @@ export default class ButtonSkipAd extends HTMLButtonElement {
 
     private handleClick(): void {
         this.dispatchEvent(
-            new CustomEvent(EnumEventPlayerAd.SkipAd, {
+            new CustomEvent(AdPlayerEventEnum.SkipAd, {
                 bubbles: true,
                 composed: true
             })

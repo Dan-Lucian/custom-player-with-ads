@@ -313,7 +313,6 @@ export class MyAwesomePlayer extends HTMLElement {
     private async renderAd(shouldUseIma: boolean): Promise<void> {
         let parsedVast: IParsedVast;
         const url = adService.getRandomAdUrl();
-
         if (shouldUseIma || isImaUrl(url)) {
             parsedVast = {
                 isIMAUrl: true,

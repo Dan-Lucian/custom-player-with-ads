@@ -1,5 +1,5 @@
 import { IIframeWindow } from 'interfaces/IIframeWindow';
-import { EnumEventPlayerAd } from 'enums/AdPlayerEventEnum';
+import { AdPlayerEventEnum } from 'enums/AdPlayerEventEnum';
 import styles from './PlayerAdIframe.styles';
 import '../ControlsPlayerAd';
 import WrapperVPAID from './WrapperVPAID';
@@ -12,11 +12,11 @@ export default class PlayerAdIframe extends HTMLElement {
     constructor() {
         super();
 
-        this.addEventListener(EnumEventPlayerAd.Play, this.play);
-        this.addEventListener(EnumEventPlayerAd.Pause, this.pause);
-        this.addEventListener(EnumEventPlayerAd.Mute, this.mute);
-        this.addEventListener(EnumEventPlayerAd.Unmute, this.unmute);
-        this.addEventListener(EnumEventPlayerAd.SkipAd, this.skipAd);
+        this.addEventListener(AdPlayerEventEnum.Play, this.play);
+        this.addEventListener(AdPlayerEventEnum.Pause, this.pause);
+        this.addEventListener(AdPlayerEventEnum.Mute, this.mute);
+        this.addEventListener(AdPlayerEventEnum.Unmute, this.unmute);
+        this.addEventListener(AdPlayerEventEnum.SkipAd, this.skipAd);
     }
 
     public static get observedAttributes(): string[] {

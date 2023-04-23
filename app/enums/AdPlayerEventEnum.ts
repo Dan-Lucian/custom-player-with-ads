@@ -1,4 +1,5 @@
-export enum EnumEventPlayerAd {
+// TODO: maybe move to AdPlayer module
+export enum AdPlayerEventEnum {
     Play = 'AdPlayerPlay',
     PlayAd = 'AdPlayerPlayAd',
     Pause = 'AdPlayerPause',

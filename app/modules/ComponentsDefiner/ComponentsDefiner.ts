@@ -14,13 +14,13 @@ import { LoadAdButton } from 'modules/PlayerControls/components/LoadAdButton';
 import { SettingsMenu } from 'modules/PlayerControls/components/SettingsMenu/SettingsMenu';
 import { QualityButton } from 'modules/PlayerControls/components/SettingsMenu/components/QualityButton/QualityButton';
 import { SettingsButton } from 'modules/PlayerControls/components/SettingsMenu/components/SettingsButton';
+import { VideoAdPlayer } from 'modules/AdPlayer/components/VideoAdPlayer/VideoAdPlayer';
 
 export class ComponentsDefiner {
     // TODO: add .whenDefined
     public static defineAllComponents(): void {
-        customElements.define(ComponentEnum.AdPlayer, AdPlayer);
-        customElements.define(ComponentEnum.PlayerForm, PlayerForm, { extends: 'form' });
         customElements.define(ComponentEnum.MyAwesomePlayer, MyAwesomePlayer);
+        customElements.define(ComponentEnum.PlayerForm, PlayerForm, { extends: 'form' });
 
         // player controls components
         customElements.define(ComponentEnum.PlayerControls, PlayerControls);
@@ -41,5 +41,9 @@ export class ComponentsDefiner {
         customElements.define(ComponentEnum.SettingsMenu, SettingsMenu);
         customElements.define(ComponentEnum.QualityButton, QualityButton, { extends: 'button' });
         customElements.define(ComponentEnum.SettingsButton, SettingsButton, { extends: 'button' });
+
+        // AdPlayer components
+        customElements.define(ComponentEnum.AdPlayer, AdPlayer);
+        customElements.define(ComponentEnum.VideoAdPlayer, VideoAdPlayer);
     }
 }
