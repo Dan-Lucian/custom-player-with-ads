@@ -15,6 +15,12 @@ import { SettingsMenu } from 'modules/PlayerControls/components/SettingsMenu/Set
 import { QualityButton } from 'modules/PlayerControls/components/SettingsMenu/components/QualityButton/QualityButton';
 import { SettingsButton } from 'modules/PlayerControls/components/SettingsMenu/components/SettingsButton';
 import { VideoAdPlayer } from 'modules/AdPlayer/components/VideoAdPlayer/VideoAdPlayer';
+import { AdPlayerControls } from 'modules/AdPlayer/components/AdPlayerControls/AdPlayerControls';
+import { MuteAdButton } from 'modules/AdPlayer/components/AdPlayerControls/components/MuteAdButton';
+import { UnmuteAdButton } from 'modules/AdPlayer/components/AdPlayerControls/components/UnmuteAdButton';
+import { PlayAdButton } from 'modules/AdPlayer/components/AdPlayerControls/components/PlayAdButton';
+import { PauseAdButton } from 'modules/AdPlayer/components/AdPlayerControls/components/PauseAdButton';
+import { SkipAdButton } from 'modules/AdPlayer/components/AdPlayerControls/components/SkipAdButton';
 
 export class ComponentsDefiner {
     // TODO: add .whenDefined
@@ -45,5 +51,13 @@ export class ComponentsDefiner {
         // AdPlayer components
         customElements.define(ComponentEnum.AdPlayer, AdPlayer);
         customElements.define(ComponentEnum.VideoAdPlayer, VideoAdPlayer);
+
+        // AdPlayer controls element
+        customElements.define(ComponentEnum.AdPlayerControls, AdPlayerControls);
+        customElements.define(ComponentEnum.MuteAdButton, MuteAdButton, { extends: 'button' });
+        customElements.define(ComponentEnum.UnmuteAdButton, UnmuteAdButton, { extends: 'button' });
+        customElements.define(ComponentEnum.PlayAdButton, PlayAdButton, { extends: 'button' });
+        customElements.define(ComponentEnum.PauseAdButton, PauseAdButton, { extends: 'button' });
+        customElements.define(ComponentEnum.SkipAdButton, SkipAdButton, { extends: 'button' });
     }
 }

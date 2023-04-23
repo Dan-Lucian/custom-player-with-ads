@@ -73,7 +73,7 @@ export default class PlayerAdIma extends HTMLElement {
             </style>
 
             <div id="ima-ad-container"></div>
-            <controls-player-ad autoplay></controls-player-ad>
+            <ad-player-controls autoplay></ad-player-controls>
         `;
     }
 

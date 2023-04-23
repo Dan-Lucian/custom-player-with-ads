@@ -1,12 +1,12 @@
 import { html } from 'utils/generalUtils';
 
-export default class ButtonPauseAd extends HTMLButtonElement {
-    private rendered = false;
+export class PauseAdButton extends HTMLButtonElement {
+    private isAttached = false;
 
     public connectedCallback(): void {
-        if (!this.rendered) {
+        if (!this.isAttached) {
             this.render();
-            this.rendered = true;
+            this.isAttached = true;
         }
     }
 
@@ -18,5 +18,3 @@ export default class ButtonPauseAd extends HTMLButtonElement {
         `;
     }
 }
-
-customElements.define('button-pause-ad', ButtonPauseAd, { extends: 'button' });

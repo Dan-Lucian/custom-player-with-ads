@@ -1,4 +1,3 @@
-import 'modules/AdPlayer/components/ControlsPlayerAd';
 import { AdPlayerEventEnum } from 'enums/AdPlayerEventEnum';
 import { PlayerEventEnum } from 'enums/PlayerEventEnum';
 import { styles } from 'modules/AdPlayer/components/VideoAdPlayer/VideoAdPlayer.styles';
@@ -7,7 +6,7 @@ import { TAttributeValue } from 'types/TAttributeValue';
 import { ComponentEnum } from 'enums/ComponentEnum';
 import { isNull } from 'utils/typeUtils';
 // eslint-disable-next-line max-len
-import { AdPlayerControlsAttributeEnum } from 'modules/AdPlayer/components/ControlsPlayerAd/enums/AdPlayerControlsAttributeEnum';
+import { AdPlayerControlsAttributeEnum } from 'modules/AdPlayer/components/AdPlayerControls/enums/AdPlayerControlsAttributeEnum';
 
 export class VideoAdPlayer extends HTMLElement {
     private src: string | null = null;

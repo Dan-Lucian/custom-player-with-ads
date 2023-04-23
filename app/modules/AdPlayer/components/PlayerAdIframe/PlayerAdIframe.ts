@@ -1,7 +1,7 @@
 import { IIframeWindow } from 'interfaces/IIframeWindow';
 import { AdPlayerEventEnum } from 'enums/AdPlayerEventEnum';
+import { ComponentEnum } from 'enums/ComponentEnum';
 import styles from './PlayerAdIframe.styles';
-import '../ControlsPlayerAd';
 import WrapperVPAID from './WrapperVPAID';
 
 export default class PlayerAdIframe extends HTMLElement {
@@ -62,7 +62,7 @@ export default class PlayerAdIframe extends HTMLElement {
         const slotAd = document.createElement('div');
         slotAd.id = 'slot-ad';
 
-        const controlsPlayerAd = document.createElement('controls-player-ad');
+        const controlsPlayerAd = document.createElement(ComponentEnum.AdPlayerControls);
         controlsPlayerAd.setAttribute('autoplay', '');
 
         const iframe = document.createElement('iframe');

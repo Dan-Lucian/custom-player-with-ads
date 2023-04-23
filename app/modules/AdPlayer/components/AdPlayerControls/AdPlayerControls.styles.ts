@@ -1,7 +1,8 @@
 import { css } from 'utils/generalUtils';
+import { ComponentEnum } from 'enums/ComponentEnum';
 
-const styles = css`
-    controls-player-ad {
+export const styles = css`
+    ${ComponentEnum.AdPlayerControls} {
         display: flex;
         align-items: center;
         justify-content: center;
@@ -18,11 +19,11 @@ const styles = css`
         background: rgba(1, 1, 1, 0.5);
     }
 
-    controls-player-ad[hidden] {
+    ${ComponentEnum.AdPlayerControls}[hidden] {
         display: none;
     }
 
-    [is='button-skip-ad'] {
+    [is='${ComponentEnum.SkipAdButton}'] {
         border: none;
         padding: 0 20px;
 
@@ -37,5 +38,3 @@ const styles = css`
         align-items: center;
     }
 `;
-
-export default styles;

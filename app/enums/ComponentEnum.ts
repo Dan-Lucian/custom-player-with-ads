@@ -23,5 +23,10 @@ export enum ComponentEnum {
     VideoAdPlayer = 'video-ad-player',
     ImaAdPlayer = 'ima-ad-player',
     VpaidAdPlayer = 'vpaid-ad-player',
-    AdPlayerControls = 'controls-player-ad'
+    AdPlayerControls = 'ad-player-controls',
+    MuteAdButton = 'mute-ad-button',
+    UnmuteAdButton = 'unmute-ad-button',
+    PlayAdButton = 'play-ad-button',
+    PauseAdButton = 'pause-ad-button',
+    SkipAdButton = 'skip-ad-button'
 }
