@@ -1,5 +1,5 @@
 import Hls, { Events, ManifestParsedData } from 'hls.js';
-import { VideoQualityEnum } from 'enums/VideoQualityEnum';
+import { VideoQualityEnum } from 'modules/HlsWrapper/enums/VideoQualityEnum';
 import { isDefined } from 'utils/typeUtils';
 
 // TODO: move to sepparate module

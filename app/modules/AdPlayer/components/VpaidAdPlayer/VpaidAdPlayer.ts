@@ -1,5 +1,5 @@
 import { IVpaidWindow } from 'modules/VpaidWrapper/interfaces/IVpaidWindow';
-import { AdPlayerEventEnum } from 'enums/AdPlayerEventEnum';
+import { AdPlayerEventEnum } from 'modules/AdPlayer/enums/AdPlayerEventEnum';
 import { ComponentEnum } from 'enums/ComponentEnum';
 import { VpaidWrapper } from 'modules/VpaidWrapper/VpaidWrapper';
 import { styles } from 'modules/AdPlayer/components/VpaidAdPlayer/VpaidAdPlayer.styles';

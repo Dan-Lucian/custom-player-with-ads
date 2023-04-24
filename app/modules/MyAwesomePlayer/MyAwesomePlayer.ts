@@ -1,7 +1,7 @@
 import { html, isImaUrl } from 'utils/generalUtils';
-import { ImaEventEnum } from 'enums/ImaEventEnum';
-import { VideoQualityEnum } from 'enums/VideoQualityEnum';
-import { HlsWrapper } from 'modules/MyAwesomePlayer/vendors/HlsWrapper';
+import { ImaEventEnum } from 'modules/ImaLoader/enums/ImaEventEnum';
+import { VideoQualityEnum } from 'modules/HlsWrapper/enums/VideoQualityEnum';
+import { HlsWrapper } from 'modules/HlsWrapper/HlsWrapper';
 import { styles } from 'modules/MyAwesomePlayer/MyAwesomePlayer.styles';
 import { MyAwesomePlayerAttributeEnum } from 'modules/MyAwesomePlayer/enums/MyAwesomePlayerAttributeEnum';
 import { MyAwesomePlayerConfig } from 'modules/MyAwesomePlayer/config/MyAwesomePlayerConfig';
@@ -13,7 +13,7 @@ import { PlayerControlsAttributeEnum } from 'modules/PlayerControls/enums/Player
 import { adService, vastParser } from 'services/services';
 import { AdPlayer } from 'modules/AdPlayer/AdPlayer';
 import { AdPlayerAttributeEnum } from 'modules/AdPlayer/enums/AdPlayerAttributeEnum';
-import { AdService } from 'services/AdService';
+import { AdService } from 'modules/AdService/AdService';
 import { IParsedVast } from 'interfaces/IParsedVast';
 
 // TODO: "timeupdate" event + video.duration to obtain the video duration

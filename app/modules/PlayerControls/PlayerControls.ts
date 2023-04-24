@@ -78,7 +78,7 @@ export class PlayerControls extends HTMLElement {
     }
 
     private render(): void {
-        console.log(`RENDER: ${ComponentEnum.PlayerControls}`);
+        console.log(`RENDER: <${ComponentEnum.PlayerControls}>`);
         const qualities = isNull(this.streamingQualities) ? '' : this.streamingQualities;
 
         this.innerHTML = html`

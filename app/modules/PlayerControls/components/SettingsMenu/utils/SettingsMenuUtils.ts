@@ -1,4 +1,4 @@
-import { VideoQualityEnum } from 'enums/VideoQualityEnum';
+import { VideoQualityEnum } from 'modules/HlsWrapper/enums/VideoQualityEnum';
 import { TAttributeValue } from 'types/TAttributeValue';
 import { isNull } from 'utils/typeUtils';
 

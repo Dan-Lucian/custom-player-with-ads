@@ -1,5 +1,5 @@
 import { html } from 'utils/generalUtils';
-import { AdPlayerEventEnum } from 'enums/AdPlayerEventEnum';
+import { AdPlayerEventEnum } from 'modules/AdPlayer/enums/AdPlayerEventEnum';
 import { styles } from 'modules/AdPlayer/components/AdPlayerControls/AdPlayerControls.styles';
 import { TAttributeValue } from 'types/TAttributeValue';
 import { isString } from 'utils/typeUtils';

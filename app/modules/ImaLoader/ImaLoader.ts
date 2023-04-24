@@ -1,4 +1,4 @@
-import { ImaEventEnum } from 'enums/ImaEventEnum';
+import { ImaEventEnum } from 'modules/ImaLoader/enums/ImaEventEnum';
 import { isDefined, isNull } from 'utils/typeUtils';
 import { ImaLoaderConfig } from 'modules/ImaLoader/config/ImaLoaderConfig';
 

@@ -1,5 +1,5 @@
 import { PlayerEventEnum } from 'enums/PlayerEventEnum';
-import { VideoQualityEnum } from 'enums/VideoQualityEnum';
+import { VideoQualityEnum } from 'modules/HlsWrapper/enums/VideoQualityEnum';
 import { html } from 'utils/generalUtils';
 import { styles } from 'modules/PlayerControls/components/SettingsMenu/SettingsMenu.styles';
 import { ComponentEnum } from 'enums/ComponentEnum';

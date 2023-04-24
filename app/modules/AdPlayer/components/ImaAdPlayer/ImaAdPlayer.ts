@@ -1,6 +1,6 @@
 import { html } from 'utils/generalUtils';
 import { ComponentEnum } from 'enums/ComponentEnum';
-import { AdPlayerEventEnum } from 'enums/AdPlayerEventEnum';
+import { AdPlayerEventEnum } from 'modules/AdPlayer/enums/AdPlayerEventEnum';
 import { styles } from 'modules/AdPlayer/components/ImaAdPlayer/ImaAdPlayer.styles';
 import { ImaAdPlayerAttributeEnum } from 'modules/AdPlayer/components/ImaAdPlayer/enums/ImaAdPlayerAttributeEnum';
 import { ImaLoader } from 'modules/ImaLoader/ImaLoader';

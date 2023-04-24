@@ -1,4 +1,4 @@
-import { AdPlayerEventEnum } from 'enums/AdPlayerEventEnum';
+import { AdPlayerEventEnum } from 'modules/AdPlayer/enums/AdPlayerEventEnum';
 import { PlayerEventEnum } from 'enums/PlayerEventEnum';
 import { styles } from 'modules/AdPlayer/components/VideoAdPlayer/VideoAdPlayer.styles';
 import { VideoAdPlayerAttributeEnum } from 'modules/AdPlayer/components/VideoAdPlayer/enums/VideoAdPlayerAttributeEnum';
