@@ -1,9 +1,11 @@
-export interface IVPAIDCreative {
+import { VpaidViewModeEnum } from 'modules/VpaidWrapper/enums/VpaidViewModeEnum';
+
+export interface IVpaidCreative {
     handshakeVersion: (version: string) => string;
     initAd: (
         width: number,
         height: number,
-        viewMode: 'normal' | 'thumbnail' | 'fullscreen',
+        viewMode: VpaidViewModeEnum,
         desiredBitrate: number,
         creativeData: { prop: string } | null,
         environmentVars: {

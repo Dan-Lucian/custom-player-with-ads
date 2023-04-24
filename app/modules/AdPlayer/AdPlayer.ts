@@ -3,7 +3,6 @@ import { html } from 'utils/generalUtils';
 import { IParsedVast } from 'interfaces/IParsedVast';
 import { styles } from 'modules/AdPlayer/AdPlayer.styles';
 import { ComponentEnum } from 'enums/ComponentEnum';
-import 'modules/AdPlayer/components/PlayerAdIframe';
 import { AdPlayerAttributeEnum } from 'modules/AdPlayer/enums/AdPlayerAttributeEnum';
 import { TAttributeValue } from 'types/TAttributeValue';
 import { isNull, isString } from 'utils/typeUtils';
@@ -96,9 +95,7 @@ export class AdPlayer extends HTMLElement {
             </style>
 
             ${this._parsedVast.isVPAID
-                ? html`<player-ad-iframe
-                      data-src="${this._parsedVast.mediaLink}"
-                  ></player-ad-iframe>`
+                ? html`<vpaid-ad-player data-src="${this._parsedVast.mediaLink}"></vpaid-ad-player>`
                 : html`<video-ad-player
                       data-src="${this._parsedVast.mediaLink}"
                   ></video-ad-player>`}

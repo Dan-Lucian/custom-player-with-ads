@@ -22,6 +22,7 @@ import { PlayAdButton } from 'modules/AdPlayer/components/AdPlayerControls/compo
 import { PauseAdButton } from 'modules/AdPlayer/components/AdPlayerControls/components/PauseAdButton';
 import { SkipAdButton } from 'modules/AdPlayer/components/AdPlayerControls/components/SkipAdButton';
 import { ImaAdPlayer } from 'modules/AdPlayer/components/ImaAdPlayer/ImaAdPlayer';
+import { VpaidAdPlayer } from 'modules/AdPlayer/components/VpaidAdPlayer/VpaidAdPlayer';
 
 export class ComponentsDefiner {
     // TODO: add .whenDefined
@@ -53,6 +54,7 @@ export class ComponentsDefiner {
         customElements.define(ComponentEnum.AdPlayer, AdPlayer);
         customElements.define(ComponentEnum.VideoAdPlayer, VideoAdPlayer);
         customElements.define(ComponentEnum.ImaAdPlayer, ImaAdPlayer);
+        customElements.define(ComponentEnum.VpaidAdPlayer, VpaidAdPlayer);
 
         // AdPlayer controls element
         customElements.define(ComponentEnum.AdPlayerControls, AdPlayerControls);
