@@ -103,22 +103,22 @@ export class ImaAdPlayer extends HTMLElement {
     }
 
     private resume(): void {
-        this.imaLoader?.resume();
+        this.imaLoader.resume();
     }
 
     private pause(): void {
-        this.imaLoader?.pause();
+        this.imaLoader.pause();
     }
 
     private mute(): void {
-        this.imaLoader?.mute();
+        this.imaLoader.mute();
     }
 
     private unmute(): void {
-        this.imaLoader?.unmute();
+        this.imaLoader.unmute();
     }
 
     private skipAd(): void {
-        this.imaLoader?.skipAd();
+        this.imaLoader.skipAd();
     }
 }
