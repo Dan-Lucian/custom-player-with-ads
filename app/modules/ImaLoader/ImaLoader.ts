@@ -1,60 +1,70 @@
-import { EnumEventIma } from '../../../../enums/ImaEventEnum';
+import { ImaEventEnum } from 'enums/ImaEventEnum';
+import { isDefined, isNull } from 'utils/typeUtils';
+import { ImaLoaderConfig } from 'modules/ImaLoader/config/ImaLoaderConfig';
 
-class IMA {
-    private static instance: IMA;
+export class ImaLoader {
+    private static instance?: ImaLoader;
 
-    private URL_SCRIPT = '//imasdk.googleapis.com/js/sdkloader/ima3.js';
     private _adContainer: HTMLDivElement | null = null;
     private _videoElement: HTMLVideoElement | null = null;
-    private adDisplayContainer!: google.ima.AdDisplayContainer;
+    private _src: string | null = null;
+
     private adsLoaded = false;
+    private adDisplayContainer!: google.ima.AdDisplayContainer;
+    private ima!: typeof google.ima;
     private adsLoader?: google.ima.AdsLoader;
     private adsManager?: google.ima.AdsManager;
-    private ima!: typeof google.ima;
-    private scriptElement!: HTMLScriptElement;
-    private src = '';
-
-    private constructor() {}
+    private scriptElement?: HTMLScriptElement;
 
     private get adContainer(): HTMLDivElement {
-        if (!this._adContainer) {
-            throw new Error('ima: "_adContainer" prop is null.');
+        if (isNull(this._adContainer)) {
+            throw new Error('ImaLoader__adContainer_prop_is_null');
         }
 
         return this._adContainer;
     }
 
     private get videoElement(): HTMLVideoElement {
-        if (!this._videoElement) {
-            throw new Error('ima: "_videoElement" prop is null.');
+        if (isNull(this._videoElement)) {
+            throw new Error('ImaLoader__videoElement_prop_is_null');
         }
 
         return this._videoElement;
     }
 
-    public static getInstance(): IMA {
-        if (!IMA.instance) {
-            IMA.instance = new IMA();
+    private get src(): string {
+        if (isNull(this._src)) {
+            throw new Error('ImaLoader__src_prop_is_null');
         }
 
-        return IMA.instance;
+        return this._src;
+    }
+
+    public static getInstance(): ImaLoader {
+        if (!isDefined(ImaLoader.instance)) {
+            ImaLoader.instance = new ImaLoader();
+        }
+
+        return ImaLoader.instance;
     }
 
     public setElements(
-        adContainer: HTMLDivElement | null,
-        videoElement: HTMLVideoElement | null,
+        adContainer: HTMLDivElement,
+        videoElement: HTMLVideoElement,
         src: string
     ): void {
         this._adContainer = adContainer;
         this._videoElement = videoElement;
-        this.src = src;
+        this._src = src;
     }
 
     public appendScript(): void {
-        if (this.scriptElement) return;
+        if (isDefined(this.scriptElement)) {
+            return;
+        }
 
         this.scriptElement = document.createElement('script');
-        this.scriptElement.src = this.URL_SCRIPT;
+        this.scriptElement.src = ImaLoaderConfig.SDK_URL;
         this.scriptElement.addEventListener('load', () => {
             this.handleScriptLoad();
         });
@@ -104,9 +114,9 @@ class IMA {
             this.adsManager?.init(width, height, this.ima.ViewMode.NORMAL);
             this.adsManager?.start();
         } catch (error: unknown) {
-            console.log('AdsManager could not be started');
+            console.log('ImaLoader_AdsManager_could_not_be_started');
             this.adContainer.dispatchEvent(
-                new CustomEvent(EnumEventIma.AdsManagerError, {
+                new CustomEvent(ImaEventEnum.AdsManagerError, {
                     bubbles: true,
                     composed: true
                 })
@@ -122,7 +132,7 @@ class IMA {
         );
 
         // google docs recommends to have only 1 instance of "adsLoader" per page
-        if (!this.adsLoader) {
+        if (!isDefined(this.adsLoader)) {
             this.adsLoader = new this.ima.AdsLoader(this.adDisplayContainer);
             this.adsLoader.addEventListener(
                 this.ima.AdsManagerLoadedEvent.Type.ADS_MANAGER_LOADED,
@@ -158,8 +168,8 @@ class IMA {
     }
 
     private handleAdError(eventAdError: google.ima.AdErrorEvent): void {
-        console.log('Error: ', eventAdError.getError());
-        if (this.adsManager) {
+        console.log('ImaLoader_', eventAdError.getError());
+        if (isDefined(this.adsManager)) {
             this.adsManager.destroy();
         }
     }
@@ -169,7 +179,7 @@ class IMA {
 
         this.adsManager.addEventListener(this.ima.AdEvent.Type.COMPLETE, () => {
             this.adContainer.dispatchEvent(
-                new CustomEvent(EnumEventIma.AdEnd, {
+                new CustomEvent(ImaEventEnum.AdEnd, {
                     bubbles: true,
                     composed: true
                 })
@@ -178,7 +188,7 @@ class IMA {
 
         this.adsManager.addEventListener(this.ima.AdEvent.Type.SKIPPED, () => {
             this.adContainer.dispatchEvent(
-                new CustomEvent(EnumEventIma.AdSkip, {
+                new CustomEvent(ImaEventEnum.AdSkip, {
                     bubbles: true,
                     composed: true
                 })
@@ -189,13 +199,11 @@ class IMA {
     }
 
     private handleWindowResize(): void {
-        console.log('window resize');
-        if (this.adsManager) {
+        console.log('ImaLoader_handleWindowResize');
+        if (isDefined(this.adsManager)) {
             const width = this.videoElement.clientWidth;
             const height = this.videoElement.clientHeight;
             this.adsManager.resize(width, height, google.ima.ViewMode.NORMAL);
         }
     }
 }
-
-export default IMA;

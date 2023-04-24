@@ -3,6 +3,7 @@ import { getRandomValueFromArray } from 'utils/generalUtils';
 const URL =
     'https://assets.connatix.com/Elements/29cf9ad9-2fab-4ace-a5c8-d37d0242f38d/VastAdTag.xml';
 
+// TODO: move to sepparate module
 export class AdService {
     private adUrls = [
         'http://rtr.innovid.com/r1.57ebf098e82109.85834506;cb=__CB__',

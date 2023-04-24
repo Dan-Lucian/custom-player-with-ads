@@ -1,5 +1,5 @@
 import { html, isImaUrl } from 'utils/generalUtils';
-import { EnumEventIma } from 'enums/ImaEventEnum';
+import { ImaEventEnum } from 'enums/ImaEventEnum';
 import { VideoQualityEnum } from 'enums/VideoQualityEnum';
 import { HlsWrapper } from 'modules/MyAwesomePlayer/vendors/HlsWrapper';
 import { styles } from 'modules/MyAwesomePlayer/MyAwesomePlayer.styles';
@@ -48,9 +48,9 @@ export class MyAwesomePlayer extends HTMLElement {
         this.addEventListener(PlayerEventEnum.SkipAd, this.hideAd);
         this.addEventListener(PlayerEventEnum.ChangeStreamingQuality, this.changeStreamingQuality);
         this.addEventListener(PlayerEventEnum.EndAd, this.hideAd);
-        this.addEventListener(EnumEventIma.AdEnd, this.hideAd);
-        this.addEventListener(EnumEventIma.AdSkip, this.hideAd);
-        this.addEventListener(EnumEventIma.AdsManagerError, this.hideAd);
+        this.addEventListener(ImaEventEnum.AdEnd, this.hideAd);
+        this.addEventListener(ImaEventEnum.AdSkip, this.hideAd);
+        this.addEventListener(ImaEventEnum.AdsManagerError, this.hideAd);
     }
 
     public static get observedAttributes(): string[] {

@@ -2,8 +2,9 @@ import Hls, { Events, ManifestParsedData } from 'hls.js';
 import { VideoQualityEnum } from 'enums/VideoQualityEnum';
 import { isDefined } from 'utils/typeUtils';
 
+// TODO: move to sepparate module
 export class HlsWrapper {
-    private static instance: HlsWrapper;
+    private static instance?: HlsWrapper;
 
     private hls?: Hls;
     private callbackAfterManifestParsed: ((levels: string[]) => void) | null = null;

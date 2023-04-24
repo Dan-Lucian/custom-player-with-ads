@@ -4,7 +4,6 @@ import { IParsedVast } from 'interfaces/IParsedVast';
 import { styles } from 'modules/AdPlayer/AdPlayer.styles';
 import { ComponentEnum } from 'enums/ComponentEnum';
 import 'modules/AdPlayer/components/PlayerAdIframe';
-import 'modules/AdPlayer/components/PlayerAdIma';
 import { AdPlayerAttributeEnum } from 'modules/AdPlayer/enums/AdPlayerAttributeEnum';
 import { TAttributeValue } from 'types/TAttributeValue';
 import { isNull, isString } from 'utils/typeUtils';
@@ -83,9 +82,9 @@ export class AdPlayer extends HTMLElement {
                     ${styles}
                 </style>
 
-                <player-ad-ima
+                <ima-ad-player
                     src=${this._parsedVast.mediaLink || adService.getRandomAdUrl()}
-                ></player-ad-ima>
+                ></ima-ad-player>
             `;
 
             return;

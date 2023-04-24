@@ -1,7 +1,8 @@
 import { css } from 'utils/generalUtils';
+import { ComponentEnum } from 'enums/ComponentEnum';
 
-const styles = css`
-    player-ad-ima {
+export const styles = css`
+    ${ComponentEnum.ImaAdPlayer} {
         position: absolute;
         top: 0;
         bottom: 0;
@@ -22,5 +23,3 @@ const styles = css`
         right: 0;
     }
 `;
-
-export default styles;

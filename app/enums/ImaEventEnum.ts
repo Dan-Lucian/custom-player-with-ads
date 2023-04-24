@@ -1,4 +1,4 @@
-export enum EnumEventIma {
+export enum ImaEventEnum {
     AdEnd = 'ImaAdEnd',
     AdSkip = 'ImaAdSkip',
     AdsManagerError = 'ImaAdsManagerError'
