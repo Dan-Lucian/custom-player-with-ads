@@ -1,8 +1,5 @@
 import { getRandomValueFromArray } from 'utils/generalUtils';
 
-const URL =
-    'https://assets.connatix.com/Elements/29cf9ad9-2fab-4ace-a5c8-d37d0242f38d/VastAdTag.xml';
-
 // TODO: move to sepparate module
 export class AdService {
     private adUrls = [
@@ -15,7 +12,7 @@ export class AdService {
     ];
 
     public static async requestAdByUrl(url: string): Promise<string> {
-        const response = await fetch(URL, {
+        const response = await fetch(url, {
             method: 'GET'
         });
 
