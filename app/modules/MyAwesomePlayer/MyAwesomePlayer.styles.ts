@@ -50,6 +50,9 @@ export const styles = css`
         cursor: pointer;
         position: relative;
         z-index: 10;
+        display: flex;
+        justify-content: center;
+        align-items: center;
     }
 
     .hoverable-control::after {
