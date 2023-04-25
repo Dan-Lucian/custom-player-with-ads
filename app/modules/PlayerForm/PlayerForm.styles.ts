@@ -6,6 +6,7 @@ export const styles = css`
         /* background-color: yellow; */
         padding: 5px;
         border: 2px solid black;
+        font-size: 20px;
     }
 
     .input-container {

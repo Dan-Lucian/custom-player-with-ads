@@ -5,6 +5,11 @@ export const styles = css`
     ${ComponentEnum.ExternalButtons} {
         padding: 5px;
         border: 2px solid black;
+        font-size: 22px;
+    }
+
+    ${ComponentEnum.ExternalButtons} button {
+        font-size: 22px;
     }
 
     .ad-is-playing {
