@@ -1,4 +1,5 @@
 import { css } from 'utils/generalUtils';
+import { ComponentEnum } from 'enums/ComponentEnum';
 
 export const styles = css`
     :host {
@@ -12,13 +13,18 @@ export const styles = css`
     #player-container {
         bottom: 0;
         right: 0;
+        display: inline-block;
+    }
+
+    #player-placeholder {
+        display: inline-block;
     }
 
     video {
         display: block;
     }
 
-    player-controls {
+    ${ComponentEnum.PlayerControls} {
         display: flex;
         align-items: center;
         justify-content: center;

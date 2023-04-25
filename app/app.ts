@@ -18,6 +18,9 @@ windowWithPlayerInitialization.initializePlayer = ({
     const template = html`
         <my-awesome-player playlist=${JSON.stringify(playlist)} ${useImaAttribute}>
         </my-awesome-player>
+
+        <h2 class="api-header">Player API</h2>
+        <external-buttons></external-buttons>
         <form is=${ComponentEnum.PlayerForm}></form>
     `;
 

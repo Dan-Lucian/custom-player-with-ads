@@ -6,6 +6,7 @@ import { isNull, isString } from 'utils/typeUtils';
 import { TAttributeValue } from 'types/TAttributeValue';
 // eslint-disable-next-line max-len
 import { SettingsMenuAttributeEnum } from 'modules/PlayerControls/components/SettingsMenu/enums/SettingsMenuAttributeEnum';
+import { IPlayAdDetail } from 'interfaces/IPlayAdDetail';
 
 export class PlayerControls extends HTMLElement {
     private isPlaying = false;
@@ -178,18 +179,20 @@ export class PlayerControls extends HTMLElement {
 
             case ComponentEnum.LoadAdButton:
                 this.dispatchEvent(
-                    new CustomEvent(PlayerEventEnum.PlayAd, {
+                    new CustomEvent<IPlayAdDetail>(PlayerEventEnum.PlayAd, {
                         bubbles: true,
-                        composed: true
+                        composed: true,
+                        detail: { shouldUseIma: false }
                     })
                 );
                 break;
 
             case ComponentEnum.LoadImaAdButton:
                 this.dispatchEvent(
-                    new CustomEvent(PlayerEventEnum.PlayImaAd, {
+                    new CustomEvent<IPlayAdDetail>(PlayerEventEnum.PlayAd, {
                         bubbles: true,
-                        composed: true
+                        composed: true,
+                        detail: { shouldUseIma: true }
                     })
                 );
                 break;

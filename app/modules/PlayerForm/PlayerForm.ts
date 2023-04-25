@@ -64,19 +64,21 @@ export class PlayerForm extends HTMLFormElement {
               ${styles}
             </style>
 
-            <label for="src-input">Video link:</label>
-            <input type="text" id="src-input" name=${PlayerFormInputNameEnum.Src}></input>
-            
-            <label for="width-input">Width:</label>
-            <input type="number" id="width-input" name=${PlayerFormInputNameEnum.Width}></input>
+            <div class="input-container">
+                <label for="src-input">Video link:</label>
+                <input type="text" id="src-input" name=${PlayerFormInputNameEnum.Src}></input>
+                
+                <label for="width-input">Width:</label>
+                <input type="number" id="width-input" name=${PlayerFormInputNameEnum.Width}></input>
 
-            <label for="autoplay-input">Autoplay</label>
-            <input type="checkbox" id="autoplay-input" name=${PlayerFormInputNameEnum.Autoplay}></input>
-            
-            <label for="muted-input">Muted:</label>
-            <input type="checkbox" id="muted-input" name=${PlayerFormInputNameEnum.Muted}></input>
+                <label for="autoplay-input">Autoplay</label>
+                <input type="checkbox" id="autoplay-input" name=${PlayerFormInputNameEnum.Autoplay}></input>
+                
+                <label for="muted-input">Muted:</label>
+                <input type="checkbox" id="muted-input" name=${PlayerFormInputNameEnum.Muted}></input>
 
-            <button type="submit">Load</button>
+                <button type="submit">Load player with settings applied</button>
+            </div>
         `;
     }
 }

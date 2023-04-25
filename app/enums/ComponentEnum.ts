@@ -7,6 +7,7 @@
 export enum ComponentEnum {
     MyAwesomePlayer = 'my-awesome-player',
     PlayerForm = 'player-form',
+    ExternalButtons = 'external-buttons',
     PlayerControls = 'player-controls',
     PlayButton = 'play-button',
     PauseButton = 'pause-button',

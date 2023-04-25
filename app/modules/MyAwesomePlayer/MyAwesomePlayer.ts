@@ -15,6 +15,7 @@ import { AdPlayer } from 'modules/AdPlayer/AdPlayer';
 import { AdPlayerAttributeEnum } from 'modules/AdPlayer/enums/AdPlayerAttributeEnum';
 import { AdService } from 'modules/AdService/AdService';
 import { IParsedVast } from 'interfaces/IParsedVast';
+import { IPlayAdDetail } from 'interfaces/IPlayAdDetail';
 
 // TODO: "timeupdate" event + video.duration to obtain the video duration
 // cause if it's fired it means the metadata has already been loaded
@@ -38,8 +39,7 @@ export class MyAwesomePlayer extends HTMLElement {
         this.shadow = this.attachShadow({ mode: 'open' });
 
         this.addEventListener(PlayerEventEnum.Play, this.play);
-        this.addEventListener(PlayerEventEnum.PlayAd, this.renderAd.bind(this, false));
-        this.addEventListener(PlayerEventEnum.PlayImaAd, this.renderAd.bind(this, true));
+        this.addEventListener(PlayerEventEnum.PlayAd, this.renderAd);
         this.addEventListener(PlayerEventEnum.Pause, this.pause);
         this.addEventListener(PlayerEventEnum.Mute, this.mute);
         this.addEventListener(PlayerEventEnum.Unmute, this.unmute);
@@ -310,9 +310,14 @@ export class MyAwesomePlayer extends HTMLElement {
         this.refreshWithoutRender();
     }
 
-    private async renderAd(shouldUseIma: boolean): Promise<void> {
+    private async renderAd(event: Event): Promise<void> {
+        const customEvent = event as CustomEvent<IPlayAdDetail>;
+        const { shouldUseIma } = customEvent.detail;
+        let { url } = customEvent.detail;
+
         let parsedVast: IParsedVast;
-        const url = adService.getRandomAdUrl();
+        url = isDefined(url) ? url : adService.getRandomAdUrl();
+
         if (shouldUseIma || isImaUrl(url)) {
             parsedVast = {
                 isIMAUrl: true,

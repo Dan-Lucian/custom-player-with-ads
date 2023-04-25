@@ -3,7 +3,17 @@ body {
 }
 
 #root {
-    display: inline-flex;
+    display: flex;
     flex-direction: column;
+    align-items: center;
     gap: 20px;
+}
+
+.external-player-controls {
+    display: flex;
+    gap: 20px;
+}
+
+.api-header {
+    margin: 0;
 }

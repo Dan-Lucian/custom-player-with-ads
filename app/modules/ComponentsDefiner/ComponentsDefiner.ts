@@ -1,6 +1,7 @@
 import { MyAwesomePlayer } from 'modules/MyAwesomePlayer/MyAwesomePlayer';
 import { AdPlayer } from 'modules/AdPlayer/AdPlayer';
 import { PlayerForm } from 'modules/PlayerForm/PlayerForm';
+import { ExternalButtons } from 'modules/ExternalButtons/ExternalButtons';
 import { ComponentEnum } from 'enums/ComponentEnum';
 import { PlayerControls } from 'modules/PlayerControls/PlayerControls';
 import { UnmuteButton } from 'modules/PlayerControls/components/UnmuteButton';
@@ -27,8 +28,10 @@ import { VpaidAdPlayer } from 'modules/AdPlayer/components/VpaidAdPlayer/VpaidAd
 export class ComponentsDefiner {
     // TODO: add .whenDefined
     public static defineAllComponents(): void {
+        // top level components
         customElements.define(ComponentEnum.MyAwesomePlayer, MyAwesomePlayer);
         customElements.define(ComponentEnum.PlayerForm, PlayerForm, { extends: 'form' });
+        customElements.define(ComponentEnum.ExternalButtons, ExternalButtons);
 
         // player controls components
         customElements.define(ComponentEnum.PlayerControls, PlayerControls);
