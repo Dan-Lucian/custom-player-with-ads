@@ -1,3 +1,4 @@
 export enum ExternalButtonsAttributeEnum {
-    Disabled = 'disabled'
+    Disabled = 'disabled',
+    Error = 'data-error'
 }

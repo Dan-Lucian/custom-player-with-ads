@@ -16,6 +16,8 @@ import { AdPlayerAttributeEnum } from 'modules/AdPlayer/enums/AdPlayerAttributeE
 import { AdService } from 'modules/AdService/AdService';
 import { IParsedVast } from 'interfaces/IParsedVast';
 import { IPlayAdDetail } from 'interfaces/IPlayAdDetail';
+import { IErrorDetail } from 'interfaces/IErrorDetail';
+import { PlayerErrorEnum } from 'enums/PlayerErrorEnum';
 
 // TODO: "timeupdate" event + video.duration to obtain the video duration
 // cause if it's fired it means the metadata has already been loaded
@@ -39,7 +41,7 @@ export class MyAwesomePlayer extends HTMLElement {
         this.shadow = this.attachShadow({ mode: 'open' });
 
         this.addEventListener(PlayerEventEnum.Play, this.play);
-        this.addEventListener(PlayerEventEnum.PlayAd, this.renderAd);
+        this.addEventListener(PlayerEventEnum.PlayAd, this._playAd);
         this.addEventListener(PlayerEventEnum.Pause, this.pause);
         this.addEventListener(PlayerEventEnum.Mute, this.mute);
         this.addEventListener(PlayerEventEnum.Unmute, this.unmute);
@@ -119,6 +121,10 @@ export class MyAwesomePlayer extends HTMLElement {
         this.observer?.unobserve(this);
         this.hlsWrapper?.destroy();
         this.isAttached = false;
+    }
+
+    public playAd(event: Event): void {
+        this._playAd(event);
     }
 
     private getAdPlayer(): AdPlayer {
@@ -310,7 +316,18 @@ export class MyAwesomePlayer extends HTMLElement {
         this.refreshWithoutRender();
     }
 
-    private async renderAd(event: Event): Promise<void> {
+    private async _playAd(event: Event): Promise<void> {
+        if (!this.isPlaying) {
+            this.dispatchEvent(
+                new CustomEvent<IErrorDetail>(PlayerEventEnum.Error, {
+                    bubbles: true,
+                    composed: true,
+                    detail: { error: PlayerErrorEnum.AttemptAdPlayDuringPause }
+                })
+            );
+            return;
+        }
+
         const customEvent = event as CustomEvent<IPlayAdDetail>;
         const { shouldUseIma } = customEvent.detail;
         let { url } = customEvent.detail;

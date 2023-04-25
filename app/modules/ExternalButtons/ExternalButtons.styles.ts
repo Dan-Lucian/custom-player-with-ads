@@ -12,4 +12,10 @@ export const styles = css`
         color: white;
         padding: 3px;
     }
+
+    .external-buttons-error {
+        background: red;
+        color: white;
+        padding: 3px;
+    }
 `;
