@@ -1,4 +1,4 @@
-# [My Awesome Monetized Player](https://www.jetfightersonline.org/)
+# [My Awesome Monetized Player](https://dan-lucian.github.io/custom-player-with-ads/)
 
 ## Table of contents
 
@@ -9,7 +9,8 @@
 
 ## Demo
 
-- [See the app](https://www.jetfightersonline.org/)
+- [See the app](https://dan-lucian.github.io/custom-player-with-ads/)
+- The player might not work if you have any ad blockers.
 
 ## Description
 
