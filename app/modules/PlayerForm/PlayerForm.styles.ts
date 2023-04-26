@@ -7,6 +7,13 @@ export const styles = css`
         padding: 5px;
         border: 2px solid black;
         font-size: 20px;
+        display: flex;
+        flex-direction: row;
+        gap: 5px;
+    }
+
+    [is='${ComponentEnum.PlayerForm}'] button {
+        font-size: 18px;
     }
 
     .input-container {

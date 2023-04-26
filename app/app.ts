@@ -10,13 +10,19 @@ const windowWithPlayerInitialization: IWindowWithPlayerInitialization = window;
 windowWithPlayerInitialization.initializePlayer = ({
     cssSelector,
     playlist,
-    shouldUseIma
+    shouldUseIma,
+    isFloatingEnabled
 }): void => {
     const root = document.querySelector(cssSelector);
     const useImaAttribute = shouldUseIma ? MyAwesomePlayerAttributeEnum.UseIma : '';
+    const floatingAttribute = isFloatingEnabled ? MyAwesomePlayerAttributeEnum.Float : '';
 
     const template = html`
-        <my-awesome-player playlist=${JSON.stringify(playlist)} ${useImaAttribute}>
+        <my-awesome-player
+            playlist=${JSON.stringify(playlist)}
+            ${useImaAttribute}
+            ${floatingAttribute}
+        >
         </my-awesome-player>
 
         <h2 class="api-header">Player API</h2>

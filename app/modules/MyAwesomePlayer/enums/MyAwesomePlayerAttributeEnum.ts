@@ -3,5 +3,6 @@ export enum MyAwesomePlayerAttributeEnum {
     Autoplay = 'autoplay',
     Muted = 'muted',
     Playlist = 'playlist',
-    UseIma = 'data-use-ima'
+    UseIma = 'data-use-ima',
+    Float = 'data-float'
 }

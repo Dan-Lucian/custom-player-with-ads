@@ -11,6 +11,7 @@ if (isDefined(windowWithPlayerInitialization.initializePlayer)) {
     windowWithPlayerInitialization.initializePlayer({
         cssSelector: '#root',
         playlist: PLAYLIST,
-        shouldUseIma: false
+        shouldUseIma: false,
+        isFloatingEnabled: true
     });
 }

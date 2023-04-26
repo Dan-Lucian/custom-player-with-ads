@@ -3,6 +3,7 @@ import { isNull, isStringDefined } from 'utils/typeUtils';
 import { styles } from 'modules/PlayerForm/PlayerForm.styles';
 import { PlayerFormInputNameEnum } from 'modules/PlayerForm/enums/PlayerFormInputNameEnum';
 import { ComponentEnum } from 'enums/ComponentEnum';
+import { MyAwesomePlayerAttributeEnum } from 'modules/MyAwesomePlayer/enums/MyAwesomePlayerAttributeEnum';
 
 export class PlayerForm extends HTMLFormElement {
     private hasRendered = false;
@@ -56,6 +57,13 @@ export class PlayerForm extends HTMLFormElement {
         } else {
             contentPlayer.removeAttribute(PlayerFormInputNameEnum.Muted);
         }
+
+        const isFloatingEnabled = Boolean(formData.get(PlayerFormInputNameEnum.Float));
+        if (isFloatingEnabled) {
+            contentPlayer.setAttribute(MyAwesomePlayerAttributeEnum.Float, '');
+        } else {
+            contentPlayer.removeAttribute(MyAwesomePlayerAttributeEnum.Float);
+        }
     }
 
     private render(): void {
@@ -76,9 +84,12 @@ export class PlayerForm extends HTMLFormElement {
                 
                 <label for="muted-input">Muted:</label>
                 <input type="checkbox" id="muted-input" name=${PlayerFormInputNameEnum.Muted}></input>
-
-                <button type="submit">Load player with settings applied</button>
-            </div>
+                
+                <label for="float-input">Player floating:</label>
+                <input type="checkbox" id="float-input" name=${PlayerFormInputNameEnum.Float}></input>
+              </div>
+              
+              <button type="submit">Load player with settings applied</button>
         `;
     }
 }

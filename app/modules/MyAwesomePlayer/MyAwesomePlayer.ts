@@ -27,6 +27,7 @@ export class MyAwesomePlayer extends HTMLElement {
     private shouldAutoplay = false;
     private isPlaying = false;
     private isMuted = false;
+    private isFloatingEnabled = false;
     private shouldUseIma = false;
     private isInView = true;
     private shadow: ShadowRoot;
@@ -61,7 +62,8 @@ export class MyAwesomePlayer extends HTMLElement {
             MyAwesomePlayerAttributeEnum.Muted,
             MyAwesomePlayerAttributeEnum.Autoplay,
             MyAwesomePlayerAttributeEnum.Playlist,
-            MyAwesomePlayerAttributeEnum.UseIma
+            MyAwesomePlayerAttributeEnum.UseIma,
+            MyAwesomePlayerAttributeEnum.Float
         ];
     }
 
@@ -99,6 +101,16 @@ export class MyAwesomePlayer extends HTMLElement {
                 this.shouldUseIma = isString(newValue);
                 return;
 
+            case MyAwesomePlayerAttributeEnum.Float:
+                if (isString(newValue)) {
+                    this.setupIntersectionObserver();
+                    this.isFloatingEnabled = true;
+                } else {
+                    this.observer?.unobserve(this);
+                    this.isFloatingEnabled = false;
+                }
+                return;
+
             default:
                 break;
         }
@@ -112,8 +124,10 @@ export class MyAwesomePlayer extends HTMLElement {
     public connectedCallback(): void {
         if (!this.isAttached) {
             this.render();
-            this.setupIntersectionObserver();
             this.isAttached = true;
+            if (this.isFloatingEnabled) {
+                this.setupIntersectionObserver();
+            }
         }
     }
 
