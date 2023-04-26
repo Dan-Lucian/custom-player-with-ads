@@ -26,6 +26,7 @@ windowWithPlayerInitialization.initializePlayer = ({
         </my-awesome-player>
 
         <h2 class="api-header">Player API</h2>
+        <h3 class="ad-blocker-header">Disable AdBlockers if player not working</h3>
         <external-buttons></external-buttons>
         <form is=${ComponentEnum.PlayerForm}></form>
     `;
