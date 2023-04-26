@@ -12,7 +12,7 @@ module.exports = {
             {
                 test: /\.ts$/,
                 use: 'ts-loader',
-                exclude: [/node_modules/, /assets/, /dist/]
+                exclude: [/node_modules/, /assets/, /docs/]
             },
             {
                 test: /\.(scss|css)$/,
@@ -38,9 +38,6 @@ module.exports = {
     ],
     resolve: {
         extensions: ['.js', '.jsx', '.ts', '.tsx'],
-        modules: [
-          path.resolve('./node_modules'),
-          path.resolve('./app')
-        ]
+        modules: [path.resolve('./node_modules'), path.resolve('./app')]
     }
 };

@@ -29,7 +29,7 @@
         "node": true,
         "jest": true
     },
-    "ignorePatterns": ["**/*.test.ts", "dist/", "webpack.*"],
+    "ignorePatterns": ["**/*.test.ts", "docs/", "webpack.*"],
     "rules": {
         "import/prefer-default-export": "off",
         "no-shadow": "off",
