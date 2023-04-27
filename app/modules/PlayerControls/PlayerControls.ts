@@ -96,16 +96,6 @@ export class PlayerControls extends HTMLElement {
                 : html`<button class="hoverable-control" is=${ComponentEnum.MuteButton}></button>`}
             <div class="spacer"></div>
             <settings-menu ${SettingsMenuAttributeEnum.Qualities}=${qualities}></settings-menu>
-            <button
-                class="hoverable-control"
-                is=${ComponentEnum.LoadAdButton}
-                title="load ad"
-            ></button>
-            <button
-                class="hoverable-control"
-                is=${ComponentEnum.LoadImaAdButton}
-                title="load ad through ima"
-            ></button>
         `;
     }
 
@@ -173,26 +163,6 @@ export class PlayerControls extends HTMLElement {
                     new CustomEvent(PlayerEventEnum.PlayPrevious, {
                         bubbles: true,
                         composed: true
-                    })
-                );
-                break;
-
-            case ComponentEnum.LoadAdButton:
-                this.dispatchEvent(
-                    new CustomEvent<IPlayAdDetail>(PlayerEventEnum.PlayAd, {
-                        bubbles: true,
-                        composed: true,
-                        detail: { shouldUseIma: false }
-                    })
-                );
-                break;
-
-            case ComponentEnum.LoadImaAdButton:
-                this.dispatchEvent(
-                    new CustomEvent<IPlayAdDetail>(PlayerEventEnum.PlayAd, {
-                        bubbles: true,
-                        composed: true,
-                        detail: { shouldUseIma: true }
                     })
                 );
                 break;

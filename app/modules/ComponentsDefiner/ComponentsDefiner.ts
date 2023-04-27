@@ -43,12 +43,6 @@ export class ComponentsDefiner {
         customElements.define(ComponentEnum.PlayButton, PlayButton, { extends: 'button' });
         customElements.define(ComponentEnum.PauseButton, PauseButton, { extends: 'button' });
         customElements.define(ComponentEnum.MuteButton, MuteButton, { extends: 'button' });
-        customElements.define(ComponentEnum.LoadImaAdButton, LoadImaAdButton, {
-            extends: 'button'
-        });
-        customElements.define(ComponentEnum.LoadAdButton, LoadAdButton, {
-            extends: 'button'
-        });
         customElements.define(ComponentEnum.SettingsMenu, SettingsMenu);
         customElements.define(ComponentEnum.QualityButton, QualityButton, { extends: 'button' });
         customElements.define(ComponentEnum.SettingsButton, SettingsButton, { extends: 'button' });

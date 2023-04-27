@@ -15,8 +15,6 @@ export enum ComponentEnum {
     UnmuteButton = 'unmute-button',
     PlayNextButton = 'play-next-button',
     PlayPreviousButton = 'play-previous-button',
-    LoadAdButton = 'load-ad-button',
-    LoadImaAdButton = 'load-ad-ima-button',
     SettingsMenu = 'settings-menu',
     SettingsButton = 'settings-button',
     QualityButton = 'quality-button',
