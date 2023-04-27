@@ -267,8 +267,8 @@ export class MyAwesomePlayer extends HTMLElement {
         const { width, height } = playerContainer.getBoundingClientRect();
 
         // set placeholder dimensions to match player dimensions
-        playerPlaceholder.style.height = height ? `${height}` : 'auto';
-        playerPlaceholder.style.width = width ? `${width}` : 'auto';
+        playerPlaceholder.style.height = height ? `${height}px` : 'auto';
+        playerPlaceholder.style.width = width ? `${width}px` : 'auto';
 
         // set container position if player in/out of view
         playerContainer.style.position = isIntersecting ? 'static' : 'fixed';
