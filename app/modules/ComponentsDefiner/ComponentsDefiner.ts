@@ -10,8 +10,6 @@ import { PlayNextButton } from 'modules/PlayerControls/components/PlayNextButton
 import { PlayButton } from 'modules/PlayerControls/components/PlayButton';
 import { PauseButton } from 'modules/PlayerControls/components/PauseButton';
 import { MuteButton } from 'modules/PlayerControls/components/MuteButton';
-import { LoadImaAdButton } from 'modules/PlayerControls/components/LoadImaAdButton';
-import { LoadAdButton } from 'modules/PlayerControls/components/LoadAdButton';
 import { SettingsMenu } from 'modules/PlayerControls/components/SettingsMenu/SettingsMenu';
 import { QualityButton } from 'modules/PlayerControls/components/SettingsMenu/components/QualityButton/QualityButton';
 import { SettingsButton } from 'modules/PlayerControls/components/SettingsMenu/components/SettingsButton';
@@ -24,6 +22,7 @@ import { PauseAdButton } from 'modules/AdPlayer/components/AdPlayerControls/comp
 import { SkipAdButton } from 'modules/AdPlayer/components/AdPlayerControls/components/SkipAdButton';
 import { ImaAdPlayer } from 'modules/AdPlayer/components/ImaAdPlayer/ImaAdPlayer';
 import { VpaidAdPlayer } from 'modules/AdPlayer/components/VpaidAdPlayer/VpaidAdPlayer';
+import { SoundSlider } from 'modules/PlayerControls/components/SoundSlider/SoundSlider';
 
 export class ComponentsDefiner {
     // TODO: add .whenDefined
@@ -43,15 +42,10 @@ export class ComponentsDefiner {
         customElements.define(ComponentEnum.PlayButton, PlayButton, { extends: 'button' });
         customElements.define(ComponentEnum.PauseButton, PauseButton, { extends: 'button' });
         customElements.define(ComponentEnum.MuteButton, MuteButton, { extends: 'button' });
-        customElements.define(ComponentEnum.LoadImaAdButton, LoadImaAdButton, {
-            extends: 'button'
-        });
-        customElements.define(ComponentEnum.LoadAdButton, LoadAdButton, {
-            extends: 'button'
-        });
         customElements.define(ComponentEnum.SettingsMenu, SettingsMenu);
         customElements.define(ComponentEnum.QualityButton, QualityButton, { extends: 'button' });
         customElements.define(ComponentEnum.SettingsButton, SettingsButton, { extends: 'button' });
+        customElements.define(ComponentEnum.SoundSlider, SoundSlider);
 
         // AdPlayer components
         customElements.define(ComponentEnum.AdPlayer, AdPlayer);

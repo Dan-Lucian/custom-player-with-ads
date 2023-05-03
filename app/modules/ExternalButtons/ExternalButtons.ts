@@ -19,7 +19,7 @@ export class ExternalButtons extends HTMLElement {
     private isAttached = false;
     private areButttonsDisabled = false;
     private error: string | null = null;
-    private subscriptions?: Map<EventType, (event: Event) => void>;
+    private eventListeners?: Map<EventType, (event: Event) => void>;
 
     constructor() {
         super();
@@ -71,8 +71,9 @@ export class ExternalButtons extends HTMLElement {
         this.unsubscribeToPlayerEvents();
     }
 
+    // TODO: modify event listeners setup to be like SoundSlider
     private subscribeToPlayerEvents(): void {
-        this.subscriptions = new Map<EventType, (event: Event) => void>([
+        this.eventListeners = new Map<EventType, (event: Event) => void>([
             [PlayerEventEnum.PlayAd, this.handlePlayAd.bind(this)],
             [PlayerEventEnum.SkipAd, this.handleEndAd.bind(this)],
             [PlayerEventEnum.EndAd, this.handleEndAd.bind(this)],
@@ -82,18 +83,18 @@ export class ExternalButtons extends HTMLElement {
         ]);
 
         const player = this.getPlayer();
-        this.subscriptions.forEach((callback, event) => {
+        this.eventListeners.forEach((callback, event) => {
             player.addEventListener(event, callback);
         });
     }
 
     private unsubscribeToPlayerEvents(): void {
-        if (!isDefined(this.subscriptions)) {
+        if (!isDefined(this.eventListeners)) {
             return;
         }
 
         const player = this.getPlayer();
-        this.subscriptions.forEach((callback, event) => {
+        this.eventListeners.forEach((callback, event) => {
             player.removeEventListener(event, callback);
         });
     }

@@ -3,4 +3,5 @@ export interface IPlayerApi {
     playlist: { video: string; streamingManifest: string }[];
     shouldUseIma: boolean;
     isFloatingEnabled: boolean;
+    volume: number;
 }

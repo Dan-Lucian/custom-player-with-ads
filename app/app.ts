@@ -4,6 +4,7 @@ import { IWindowWithPlayerInitialization } from 'interfaces/IWindowWithPlayerIni
 import { isNull } from 'utils/typeUtils';
 import { ComponentEnum } from 'enums/ComponentEnum';
 import { MyAwesomePlayerAttributeEnum } from 'modules/MyAwesomePlayer/enums/MyAwesomePlayerAttributeEnum';
+import { IPlayerApi } from 'interfaces/IPlayerApi';
 
 const windowWithPlayerInitialization: IWindowWithPlayerInitialization = window;
 
@@ -11,15 +12,17 @@ windowWithPlayerInitialization.initializePlayer = ({
     cssSelector,
     playlist,
     shouldUseIma,
-    isFloatingEnabled
-}): void => {
+    isFloatingEnabled,
+    volume = 1
+}: IPlayerApi): void => {
     const root = document.querySelector(cssSelector);
     const useImaAttribute = shouldUseIma ? MyAwesomePlayerAttributeEnum.UseIma : '';
     const floatingAttribute = isFloatingEnabled ? MyAwesomePlayerAttributeEnum.Float : '';
 
     const template = html`
         <my-awesome-player
-            playlist=${JSON.stringify(playlist)}
+            ${MyAwesomePlayerAttributeEnum.Playlist}=${JSON.stringify(playlist)}
+            ${MyAwesomePlayerAttributeEnum.Volume}=${volume}
             ${useImaAttribute}
             ${floatingAttribute}
         >
