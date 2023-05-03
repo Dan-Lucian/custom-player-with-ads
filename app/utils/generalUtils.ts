@@ -1,3 +1,5 @@
+import { IEventListener } from 'interfaces/IEventListener';
+
 /**
  * Transforms template strings to a merged single string.
  * @param {TemplateStringsArray} strings array of strings return by the template strings.
@@ -59,4 +61,24 @@ export function getRandomValueFromArray<T>(array: T[]): T {
  */
 export function isImaUrl(url: string): boolean {
     return url.includes('pubads.g.doubleclick.net');
+}
+
+/**
+ * Registers all event liseners from a IEventListener array.
+ * @param {IEventListener[]} array array.
+ */
+export function addEventListenersUsingArray(array: IEventListener[]): void {
+    array.forEach(({ element, event, callback }) => {
+        element.addEventListener(event, callback);
+    });
+}
+
+/**
+ * Unregisters all event liseners from a IEventListener array.
+ * @param {IEventListener[]} array array.
+ */
+export function removeEventListenersUsingArray(array: IEventListener[]): void {
+    array.forEach(({ element, event, callback }) => {
+        element.removeEventListener(event, callback);
+    });
 }

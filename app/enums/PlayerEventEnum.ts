@@ -4,6 +4,7 @@ export enum PlayerEventEnum {
     Pause = 'ContentPlayerPause',
     Mute = 'ContentPlayerMute',
     Unmute = 'ContentPlayerUnmute',
+    VolumeChange = 'VolumeChange',
     PlayNext = 'ContentPlayerPlayNext',
     PlayPrevious = 'ContentPlayerPlayPrevious',
     EndAd = 'ContentPlayerEndAd',

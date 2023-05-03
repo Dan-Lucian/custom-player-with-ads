@@ -17,6 +17,7 @@ export enum ComponentEnum {
     PlayPreviousButton = 'play-previous-button',
     SettingsMenu = 'settings-menu',
     SettingsButton = 'settings-button',
+    SoundSlider = 'sound-slider',
     QualityButton = 'quality-button',
     AdPlayer = 'ad-player',
     VideoAdPlayer = 'video-ad-player',
