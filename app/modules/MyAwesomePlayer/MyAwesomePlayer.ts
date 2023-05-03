@@ -237,6 +237,11 @@ export class MyAwesomePlayer extends HTMLElement {
             newPlayerControlsElement.setAttribute(MyAwesomePlayerAttributeEnum.Autoplay, '');
         }
 
+        newPlayerControlsElement.setAttribute(
+            PlayerControlsAttributeEnum.Volume,
+            String(this.volume)
+        );
+
         playerControlsElement.replaceWith(newPlayerControlsElement);
     }
 
@@ -351,6 +356,7 @@ export class MyAwesomePlayer extends HTMLElement {
         const { volume } = customEvent.detail;
         const videoElement = this.getVideoElement();
 
+        this.volume = volume;
         videoElement.volume = volume;
     }
 
