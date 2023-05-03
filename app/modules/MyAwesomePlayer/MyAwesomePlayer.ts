@@ -34,13 +34,13 @@ export class MyAwesomePlayer extends HTMLElement {
     private isAttached = false;
     private shouldAutoplay = false;
     private isPlaying = false;
-    private isMuted = false;
     private isFloatingEnabled = false;
     private shouldUseIma = false;
     private isInView = true;
+    private volume = 1;
+    private currentVideo = 0;
     private shadow: ShadowRoot;
     private playlist: IPlaylist[] = [];
-    private currentVideo = 0;
     private width: string | null = MyAwesomePlayerConfig.DefaultWidth;
     private eventListeners: IEventListener[] = [];
     private observer?: IntersectionObserver;
@@ -54,11 +54,11 @@ export class MyAwesomePlayer extends HTMLElement {
     public static get observedAttributes(): string[] {
         return [
             MyAwesomePlayerAttributeEnum.Width,
-            MyAwesomePlayerAttributeEnum.Muted,
             MyAwesomePlayerAttributeEnum.Autoplay,
             MyAwesomePlayerAttributeEnum.Playlist,
             MyAwesomePlayerAttributeEnum.UseIma,
-            MyAwesomePlayerAttributeEnum.Float
+            MyAwesomePlayerAttributeEnum.Float,
+            MyAwesomePlayerAttributeEnum.Volume
         ];
     }
 
@@ -80,8 +80,12 @@ export class MyAwesomePlayer extends HTMLElement {
                 this.shouldAutoplay = isString(newValue);
                 break;
 
-            case MyAwesomePlayerAttributeEnum.Muted:
-                this.isMuted = isString(newValue);
+            case MyAwesomePlayerAttributeEnum.Volume:
+                if (isString(newValue)) {
+                    this.volume = parseFloat(newValue);
+                } else {
+                    this.volume = 1;
+                }
                 break;
 
             case MyAwesomePlayerAttributeEnum.Playlist:
@@ -161,7 +165,6 @@ export class MyAwesomePlayer extends HTMLElement {
     private render(): void {
         console.log(`RENDER: <${ComponentEnum.MyAwesomePlayer}>`);
         const autoplayAttribute = this.shouldAutoplay ? MyAwesomePlayerAttributeEnum.Autoplay : '';
-        const mutedAttribute = this.isMuted ? MyAwesomePlayerAttributeEnum.Muted : '';
         const useImaAttribute = this.shouldUseIma ? MyAwesomePlayerAttributeEnum.UseIma : '';
         const playerWidth = isNull(this.width) ? '' : this.width;
 
@@ -173,7 +176,6 @@ export class MyAwesomePlayer extends HTMLElement {
                 <div id="player-container">
                     <video
                         ${autoplayAttribute}
-                        ${mutedAttribute}
                         width=${playerWidth}
                         id=${ComponentEnum.MyAwesomePlayer}
                         preload="metadata"
@@ -182,7 +184,7 @@ export class MyAwesomePlayer extends HTMLElement {
                     </video>
                     <player-controls
                         ${autoplayAttribute}
-                        ${mutedAttribute}
+                        ${PlayerControlsAttributeEnum.Volume}=${this.volume}
                         id=${ComponentEnum.PlayerControls}
                     ></player-controls>
                     <ad-player ${useImaAttribute} hidden id=${ComponentEnum.AdPlayer}> </ad-player>
@@ -191,6 +193,7 @@ export class MyAwesomePlayer extends HTMLElement {
         `;
 
         const videoElement = this.getVideoElement();
+        videoElement.volume = this.volume;
         videoElement.addEventListener('ended', this.playNext.bind(this));
         this.setupHls();
     }
@@ -232,10 +235,6 @@ export class MyAwesomePlayer extends HTMLElement {
 
         if (this.shouldAutoplay) {
             newPlayerControlsElement.setAttribute(MyAwesomePlayerAttributeEnum.Autoplay, '');
-        }
-
-        if (this.isMuted) {
-            newPlayerControlsElement.setAttribute(MyAwesomePlayerAttributeEnum.Muted, '');
         }
 
         playerControlsElement.replaceWith(newPlayerControlsElement);
@@ -287,16 +286,6 @@ export class MyAwesomePlayer extends HTMLElement {
                 element: this,
                 event: PlayerEventEnum.Pause,
                 callback: this.pause
-            },
-            {
-                element: this,
-                event: PlayerEventEnum.Mute,
-                callback: this.mute
-            },
-            {
-                element: this,
-                event: PlayerEventEnum.Unmute,
-                callback: this.unmute
             },
             {
                 element: this,
@@ -357,31 +346,12 @@ export class MyAwesomePlayer extends HTMLElement {
         this.play();
     }
 
-    private mute(): void {
-        const videoElement = this.getVideoElement();
-        videoElement.muted = true;
-        this.isMuted = true;
-    }
-
-    private unmute(): void {
-        const videoElement = this.getVideoElement();
-        videoElement.muted = false;
-        this.isMuted = false;
-    }
-
     private changeVolume(event: Event): void {
         const customEvent = event as CustomEvent<IVolumeChangeDetail>;
         const { volume } = customEvent.detail;
         const videoElement = this.getVideoElement();
 
         videoElement.volume = volume;
-        console.log(volume);
-
-        if (volume > 0) {
-            this.isMuted = false;
-        } else {
-            this.isMuted = true;
-        }
     }
 
     private pause(): void {

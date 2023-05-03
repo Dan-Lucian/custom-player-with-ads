@@ -12,6 +12,7 @@ if (isDefined(windowWithPlayerInitialization.initializePlayer)) {
         cssSelector: '#root',
         playlist: PLAYLIST,
         shouldUseIma: false,
-        isFloatingEnabled: true
+        isFloatingEnabled: true,
+        volume: 0.5
     });
 }

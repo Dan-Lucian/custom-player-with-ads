@@ -51,11 +51,12 @@ export class PlayerForm extends HTMLFormElement {
             contentPlayer.removeAttribute(PlayerFormInputNameEnum.Autoplay);
         }
 
-        const isMuted = Boolean(formData.get(PlayerFormInputNameEnum.Muted));
-        if (isMuted) {
-            contentPlayer.setAttribute(PlayerFormInputNameEnum.Muted, '');
+        const rawVolume = formData.get(PlayerFormInputNameEnum.Volume);
+        if (!isNull(rawVolume)) {
+            const parsedVolume = parseInt(rawVolume as string, 10) / 100;
+            contentPlayer.setAttribute(MyAwesomePlayerAttributeEnum.Volume, String(parsedVolume));
         } else {
-            contentPlayer.removeAttribute(PlayerFormInputNameEnum.Muted);
+            contentPlayer.removeAttribute(MyAwesomePlayerAttributeEnum.Volume);
         }
 
         const isFloatingEnabled = Boolean(formData.get(PlayerFormInputNameEnum.Float));
@@ -81,9 +82,9 @@ export class PlayerForm extends HTMLFormElement {
 
                 <label for="autoplay-input">Autoplay</label>
                 <input type="checkbox" id="autoplay-input" name=${PlayerFormInputNameEnum.Autoplay}></input>
-                
-                <label for="muted-input">Muted:</label>
-                <input type="checkbox" id="muted-input" name=${PlayerFormInputNameEnum.Muted}></input>
+
+                <label for="volume-input">Volume:</label>
+                <input type="range" id="volume-input" step="1" name=${PlayerFormInputNameEnum.Volume}></input>
                 
                 <label for="float-input">Player floating:</label>
                 <input type="checkbox" id="float-input" name=${PlayerFormInputNameEnum.Float}></input>

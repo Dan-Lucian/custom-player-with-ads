@@ -1,6 +1,7 @@
 import {
     addEventListenersUsingArray,
     html,
+    htmlToElement,
     removeEventListenersUsingArray
 } from 'utils/generalUtils';
 import { ComponentEnum } from 'enums/ComponentEnum';
@@ -14,18 +15,19 @@ import { SoundSliderAttributeEnum } from 'modules/PlayerControls/components/Soun
 import { SoundSliderEventEnum } from 'modules/PlayerControls/components/SoundSlider/enums/SoundSliderEventEnum';
 import { IEventListener } from 'interfaces/IEventListener';
 import { IVolumeChangeDetail } from 'interfaces/IVolumeChangeDetail';
+import { MuteButton } from './components/MuteButton';
+import { UnmuteButton } from './components/UnmuteButton';
 
 export class PlayerControls extends HTMLElement {
     private isPlaying = false;
-    private isMuted = false;
     private isAttached = false;
     private volume = 1;
+    private previousVolume = 0;
     private streamingQualities: string | null = null;
     private eventListeners: IEventListener[] = [];
 
     public static get observedAttributes(): string[] {
         return [
-            PlayerControlsAttributeEnum.Muted,
             PlayerControlsAttributeEnum.Autoplay,
             PlayerControlsAttributeEnum.Qualities,
             PlayerControlsAttributeEnum.Volume
@@ -50,21 +52,13 @@ export class PlayerControls extends HTMLElement {
                 }
                 break;
 
-            case PlayerControlsAttributeEnum.Muted:
-                if (isString(newValue)) {
-                    this.isMuted = true;
-                } else {
-                    this.isMuted = false;
-                }
-                break;
-
             case PlayerControlsAttributeEnum.Qualities:
                 this.streamingQualities = newValue;
                 break;
 
             case PlayerControlsAttributeEnum.Volume:
                 if (isString(newValue)) {
-                    this.volume = parseInt(newValue, 10);
+                    this.volume = parseFloat(newValue);
                 } else {
                     this.volume = 1;
                 }
@@ -106,7 +100,7 @@ export class PlayerControls extends HTMLElement {
                 ? html`<button class="hoverable-control" is=${ComponentEnum.PauseButton}></button>`
                 : html`<button class="hoverable-control" is=${ComponentEnum.PlayButton}></button>`}
             <button class="hoverable-control" is=${ComponentEnum.PlayNextButton}></button>
-            ${this.isMuted
+            ${this.volume === 0
                 ? html`<button class="hoverable-control" is=${ComponentEnum.UnmuteButton}></button>`
                 : html`<button class="hoverable-control" is=${ComponentEnum.MuteButton}></button>`}
             <sound-slider ${SoundSliderAttributeEnum.Volume}=${this.volume}></sound-slider>
@@ -116,11 +110,6 @@ export class PlayerControls extends HTMLElement {
     }
 
     private addEventListeners(): void {
-        const soundSliderElement = this.getElementsByTagName(
-            ComponentEnum.SoundSlider
-        )[0] as HTMLElement;
-        console.log('soundSliderElement: ', soundSliderElement);
-
         this.eventListeners.push(
             {
                 element: this,
@@ -170,23 +159,26 @@ export class PlayerControls extends HTMLElement {
 
             case ComponentEnum.MuteButton:
                 this.dispatchEvent(
-                    new CustomEvent(PlayerEventEnum.Mute, {
+                    new CustomEvent<IVolumeChangeDetail>(PlayerEventEnum.VolumeChange, {
                         bubbles: true,
-                        composed: true
+                        composed: true,
+                        detail: { volume: 0 }
                     })
                 );
-                this.isMuted = true;
+                this.previousVolume = this.volume;
+                this.volume = 0;
                 this.render();
                 break;
 
             case ComponentEnum.UnmuteButton:
                 this.dispatchEvent(
-                    new CustomEvent(PlayerEventEnum.Unmute, {
+                    new CustomEvent<IVolumeChangeDetail>(PlayerEventEnum.VolumeChange, {
                         bubbles: true,
-                        composed: true
+                        composed: true,
+                        detail: { volume: this.previousVolume }
                     })
                 );
-                this.isMuted = false;
+                this.volume = this.previousVolume;
                 this.render();
                 break;
 
@@ -215,7 +207,9 @@ export class PlayerControls extends HTMLElement {
     private handleVolumeChange(event: Event): void {
         const customEvent = event as CustomEvent<IVolumeChangeDetail>;
         const { volume } = customEvent.detail;
+        this.previousVolume = this.volume;
         this.volume = volume;
+        this.updateMuteButtonIfNecessary();
 
         this.dispatchEvent(
             new CustomEvent<IVolumeChangeDetail>(PlayerEventEnum.VolumeChange, {
@@ -224,5 +218,34 @@ export class PlayerControls extends HTMLElement {
                 detail: { volume }
             })
         );
+    }
+
+    private updateMuteButtonIfNecessary(): void {
+        if (this.volume === 0) {
+            const muteButton = this.querySelector(
+                `[is="${ComponentEnum.MuteButton}"]`
+            ) as MuteButton;
+
+            muteButton.replaceWith(
+                htmlToElement(
+                    html`<button
+                        class="hoverable-control"
+                        is=${ComponentEnum.UnmuteButton}
+                    ></button>`
+                )
+            );
+        }
+
+        if (this.previousVolume === 0) {
+            const unmuteButton = this.querySelector(
+                `[is="${ComponentEnum.UnmuteButton}"]`
+            ) as UnmuteButton;
+
+            unmuteButton.replaceWith(
+                htmlToElement(
+                    html`<button class="hoverable-control" is=${ComponentEnum.MuteButton}></button>`
+                )
+            );
+        }
     }
 }

@@ -2,6 +2,6 @@ export enum PlayerFormInputNameEnum {
     Src = 'src',
     Width = 'width',
     Autoplay = 'autoplay',
-    Muted = 'muted',
+    Volume = 'volume',
     Float = 'float'
 }

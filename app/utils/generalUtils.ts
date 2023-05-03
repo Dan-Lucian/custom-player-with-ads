@@ -82,3 +82,15 @@ export function removeEventListenersUsingArray(array: IEventListener[]): void {
         element.removeEventListener(event, callback);
     });
 }
+
+/**
+ * @param {string} HTML representing a single element
+ * @return {HTMLElement}
+ */
+export function htmlToElement(html: string): HTMLElement {
+    const template = document.createElement('template');
+    const newHtml = html.trim(); // Never return a text node of whitespace as the result
+    template.innerHTML = newHtml;
+
+    return template.content.firstChild as HTMLElement;
+}
