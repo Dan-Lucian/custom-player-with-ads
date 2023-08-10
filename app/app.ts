@@ -30,6 +30,10 @@ windowWithPlayerInitialization.initializePlayer = ({
 
         <h2 class="api-header">Player API</h2>
         <h3 class="ad-blocker-header">Disable AdBlockers if player not working</h3>
+        <h3 class="ad-blocker-header">
+            If it still doesn't work look in the console for failed requests, it might be that I was
+            blocked from those vast resources :(
+        </h3>
         <external-buttons></external-buttons>
         <form is=${ComponentEnum.PlayerForm}></form>
     `;
